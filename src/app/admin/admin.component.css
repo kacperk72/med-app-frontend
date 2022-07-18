@@ -1,0 +1,29 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  table {
+    min-width: 40vw;
+  }
+
+  table th {
+    text-align: center;
+  }
+
+  table td {
+    text-align: center;
+    padding: 15px;
+  }
+
+
+

@@ -1,0 +1,28 @@
+<div id="content">
+    <div id="searching-container">
+        <h2>Wyszukaj termin</h2>
+        <select type="text" placeholder="specjalizacja lekarza">
+            <option value="kardiolog">kardiolog</option>
+            <option value="psycholog">psycholog</option>
+        </select>
+        <select placeholder="miasto" multiple id="multiSelect">
+            <option value="Kraków">Kraków</option>
+            <option value="Warszawa">Warszawa</option>
+            <option value="Krosno">Krosno</option>
+            <option value="Rzeszów">Rzeszów</option>
+            <option value="Tarnów">Tarnów</option>
+            <option value="Brzozów">Brzozów</option>
+        </select>
+        <label for="dateFrom">od</label>
+        <input type="date" name="dateFrom">
+        <label for="dateTo">do</label>
+        <input type="date" name="dateTo">
+        <label for="timeFrom">od godziny</label>
+        <input type="time" name="timeFrom">
+        <label for="timeTo">do godziny</label>
+        <input type="time" name="timeTo">
+        <input type="submit" value="Szukaj" id="searchInput">
+
+        <app-term-list></app-term-list>
+    </div>
+</div>

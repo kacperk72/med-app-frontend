@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+}
+/* /////////////////////////////////////////////// */
+header {
+    width: 100vw;
+    height: 50px;
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+    color: white;
+    display: flex;
+    flex-direction: row;
+}
+header h1 {
+    padding: 5px 20px 0px 20px;
+    width: 40vw;
+}
+#menu {
+    width: 50vw;
+}
+#logo a {
+    text-decoration: none;
+    color: white;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+li {
+    display: inline;
+    float: right;
+    font-size: 20px;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 36px;
+    text-decoration: none;
+}
+
+/* ////////////////////////////// */
+main {
+    width: 100vw;
+    min-height: 85vh;
+}
+
+/* /////////////////////////////////// */
+footer {
+    width: 100vw;
+    height: 50px;
+    background-color: #483D8B;
+    color: white;
+    text-align: center;
+    padding: 10px 0 0 0;
+}
+

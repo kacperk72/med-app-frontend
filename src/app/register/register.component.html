@@ -1,0 +1,24 @@
+<div id="content">
+    <div id="register-container">
+        <form [formGroup]="registerForm">
+
+            <h2>Zarejestruj się</h2>
+
+            <mat-form-field>
+                <input matInput type="text" id="name" placeholder="Imie" autocomplete="off" formControlName="name" required>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput type="text" id="surname" placeholder="Nazwisko" autocomplete="off" formControlName="surname" required>
+            </mat-form-field>
+          
+            <mat-form-field>
+              <input matInput type="password" id="password" placeholder="Hasło" autocomplete="off" formControlName="password" required>
+            </mat-form-field>
+          
+            <div class="actions">
+              <input type="reset" value="Zarejestruj" >
+            </div>
+          </form>
+    </div>
+</div>
