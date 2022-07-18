@@ -2,32 +2,30 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    /* all: initial;
+    all: revert; */
   }
   
   #content {
-    display: inline-block;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 85vh;
     font-family: 'Nunito', sans-serif;
+    margin-bottom: 20px;
   }
 
   #container {
-    width: 100vw;
-    margin-left: 30%;
-  }
-
-  table {
-    min-width: 40vw;
-  }
-
-  table th {
+    width: 90vw;
+    min-height: 80vh;
+    background-color: #fff;
+    box-shadow: 0 0 10px #000;
+    border: 1px solid black;
+    padding: 20px;
     text-align: center;
   }
 
-  table td {
-    text-align: center;
-    padding: 15px;
-  }
+  /* //////////////////////// */
 
   input[type=button], input[type=submit], input[type=reset] {
     background-color: #56baed;
@@ -43,7 +41,7 @@
     box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
     -webkit-border-radius: 5px 5px 5px 5px;
     border-radius: 5px 5px 5px 5px;
-    margin: 10px 20px 15px 20px;
+    margin: 5px 20px 40px 20px;
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
@@ -62,7 +60,7 @@
     -ms-transform: scale(0.95);
     transform: scale(0.95);
   }
-
+  
   input[type=text], input[type=password] {
     background-color: #f6f6f6;
     border: none;
@@ -93,16 +91,38 @@
     color: #cccccc;
   }
 
-  #editDoctor {
-    width: 40vw;
+  /* //////////////////////////////////////// */
+
+  img {
+    width: 25vw;
     height: 50vh;
-    position: absolute;
-    background: white;
-    border: 1px solid black;
-    top: 30vh;
-    left: 30vw;
+  }
+  #photo{
+    width: 35vw;
+    height: 55vh;
+    float: left;
   }
 
+  .term{
+    font-size: large;
+    float: left;
+    width: 45vw;
+    min-height: 25vh;
+  }
 
+  #dane{
+    clear: both;
+    width: 30vw;
+    text-align: center;
+    padding-left: 80px;
+  }
 
-
+  /* ul {
+    all: initial;
+    all: revert;
+  } */
+  
+  li {
+    all: initial;
+    all: revert;
+  }

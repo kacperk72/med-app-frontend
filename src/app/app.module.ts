@@ -12,8 +12,11 @@ import { RegisterComponent } from './register/register.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { AdminComponent } from './admin/admin.component';
 import { MatTableModule } from '@angular/material/table';
-import { PacjentComponent } from './pacjent/pacjent.component';
-import { TermListComponent } from './term-list/term-list.component'
+import { PatientComponent } from './patient/patient.component';
+import { TermListComponent } from './term-list/term-list.component';
+import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
+import {MatListModule} from '@angular/material/list';
+import { MedicalAppointmentComponent } from './medical-appointment/medical-appointment.component';
 
 
 @NgModule({
@@ -22,8 +25,10 @@ import { TermListComponent } from './term-list/term-list.component'
     LoginComponent,
     RegisterComponent,
     AdminComponent,
-    PacjentComponent,
-    TermListComponent
+    PatientComponent,
+    TermListComponent,
+    EditDoctorComponent,
+    MedicalAppointmentComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,8 @@ import { TermListComponent } from './term-list/term-list.component'
     MatTabsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatTableModule
+    MatTableModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

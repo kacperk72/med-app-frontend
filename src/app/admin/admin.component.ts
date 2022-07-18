@@ -27,11 +27,18 @@ export class AdminComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'name', 'surname', 'specialization', 'city', 'icons'];
   dataSource = ELEMENT_DATA;
-
+  isVisibleAdd = true;
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  addDoctor() {
+    if(this.isVisibleAdd == true){
+      this.isVisibleAdd = false;
+    } else {
+      this.isVisibleAdd = true;
+    }
+  }
  
 }

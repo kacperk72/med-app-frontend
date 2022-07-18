@@ -1,0 +1,51 @@
+<div id="content">
+    <div id="container">
+        <div id="photo">
+            <img src="/assets/img/avatar_640.png">
+        </div>
+        <div id="editForm">
+            <h2>Edytuj dane</h2>
+            <input type="text" placeholder="Imie">
+            <input type="text" placeholder="Nazwisko">
+            <input type="text" placeholder="Specjalizacja">
+            <input type="text" placeholder="Miasto">
+        </div>
+        <div id="term">
+            <h2>Zarządzaj terminami</h2>
+            <ul>
+                <li>
+                    15.07.2022 13.45 
+                    <mat-icon (click)="editTerm()">edit</mat-icon>
+                    <mat-icon>delete</mat-icon>
+                </li>
+                <li>
+                    15.07.2022 13.45 
+                    <mat-icon (click)="editTerm()">edit</mat-icon>
+                    <mat-icon>delete</mat-icon>
+                </li>
+                <li>
+                    15.07.2022 13.45 
+                    <mat-icon (click)="editTerm()">edit</mat-icon>
+                    <mat-icon>delete</mat-icon>
+                </li>
+                <li>
+                    15.07.2022 13.45 
+                    <mat-icon (click)="editTerm()">edit</mat-icon>
+                    <mat-icon>delete</mat-icon>
+                </li>
+            </ul>   
+            <input type="button" value="Dodaj termin">
+        </div>
+        <div id="editDoctor" [hidden]="isVisibleEdit" >
+            <h2>Edytuj termin</h2>
+            <label for="dateFrom">data</label>
+            <input type="date" name="dateFrom">
+            <hr>
+            <label for="timeFrom">od godziny</label>
+            <input type="time" name="timeFrom">
+            <hr>
+            <input type="button" value="Wróć" (click)="editTerm()">
+            <input type="button" value="Zatwierdź" (click)="editTerm()">
+        </div>
+    </div>
+</div>

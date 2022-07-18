@@ -15,13 +15,14 @@ header {
     color: white;
     display: flex;
     flex-direction: row;
+    margin-bottom: 20px;
 }
 header h1 {
     padding: 5px 20px 0px 20px;
-    width: 40vw;
+    width: 25vw;
 }
 #menu {
-    width: 50vw;
+    width: 75vw;
 }
 #logo a {
     text-decoration: none;
@@ -54,11 +55,15 @@ main {
 
 /* /////////////////////////////////// */
 footer {
+    font-size: large;
     width: 100vw;
-    height: 50px;
+    min-height: 5vh;
     background-color: #483D8B;
     color: white;
     text-align: center;
     padding: 10px 0 0 0;
+}
+footer a {
+    margin: 0px 10px;
 }
 

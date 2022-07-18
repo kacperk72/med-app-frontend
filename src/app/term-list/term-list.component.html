@@ -45,7 +45,7 @@
       <div id="confirmWindow" [hidden]="isVisible">
           <h2>Potwierdź wizytę!</h2>
           <textarea placeholder="powód wizyty (opcjonalne)"></textarea>
-          <input type="button" value="wróć" style="margin: 10px;">
+          <input type="button" value="wróć" style="margin: 10px;" (click)="confirmTerm()">
           <input type="button" value="potwierdź" style="margin: 10px;" (click)="confirmTerm()">
       </div>
 </div>

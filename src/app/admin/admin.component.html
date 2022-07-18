@@ -1,48 +1,60 @@
 <div id="content">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <div id="container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-            <!-- ID Column -->
-            <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef> ID </th>
-              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-            </ng-container>
-          
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Imie </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-          
-            <!-- Surname Column -->
-            <ng-container matColumnDef="surname">
-              <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
-              <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
-            </ng-container>
-          
-            <!-- specialization -->
-            <ng-container matColumnDef="specialization">
-              <th mat-header-cell *matHeaderCellDef> Specjalność </th>
-              <td mat-cell *matCellDef="let element"> {{element.specialization}} </td>
-            </ng-container>
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Imie </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+      <!-- Surname Column -->
+      <ng-container matColumnDef="surname">
+        <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
+        <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+      </ng-container>
+    
+      <!-- specialization -->
+      <ng-container matColumnDef="specialization">
+        <th mat-header-cell *matHeaderCellDef> Specjalność </th>
+        <td mat-cell *matCellDef="let element"> {{element.specialization}} </td>
+      </ng-container>
 
-            <!-- City Column -->
-            <ng-container matColumnDef="city">
-              <th mat-header-cell *matHeaderCellDef> Miasto </th>
-              <td mat-cell *matCellDef="let element"> {{element.city}} </td>
-            </ng-container>
+      <!-- City Column -->
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef> Miasto </th>
+        <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+      </ng-container>
 
-            <!-- icons Column -->
-            <ng-container matColumnDef="icons">
-              <th mat-header-cell *matHeaderCellDef>  </th>
-              <td mat-cell *matCellDef="let element"> 
-                <mat-icon>edit</mat-icon>
-                <mat-icon>delete</mat-icon>
-              </td>
-            </ng-container>
-
-            
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
+      <!-- icons Column -->
+      <ng-container matColumnDef="icons">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let element"> 
+          <a routerLink="/edytujDoktora"><mat-icon>edit</mat-icon></a>
+          <mat-icon>delete</mat-icon>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <div id="addDoctor">
+    <input type="button" value="Dodaj lekarza" (click)="addDoctor()">
+  </div>
+  <div id="editDoctor" [hidden]="isVisibleAdd" >
+      <h2>Dodaj lekarza</h2>
+      <input type="text" placeholder="Imie" id="imieDoktora" value="">
+      <input type="text" placeholder="Nazwisko">
+      <input type="text" placeholder="Specjalność">
+      <input type="text" placeholder="Miasto">
+      <input type="button" value="Wróć" (click)="addDoctor()">
+      <input type="button" value="Zatwierdź" (click)="addDoctor()">
+  </div>
+  
 </div>
