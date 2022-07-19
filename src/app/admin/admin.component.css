@@ -95,11 +95,11 @@
 
   #editDoctor {
     width: 40vw;
-    height: 50vh;
+    min-height: 50vh;
     position: absolute;
     background: white;
     border: 1px solid black;
-    top: 30vh;
+    top: 20vh;
     left: 30vw;
   }
 

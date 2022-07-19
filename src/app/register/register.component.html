@@ -11,11 +11,22 @@
             <mat-form-field>
                 <input matInput type="text" id="surname" placeholder="Nazwisko" autocomplete="off" formControlName="surname" required>
             </mat-form-field>
+
+            <mat-form-field>
+              <input matInput type="text" id="login" placeholder="Login" autocomplete="off" formControlName="login" required>
+            </mat-form-field>
           
             <mat-form-field>
               <input matInput type="password" id="password" placeholder="Hasło" autocomplete="off" formControlName="password" required>
             </mat-form-field>
           
+            <mat-form-field>
+              <select matInput type="select" id="role" placeholder="Kim jestes" autocomplete="off" formControlName="role" required>
+                <option>Pacjent</option>
+                <option>Doktor</option>
+              </select>
+            </mat-form-field>
+
             <div class="actions">
               <input type="reset" value="Zarejestruj" >
             </div>
