@@ -1,45 +1,74 @@
 <div id="content">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"> -->
       
         <!-- Name Column -->
-        <ng-container matColumnDef="name">
+        <!-- <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Imie </th>
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
+        </ng-container> -->
       
         <!-- Surname Column -->
-        <ng-container matColumnDef="surname">
+        <!-- <ng-container matColumnDef="surname">
           <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
           <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
-        </ng-container>
+        </ng-container> -->
       
         <!-- specialization -->
-        <ng-container matColumnDef="specialization">
+        <!-- <ng-container matColumnDef="specialization">
           <th mat-header-cell *matHeaderCellDef> Specjalność </th>
           <td mat-cell *matCellDef="let element"> {{element.specialization}} </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- City Column -->
-        <ng-container matColumnDef="city">
+        <!-- <ng-container matColumnDef="city">
           <th mat-header-cell *matHeaderCellDef> Miasto </th>
           <td mat-cell *matCellDef="let element"> {{element.city}} </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Date Column -->
-        <ng-container matColumnDef="time">
+        <!-- <ng-container matColumnDef="time">
             <th mat-header-cell *matHeaderCellDef> Data </th>
             <td mat-cell *matCellDef="let element"> {{element.time}} </td>
-          </ng-container>
+          </ng-container> -->
 
         <!-- Choose Column -->
-        <ng-container matColumnDef="icons">
+        <!-- <ng-container matColumnDef="icons">
           <th mat-header-cell *matHeaderCellDef>  </th>
           <td mat-cell *matCellDef="let element"> 
-            <input type="button" value="Wybierz" (click)="confirmTerm()">
+            <input type="button" value="Wybierz" (click)="getDoctorsData()">
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table> -->
+
+      <table mat-table [dataSource]="doctorsDataSource" class="mat-elevation-z8">
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="imie">
+          <th mat-header-cell *matHeaderCellDef> Imie </th>
+          <td mat-cell *matCellDef="let element"> {{element.imie}} </td>
+        </ng-container>
+      
+        <!-- Surname Column -->
+        <ng-container matColumnDef="nazwisko">
+          <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
+          <td mat-cell *matCellDef="let element"> {{element.nazwisko}} </td>
+        </ng-container>
+      
+        <!-- specialization -->
+        <ng-container matColumnDef="specjalnosc">
+          <th mat-header-cell *matHeaderCellDef> Specjalność </th>
+          <td mat-cell *matCellDef="let element"> {{element.specjalnosc}} </td> -->
+        </ng-container>
+
+        <!-- City Column -->
+        <ng-container matColumnDef="miasto">
+          <th mat-header-cell *matHeaderCellDef> Miasto </th>
+          <td mat-cell *matCellDef="let element"> {{element.miasto}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedData"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedData;"></tr>
       </table>
 
       <div id="confirmWindow" [hidden]="isVisible">
@@ -48,4 +77,6 @@
           <input type="button" value="wróć" style="margin: 10px;" (click)="confirmTerm()">
           <input type="button" value="potwierdź" style="margin: 10px;" (click)="confirmTerm()">
       </div>
+
+
 </div>

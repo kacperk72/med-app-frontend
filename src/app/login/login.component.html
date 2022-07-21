@@ -1,6 +1,6 @@
 <div id="content">
     <div id="login-container">
-        <form [formGroup]="loginForm">
+        <form [formGroup]="loginForm" (ngSubmit)="logging()">
 
             <h2>Zaloguj się na konto</h2>
 
@@ -11,14 +11,13 @@
             <mat-form-field>
               <input matInput type="password" id="password" placeholder="Hasło" autocomplete="off" formControlName="password" required>
             </mat-form-field>
-          
-            <div class="actions">
-                <input matInput type="button" value="Zaloguj">
-              <div class="separator">
-                <span>Lub</span>
-              </div>
-              <a routerLink="/zarejestruj"><input type="reset" value="Zarejestruj" ></a> 
+
+            <input type="submit" value="Zaloguj" id="loginButton" [disabled]="!loginForm.valid">
+            <div class="separator">
+              <span>Lub</span>
             </div>
+            <a routerLink="/zarejestruj"><input type="reset" value="Zarejestruj" ></a> 
+
           </form>
     </div>
 </div>

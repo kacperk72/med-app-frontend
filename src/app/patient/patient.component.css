@@ -139,6 +139,12 @@ input[type=button], input[type=submit], input[type=reset] {
     transform: scale(0.95);
   }
 
+  input[type=submit]:disabled {
+    background-color: #4b6279;
+    color: gray;
+    opacity: 0.5;
+  }
+
   #searchInput {
     margin: 10px 0 10px 0;
     width: 100%;
