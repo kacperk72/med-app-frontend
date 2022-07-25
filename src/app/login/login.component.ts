@@ -1,19 +1,29 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../service/auth.service';
+import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loginData = {};
   userLogin = '';
   userPassword = '';
+  responsedata: any;
+  actualRole = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(private fb: FormBuilder, private service: AuthService, private router: Router) { 
+    localStorage.clear();
+  }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -25,15 +35,19 @@ export class LoginComponent implements OnInit {
   logging() {
     this.userLogin = this.loginForm.get('login')?.value;
     this.userPassword = this.loginForm.get('password')?.value;
-
     this.loginData = {login: this.userLogin, password: this.userPassword}
-    console.log(this.loginData);
-
-    this.http.post("http://localhost:3001/user/login", this.loginData).subscribe(response => {
-      console.log(response);
-      
-    });
+    // console.log("this.loginData", this.loginData);
     
+    this.service.proceedLogin(this.loginData).subscribe(response => {
+      if(response!=null){
+        this.responsedata = response;
+        // console.log(this.responsedata);
+        this.actualRole = this.responsedata.result.role;
+        // console.log(this.actualRole);
+        
+        localStorage.setItem('token', this.responsedata.token);
+        this.router.navigate(['/mojeWizyty']);
+      }     
+    }); 
   }
-
 }

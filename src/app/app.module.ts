@@ -19,7 +19,8 @@ import { MatListModule } from '@angular/material/list';
 import { MedicalAppointmentComponent } from './medical-appointment/medical-appointment.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorService } from './service/token-interceptor.service';
 
 
 
@@ -48,7 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
