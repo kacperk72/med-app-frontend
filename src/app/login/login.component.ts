@@ -44,10 +44,12 @@ export class LoginComponent implements OnInit {
         // console.log(this.responsedata);
         this.actualRole = this.responsedata.result.role;
         // console.log(this.actualRole);
-        
         localStorage.setItem('token', this.responsedata.token);
-        this.router.navigate(['/mojeWizyty']);
-      }     
+        localStorage.setItem('rola', this.actualRole);
+        this.router.navigate(['/']);
+      } else {
+        window.alert("nieudana próba logowania")
+      }
     }); 
   }
 }

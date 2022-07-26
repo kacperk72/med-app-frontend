@@ -4,12 +4,13 @@
   </div>
   <div id="menu">
     <ul>
-      <li><a routerLink="/zaloguj">Zaloguj</a></li>
-      <li><a routerLink="/zarejestruj">Zarejestruj</a></li>
-      <li *ngIf='login.actualRole == "lekarz"'><a routerLink="/edytujDoktora">Edycja Doktora</a></li>
-      <li *ngIf='login.actualRole == "admin"'><a routerLink="/admin">Admin</a></li>
-      <li *ngIf='login.actualRole == "pacjent"'><a routerLink="/mojeWizyty">Moje wizyty</a></li>
-      <li *ngIf='login.actualRole == "pacjent"'><a routerLink="/pacjent">Pacjent</a></li>
+      <li *ngIf='role != ""'><a routerLink="/" (click)="service.Logout()">Wyloguj</a></li>
+      <li *ngIf='role == ""'><a routerLink="/zaloguj">Zaloguj</a></li>
+      <li *ngIf='role == ""'><a routerLink="/zarejestruj">Zarejestruj</a></li>
+      <li *ngIf='role == "lekarz"'><a routerLink="/edytujDoktora">Edycja Doktora</a></li>
+      <li *ngIf='role == "admin"'><a routerLink="/admin">Admin</a></li>
+      <li *ngIf='role == "pacjent"'><a routerLink="/mojeWizyty">Moje wizyty</a></li>
+      <li *ngIf='role == "pacjent"'><a routerLink="/pacjent">Szukaj wizyty</a></li>
     </ul>
   </div>
 </header>

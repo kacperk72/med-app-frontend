@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -7,7 +8,7 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   proceedLogin(usercred: any){
     return this.http.post<{token: string}>("http://localhost:3001/user/login", usercred);
@@ -21,18 +22,29 @@ export class AuthService {
     return localStorage.getItem('token')||'';
   }
 
-  HaveAccressAdmin(){
-    const loggingtoken = this.GetToken();
-    console.log("loggingtoken", loggingtoken);
-    if(loggingtoken != ''){
-      const _extractedtoken=loggingtoken.split('.')[1];
+  Logout() {
+    window.alert('Wylogowano');
+    localStorage.clear();
+    this.router.navigate(['/zaloguj']);
+  }
+
+  GetRolebyToken(token: any) {
+    if( token != ''){
+      const _extractedtoken = token.split('.')[1];
       const atobData = atob(_extractedtoken);
-      console.log("_extractedtoken", atobData);
       const _finalData = JSON.parse(atobData);
-      console.log("finalData", _finalData);
-      if(_finalData.role == 'admin') {
-        return true;
-      }
+      return _finalData;
+    } else {
+      console.log("Brak tokenu");
+      return false;
+    }
+  }
+
+  HaveAccessAdmin(){
+    const loggingtoken = this.GetToken();
+    const _finalData = this.GetRolebyToken(loggingtoken);
+    if(_finalData.role == 'admin') {
+      return true;
     }
     window.alert('Brak dostępu');
     return false;
@@ -40,13 +52,9 @@ export class AuthService {
 
   HaveAccessPacient() {
     const loggingtoken = this.GetToken();
-    if(loggingtoken != ''){
-      const _extractedtoken=loggingtoken.split('.')[1];
-      const atobData = atob(_extractedtoken);
-      const _finalData = JSON.parse(atobData);
-      if(_finalData.role == 'pacjent') {
-        return true;
-      }
+    const _finalData = this.GetRolebyToken(loggingtoken);
+    if(_finalData.role == 'pacjent') {
+      return true;
     }
     window.alert('Zaloguj się aby sprawdzić umówione wizyty');
     return false;
@@ -54,13 +62,9 @@ export class AuthService {
 
   HaveAccessDoctor() {
     const loggingtoken = this.GetToken();
-    if(loggingtoken != ''){
-      const _extractedtoken=loggingtoken.split('.')[1];
-      const atobData = atob(_extractedtoken);
-      const _finalData = JSON.parse(atobData);
-      if(_finalData.role == 'lekarz') {
-        return true;
-      }
+    const _finalData = this.GetRolebyToken(loggingtoken);
+    if(_finalData.role == 'lekarz') {
+      return true;
     }
     window.alert('Zaloguj się aby edytować swoje dane i zarządzać terminami');
     return false;

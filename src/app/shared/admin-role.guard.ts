@@ -12,10 +12,10 @@ export class AdminRoleGuard implements CanActivate {
   }
 
   canActivate(){
-    if(this.service.HaveAccressAdmin())
+    if(this.service.HaveAccessAdmin())
       return true;
     else {
-      this.route.navigate(['/pacjent']);
+      this.route.navigate(['/zaloguj']);
       return false;
     }
   }

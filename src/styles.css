@@ -19,10 +19,10 @@ header {
 }
 header h1 {
     padding: 5px 20px 0px 20px;
-    width: 25vw;
+    width: 15vw;
 }
 #menu {
-    width: 75vw;
+    width: 85vw;
 }
 #logo a {
     text-decoration: none;
