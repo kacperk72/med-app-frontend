@@ -2,29 +2,41 @@
     <div id="searching-container">
         <h2>Wyszukaj termin</h2>
         <form [formGroup]="searchForm" (ngSubmit)="save()">
-            <select type="text" placeholder="specjalizacja lekarza" formControlName="role">
-                <option value="kardiolog">kardiolog</option>
-                <option value="psycholog">psycholog</option>
-            </select>
-            <select placeholder="miasto" multiple id="multiSelect" formControlName="city">
-                <option value="Kraków">Kraków</option>
-                <option value="Warszawa">Warszawa</option>
-                <option value="Krosno">Krosno</option>
-                <option value="Rzeszów">Rzeszów</option>
-                <option value="Tarnów">Tarnów</option>
-                <option value="Brzozów">Brzozów</option>
-            </select>
-            <label for="dateFrom">od</label>
-            <input type="date" name="dateFrom" formControlName="dateFrom">
+            <mat-form-field>
+                <mat-select placeholder="specjalizacja lekarza" formControlName="role">
+                  <mat-option value="kardiolog">kardiolog</mat-option>
+                  <mat-option value="psycholog">psycholog</mat-option>
+                </mat-select>
+              </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="miasto" multiple id="multiSelectCity" formControlName="city">
+                  <mat-option value="Kraków">Kraków</mat-option>
+                  <mat-option value="Warszawa">Warszawa</mat-option>
+                  <mat-option value="Krosno">Krosno</mat-option>
+                  <mat-option value="Rzeszów">Rzeszów</mat-option>
+                  <mat-option value="Tarnów">Tarnów</mat-option>
+                  <mat-option value="Brzozów">Brzozów</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="dateFrom">od</mat-label>
+                <input matInput type="date" name="dateFrom" formControlName="dateFrom" required>
+            </mat-form-field>
 
-            <label for="dateTo">do</label>
-            <input type="date" name="dateTo" formControlName="dateTo">
+            <mat-form-field>
+                <mat-label for="dateTo">do</mat-label>
+                <input matInput type="date" name="dateTo" formControlName="dateTo" required>
+            </mat-form-field>
 
-            <label for="timeFrom">od godziny</label>
-            <input type="time" name="timeFrom" formControlName="timeFrom">
+            <mat-form-field>
+                <mat-label for="timeFrom">od godziny</mat-label>
+                <input matInput type="time" name="timeFrom" formControlName="timeFrom" required>
+            </mat-form-field>
 
-            <label for="timeTo">do godziny</label>
-            <input type="time" name="timeTo" formControlName="timeTo">
+            <mat-form-field>
+                <mat-label for="timeTo">do godziny</mat-label>
+                <input matInput type="time" name="timeTo" formControlName="timeTo" required>
+            </mat-form-field>
 
             <input type="submit" value="Szukaj" id="searchInput" [disabled]="!searchForm.valid">    
         </form>

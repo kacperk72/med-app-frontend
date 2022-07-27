@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-
-export interface PeriodicElement {
-  name: string;
-  surname: string;
-  specialization: string[];
-  city: string;
-  time: string;
-  icons: string;
-}
-
 export interface DoctorDataElement {
   id_lekarza: string;
   specjalnosc: string;
@@ -23,15 +13,6 @@ export interface DoctorDataElement {
 }
 
 const DOCTORS_DATA: DoctorDataElement[] = [];
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {name: 'Jan', surname: "Kowalski", specialization: ['kardiolog'], city: "Kraków",  time: '15.07.2022 13.45', icons: " "},
-  {name: 'Jan', surname: "Kowalski", specialization: ['kardiolog', 'neurolog'], city: "Kraków", time: '15.07.2022 13.45', icons: " "},
-  {name: 'Jan', surname: "Kowalski", specialization: ['kardiolog', 'neurolog'], city: "Kraków", time: '15.07.2022 13.45', icons: " "},
-  {name: 'Jan', surname: "Kowalski", specialization: ['kardiolog', 'neurolog'], city: "Kraków", time: '15.07.2022 13.45', icons: " "},
-  {name: 'Jan', surname: "Kowalski", specialization: ['kardiolog', 'neurolog'], city: "Kraków", time: '15.07.2022 13.45', icons: " "},
-  {name: 'Jan', surname: "Kowalski", specialization: ['kardiolog', 'neurolog', 'psychiatra'], city: "Kraków", time: '15.07.2022 13.45', icons: " "},
-];
 
 @Component({
   selector: 'app-term-list',
@@ -47,13 +28,10 @@ export class TermListComponent implements OnInit {
   name = '';
   surname = '';
   city = '';
-
-  // displayedColumns: string[] = ['name', 'surname', 'specialization', 'city', 'time', 'icons'];
-  // dataSource = ELEMENT_DATA;
   isVisible = true;
+  isLoaded = false;
 
-  displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto'];
-  // displayedData: string[] = ['imie'];
+  displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
   doctorsDataSource = DOCTORS_DATA;
 
   constructor(private http: HttpClient) { }
@@ -71,20 +49,20 @@ export class TermListComponent implements OnInit {
   }
 
   getDoctorsData() {
+      DOCTORS_DATA.splice(0, DOCTORS_DATA.length);
       this.http.get<Array<DoctorDataElement>>('http://localhost:3001/doctor').subscribe((data) => {
-      // console.log(data);
-      data.forEach (element => {
-        DOCTORS_DATA.push(element);
-        // console.log(element.id_lekarza);    
-        this.userID = element.id_lekarza;
-        this.specialization = element.specjalnosc;
-        this.login = element.login;
-        this.password = element.haslo;
-        this.role = element.rola;
-        this.name = element.imie;
-        this.surname = element.nazwisko;
-        this.city = element.miasto      
+        data.forEach (element => {
+          DOCTORS_DATA.push(element);
+          this.userID = element.id_lekarza;
+          this.specialization = element.specjalnosc;
+          this.login = element.login;
+          this.password = element.haslo;
+          this.role = element.rola;
+          this.name = element.imie;
+          this.surname = element.nazwisko;
+          this.city = element.miasto      
       });      
+      this.isLoaded = true;
       console.log(DOCTORS_DATA);
       
     })

@@ -150,7 +150,7 @@ hr {
   }
   #photo{
     width: 35vw;
-    height: 55vh;
+    height: 50vh;
     float: left;
   }
 
@@ -160,11 +160,17 @@ hr {
     float: left;
   }
 
-  #term{
-    clear: both;
-    width: 90vw;
+  #grafik {
+    float: left;
+    width: 40vw;
     min-height: 25vh;
   }
+  #term{
+    width: 40vw;
+    min-height: 25vh;
+    float: left;
+  }
+  
 
   /* ul {
     all: initial;

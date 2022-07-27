@@ -18,6 +18,9 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.role = localStorage.getItem('rola')||'';
-    
   }
+
+
+
+
 }

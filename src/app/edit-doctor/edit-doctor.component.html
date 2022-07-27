@@ -3,12 +3,23 @@
         <div id="photo">
             <img src="/assets/img/avatar_640.png">
         </div>
-        <div id="editForm">
+        <div id="editForm" *ngIf="isLoaded">
             <h2>Edytuj dane</h2>
-            <input type="text" placeholder="Imie">
-            <input type="text" placeholder="Nazwisko">
-            <input type="text" placeholder="Specjalizacja">
-            <input type="text" placeholder="Miasto">
+            <input type="text" placeholder="Imie" name="imie" [value]="nameInputValue">
+            <input type="text" placeholder="Nazwisko" name="surname" [value]="surnameInputValue">
+            <input type="text" placeholder="Specjalizacja" name="speciality" [value]="specialityInputValue">
+            <input type="text" placeholder="Miasto" name="city" [value]="cityInputValue">
+        </div>
+        <div id="grafik">
+            <h2>Zarządzaj grafikiem</h2>
+            <ul>
+                <li *ngFor="let term of scheduleDataArray">
+                    {{term.data.split('T')[0]}} od {{term.od_godziny}} do {{term.do_godziny}}
+                    <mat-icon (click)="editTerm()">edit</mat-icon>
+                    <mat-icon>delete</mat-icon>
+                </li>               
+            </ul>   
+            <input type="button" value="Dodaj dzień w grafiku">
         </div>
         <div id="term">
             <h2>Zarządzaj terminami</h2>

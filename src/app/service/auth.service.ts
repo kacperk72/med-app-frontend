@@ -53,7 +53,7 @@ export class AuthService {
   HaveAccessPacient() {
     const loggingtoken = this.GetToken();
     const _finalData = this.GetRolebyToken(loggingtoken);
-    if(_finalData.role == 'pacjent') {
+    if(_finalData.role == 'pacjent' || _finalData.role == 'admin') {
       return true;
     }
     window.alert('Zaloguj się aby sprawdzić umówione wizyty');
@@ -63,7 +63,7 @@ export class AuthService {
   HaveAccessDoctor() {
     const loggingtoken = this.GetToken();
     const _finalData = this.GetRolebyToken(loggingtoken);
-    if(_finalData.role == 'lekarz') {
+    if(_finalData.role == 'lekarz' || _finalData.role == 'admin') {
       return true;
     }
     window.alert('Zaloguj się aby edytować swoje dane i zarządzać terminami');
