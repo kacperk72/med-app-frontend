@@ -5,10 +5,11 @@
         </div>
         <div id="editForm" *ngIf="isLoaded">
             <h2>Edytuj dane</h2>
-            <input type="text" placeholder="Imie" name="imie" [value]="nameInputValue">
-            <input type="text" placeholder="Nazwisko" name="surname" [value]="surnameInputValue">
-            <input type="text" placeholder="Specjalizacja" name="speciality" [value]="specialityInputValue">
-            <input type="text" placeholder="Miasto" name="city" [value]="cityInputValue">
+            <input type="text" placeholder="Imie" name="imie" #name [value]="nameInputValue">
+            <input type="text" placeholder="Nazwisko" name="surname" #surname [value]="surnameInputValue">
+            <input type="text" placeholder="Specjalizacja" name="speciality" #speciality [value]="specialityInputValue">
+            <input type="text" placeholder="Miasto" name="city" #city [value]="cityInputValue">
+            <input type="button" value="Zapisz" (click)="updateDoctor(name.value, surname.value, speciality.value, city.value)">
         </div>
         <div id="grafik">
             <h2>Zarządzaj grafikiem</h2>
@@ -24,28 +25,13 @@
         <div id="term">
             <h2>Zarządzaj terminami</h2>
             <ul>
-                <li>
-                    15.07.2022 13.45 
-                    <mat-icon (click)="editTerm()">edit</mat-icon>
-                    <mat-icon>delete</mat-icon>
-                </li>
-                <li>
-                    15.07.2022 13.45 
-                    <mat-icon (click)="editTerm()">edit</mat-icon>
-                    <mat-icon>delete</mat-icon>
-                </li>
-                <li>
-                    15.07.2022 13.45 
-                    <mat-icon (click)="editTerm()">edit</mat-icon>
-                    <mat-icon>delete</mat-icon>
-                </li>
-                <li>
-                    15.07.2022 13.45 
+                <li *ngFor="let term of termDataArray">
+                    {{term.data}} {{term.godzina_wizyty}}
                     <mat-icon (click)="editTerm()">edit</mat-icon>
                     <mat-icon>delete</mat-icon>
                 </li>
             </ul>   
-            <input type="button" value="Dodaj termin">
+            <!-- <input type="button" value="Dodaj termin"> -->
         </div>
         <div id="editDoctor" [hidden]="isVisibleEdit" >
             <h2>Edytuj termin</h2>

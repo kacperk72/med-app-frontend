@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { RegisterService } from '../service/register.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   userPassword = '';
   userRole = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(private fb: FormBuilder, private registerService: RegisterService) { }
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -37,14 +37,10 @@ export class RegisterComponent implements OnInit {
     this.userLogin = this.registerForm.get('login')?.value;
     this.userPassword = this.registerForm.get('password')?.value;
     this.userRole = this.registerForm.get('role')?.value;
-
-
     this.daneUsera = {id: this.userId, name: this.userName, surname: this.userSurname, login: this.userLogin, password: this.userPassword, role: this.userRole}
 
-    this.http.post("http://localhost:3001/user/register", this.daneUsera).subscribe(response => {
-      console.log(response);
-      //TODO: jakos trzeba poinformować użytkownika że podany login juz istnieje
-    });
+    this.registerService.registerUser(this.daneUsera);
+    
   }
 
 }
