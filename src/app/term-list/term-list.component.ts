@@ -11,8 +11,13 @@ export interface ScheduleDataElement{
 }
 
 export interface TermListElement{
+  speciality: string;
+  city: string;
+  id: string;
   data:string;
   od_godziny: string;
+  name: string;
+  surname: string;
 }
 
 const DOCTORS_DATA: DoctorDataElement[] = [];
@@ -41,67 +46,98 @@ export class TermListComponent implements OnInit {
   scheduleDataArray: any;
   termData: any;
   termDataArray: any;
+  
 
   // zmienne do załadowania danych do komponentów
   isVisible = true;
   isLoaded = false;
-  isLoadedSchedule: boolean = false;
-
+  allDataLoaded = false;
   //kolumny w tabeli terminów
   displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
-  doctorsDataSource = DOCTORS_DATA;
+  // doctorsDataSource = DOCTORS_DATA;
+  // doctorsDataSource = TERM_LIST;
+  doctorsDataSource = TERM_LIST;
+
+  iterator = 0;
 
   constructor(private termListService: TermListService, private editDoctorService: EditDoctorService) { }
 
   ngOnInit(): void {
     this.getDoctorsData();
+    // this.loadTerm();
   }
 
   getDoctorsData() {
-      DOCTORS_DATA.splice(0, DOCTORS_DATA.length);
-      this.termListService.getTermInfo().subscribe((data) => {
-        data.forEach (element => {
-          this.userID = element.id_lekarza;
-          this.speciality = element.specjalnosc;
-          this.login = element.login;
-          this.password = element.haslo;
-          this.role = element.rola;
-          this.name = element.imie;
-          this.surname = element.nazwisko;
-          this.city = element.miasto;   
-          
-          // pobranie grafiku i listy terminów
-          this.editDoctorService.getSchedule(this.login).subscribe((data) => {
-            this.scheduleData = data;
-            //iterowanie po dniach zapisanych w grafiku lekarza
-            this.scheduleData.forEach((element: ScheduleDataElement) => {
-              SCHEDULE_DATA.push(element)
-              // console.log("element", element);
-              this.editDoctorService.getHourList(this.userID, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
-                // console.log("response", response);
-                this.termData = response;
-                // iterowanie po godzinach wyznaczonych jako termin na wizytę
-                this.termData.forEach((element: TermListElement) => {
-                  TERM_LIST.push(element);
-                })
-                this.termDataArray = TERM_LIST;
-              });;
-            });
-            this.scheduleDataArray = SCHEDULE_DATA;
-            this.isLoadedSchedule = true;
-        });      
-        this.isLoaded = true;
+    TERM_LIST.splice(0, TERM_LIST.length);
+    SCHEDULE_DATA.splice(0, DOCTORS_DATA.length);
+    TERM_LIST.splice(0, SCHEDULE_DATA.length);
 
-        console.log("DOCTORS_DATA", DOCTORS_DATA);
-        console.log("SCHEDULE_DATA", SCHEDULE_DATA);
-        console.log("TERM_LIST", TERM_LIST);
-        
+    this.termListService.getTermInfo().subscribe((data) => {
+      data.forEach(element => {
+        // console.log("doktor element", element);
+        this.userID = element.id_lekarza;
+        this.speciality = element.speciality;
+        this.login = element.login;
+        this.password = element.password;
+        this.role = element.role;
+        this.name = element.name;
+        this.surname = element.surname;
+        this.city = element.city; 
         DOCTORS_DATA.push(element);
-        });
-      })
-  }
+        
+        // pobranie grafiku i listy terminów
+        this.editDoctorService.getSchedule(this.login).subscribe((data) => {
+          this.scheduleData = data;
+          // console.log("data",data);
+          //iterowanie po dniach zapisanych w grafiku lekarza
+          this.scheduleData.forEach((element: ScheduleDataElement) => {
+            // console.log("element", element);
+            SCHEDULE_DATA.push(element)
+            this.scheduleDataArray = SCHEDULE_DATA;
 
+            this.editDoctorService.getHourList(element.id_lekarza, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
+              this.termData = response;
+              // console.log("termData", this.termData.length);
+              
+              // iterowanie po godzinach wyznaczonych jako termin na wizytę
+              this.termData.forEach((element: TermListElement) => {
+                // console.log("termin element", element);
+                  this.iterator++;
+                   for(let i=0; i<DOCTORS_DATA.length;i++){
+                      if(DOCTORS_DATA[i].id_lekarza == element.id){
+                        element.name = DOCTORS_DATA[i].name;
+                        element.surname = DOCTORS_DATA[i].surname;
+                        element.city = DOCTORS_DATA[i].city;
+                        element.speciality = DOCTORS_DATA[i].speciality;
+                      }
+                    }
+                  TERM_LIST.push(element);
+                  // console.log("iterator", this.iterator);
+                  // console.log("termDataLeng", this.termData.length);
+                  if(this.iterator == 28){
+                    console.log("ładowanie");
+                    this.isLoaded = true;
+                  }
+              })
+              this.termDataArray = TERM_LIST;
+            });
+          });
+        });      
+      });
+    }
+    // ,
+    // (err) => console.error(err),
+    // () => this.loadTerm()
+    )
+    console.log("DOCTORS_DATA", DOCTORS_DATA);
+    console.log("SCHEDULE_DATA", SCHEDULE_DATA);
+    console.log("TERM_LIST", TERM_LIST);
+}
 
+loadTerm() {
+  console.log("ładowanie");
+  this.isLoaded = true;
+}
   
   confirmTerm() { 
     if(this.isVisible == true){
@@ -110,5 +146,57 @@ export class TermListComponent implements OnInit {
       this.isVisible = true;
     }
   }
-
+  // getDoctorsData2() {
+    //     TERM_LIST.splice(0, TERM_LIST.length);
+    //     SCHEDULE_DATA.splice(0, DOCTORS_DATA.length);
+    //     TERM_LIST.splice(0, SCHEDULE_DATA.length);
+    
+    //     this.termListService.getTermInfo().subscribe((data) => {
+    //       for(let i=0; i<data.length; i++) {
+    //         console.log("termlist element", data[i]);
+    //         this.userID = data[i].id_lekarza;
+    //         this.speciality = data[i].speciality;
+    //         this.login = data[i].login;
+    //         this.password = data[i].password;
+    //         this.role = data[i].role;
+    //         this.name = data[i].name;
+    //         this.surname = data[i].surname;
+    //         this.city = data[i].city; 
+            
+    //         // pobranie grafiku i listy terminów
+    //         this.editDoctorService.getSchedule(this.login).subscribe((data) => {
+    //           this.scheduleData = data;
+    //           //iterowanie po dniach zapisanych w grafiku lekarza
+    //           for(let j=0; j<this.scheduleData.length; j++){
+    //             console.log("schedule element", this.scheduleData[j]);
+                
+    //             this.editDoctorService.getHourList(this.userID, this.scheduleData[j].data, this.scheduleData[j].od_godziny, this.scheduleData[j].do_godziny).subscribe((response) => {
+    //               this.termData = response;
+    //               // iterowanie po godzinach wyznaczonych jako termin na wizytę
+    //               for(let k=0; k<this.termData;k++){
+    //                 console.log("term element", this.termData[k]);
+    //                 if(this.userID == this.termData[k].id){
+    //                   this.termData[k].name = this.name;
+    //                   this.termData[k].surname = this.surname;
+    //                   this.termData[k].speciality = this.speciality;
+    //                   this.termData[k].city = this.city;
+    //                   TERM_LIST.push(this.termData[k]);
+    //                 }
+    //               }
+    //               console.log("TERM LIST", TERM_LIST);
+    //               this.termDataArray = TERM_LIST;
+    //             });
+    //             SCHEDULE_DATA.push(this.scheduleData[j])
+    //           }
+    //           this.scheduleDataArray = SCHEDULE_DATA;
+    //         });      
+    //       DOCTORS_DATA.push(data[i]);
+    //       }
+    //      this.isLoaded = true;
+    //     })
+    
+    //     // console.log("DOCTORS_DATA", DOCTORS_DATA);
+    //     // console.log("SCHEDULE_DATA", SCHEDULE_DATA);
+    //     // console.log("TERM_LIST", TERM_LIST);
+    // }
 }

@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 
 export interface DoctorDataElement {
   id_lekarza: string;
-  specjalnosc: string;
-  miasto: string;
+  speciality: string;
+  city: string;
   login: string;
-  haslo: string;
-  imie: string;
-  nazwisko: string;
-  rola: string;
+  password: string;
+  name: string;
+  surname: string;
+  role: string;
 }
 
 @Injectable({
