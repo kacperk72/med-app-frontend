@@ -62,6 +62,7 @@
   #confirmWindow {
     width: 40vw;
     height: 35vh;
+    top: 30%;
     position: absolute;
     justify-content: center;
     align-items: center;

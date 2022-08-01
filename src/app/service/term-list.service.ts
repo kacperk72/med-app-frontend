@@ -12,6 +12,19 @@ export interface DoctorDataElement {
   role: string;
 }
 
+export interface TermElement {
+  city: string;
+  date: string;
+  term_hour: string;
+  id: string;
+  login: string;
+  name: string;
+  surname: string;
+  reason: string;
+  speciality: string;
+  term_id: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,5 +34,11 @@ export class TermListService {
 
   getTermInfo() {
     return this.http.get<Array<DoctorDataElement>>('http://localhost:3001/doctor')
+  }
+
+  bookTerm(data: TermElement) {
+    return this.http.post<TermElement>('http://localhost:3001/visit', data).subscribe(resp => {
+      console.log(resp);
+    }) 
   }
 }

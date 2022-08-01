@@ -54,7 +54,7 @@ export class EditDoctorComponent implements OnInit {
   to_hour:any;
  
 
-  constructor(private authService: AuthService, private httpClient: HttpClient, private editDoctorService: EditDoctorService) { }
+  constructor(private authService: AuthService, private editDoctorService: EditDoctorService) { }
 
   ngOnInit(): void {
     // pobranie danych doktora z tokenu

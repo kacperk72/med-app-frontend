@@ -33,7 +33,7 @@
         <ng-container matColumnDef="icons">
           <th mat-header-cell *matHeaderCellDef>  </th>
           <td mat-cell *matCellDef="let element"> 
-            <input type="button" value="Wybierz" (click)="confirmTerm()">
+            <input type="button" value="Wybierz" (click)="confirmTerm(element)">
           </td>
         </ng-container>
 
@@ -43,9 +43,9 @@
 
       <div id="confirmWindow" [hidden]="isVisible">
           <h2>Potwierdź wizytę!</h2>
-          <textarea placeholder="powód wizyty (opcjonalne)"></textarea>
-          <input type="button" value="wróć" style="margin: 10px;" (click)="confirmTerm()">
-          <input type="button" value="potwierdź" style="margin: 10px;" (click)="confirmTerm()">
+          <textarea placeholder="powód wizyty (opcjonalne)" id="textArea"></textarea>
+          <input type="button" value="wróć" style="margin: 10px;" (click)="closeBooking()">
+          <input type="button" value="potwierdź" style="margin: 10px;" (click)="bookTerm()">
       </div>
 
 
