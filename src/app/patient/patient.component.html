@@ -1,21 +1,15 @@
 <div id="content">
     <div id="searching-container">
         <h2>Wyszukaj termin</h2>
-        <form [formGroup]="searchForm" (ngSubmit)="save()">
+        <form [formGroup]="searchForm" (ngSubmit)="save()" *ngIf="isVisibleForm">
             <mat-form-field>
                 <mat-select placeholder="specjalizacja lekarza" formControlName="role">
-                  <mat-option value="kardiolog">kardiolog</mat-option>
-                  <mat-option value="psycholog">psycholog</mat-option>
+                  <mat-option *ngFor="let spec of uniqueSpecArray" value="{{spec}}">{{spec}}</mat-option>
                 </mat-select>
               </mat-form-field>
             <mat-form-field>
                 <mat-select placeholder="miasto" multiple id="multiSelectCity" formControlName="city">
-                  <mat-option value="Kraków">Kraków</mat-option>
-                  <mat-option value="Warszawa">Warszawa</mat-option>
-                  <mat-option value="Krosno">Krosno</mat-option>
-                  <mat-option value="Rzeszów">Rzeszów</mat-option>
-                  <mat-option value="Tarnów">Tarnów</mat-option>
-                  <mat-option value="Brzozów">Brzozów</mat-option>
+                  <mat-option *ngFor="let city of citiesArray" value={{city}}>{{city}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field>
@@ -33,14 +27,14 @@
                 <input matInput type="time" name="timeFrom" formControlName="timeFrom" required>
             </mat-form-field>
 
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <mat-label for="timeTo">do godziny</mat-label>
                 <input matInput type="time" name="timeTo" formControlName="timeTo" required>
-            </mat-form-field>
+            </mat-form-field> -->
 
-            <input type="submit" value="Szukaj" id="searchInput" [disabled]="!searchForm.valid">    
+            <input type="submit" value="Szukaj" id="searchInput" (click)="showList()">    
         </form>
         
-        <app-term-list></app-term-list>
+        <app-term-list  [searchForm]="searchForm" *ngIf="renderList"></app-term-list>
     </div>
 </div>

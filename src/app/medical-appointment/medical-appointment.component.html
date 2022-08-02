@@ -6,35 +6,16 @@
         <div class="term">
             <h2>Poprzednie wizyty</h2>
             <ul>
-                <li>
-                   <p> </p>
+                <li *ngFor="let term of termDataArrayBefore">
+                   <p>{{term.data}} {{term.godzina_wizyty}} {{term.name}} {{term.surname}} {{term.speciality}}</p>
                 </li>
-                <li>
-                   <p> 15.07.2022 13.45 kardiolog Jan Kowalski</p>
-                </li>
-                <li>
-                    <p> 15.07.2022 13.45 kardiolog Jan Kowalski</p>
-                </li>
-                
             </ul>   
         </div>
         <div class="term">
             <h2>Zaplanowane wizyty</h2>
             <ul>
-                <li>
-                    <input type="button" value="Odwołaj">
-                </li>
-                <li>
-                    15.07.2022 13.45 archeolog Jan Kowalski
-                    <input type="button" value="Odwołaj">
-                </li>
-                <li>
-                    15.07.2022 13.45 archeolog Jan Kowalski
-                    <input type="button" value="Odwołaj">
-                </li>
-                <li>
-                    15.07.2022 13.45 archeolog Jan Kowalski
-                    <input type="button" value="Odwołaj">
+                <li *ngFor="let term of termDataArrayAfter">
+                    {{term.data}} {{term.godzina_wizyty}} {{term.name}} {{term.surname}} {{term.speciality}} <input type="button" value="Odwołaj">
                 </li>
             </ul>   
         </div>

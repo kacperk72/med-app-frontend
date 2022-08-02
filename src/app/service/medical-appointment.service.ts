@@ -23,12 +23,10 @@ export class MedicalAppointmentService {
   }
 
   getDetails(id_lekarza: string, id_terminu: string, term_id: number){
-    console.log("id_lekarza", id_lekarza);
-    console.log("id_terminu", id_terminu);
-    console.log("term_id", term_id);
-    
-    //dokoncz chyba kilka zapytań 
-    return this.httpClient.get('')
-  }
+    // console.log("id_lekarza", id_lekarza);
+    // console.log("id_terminu", id_terminu);
+    // console.log("term_id", term_id);
 
+    return this.httpClient.get(`http://localhost:3001/pacient/getVisitData/${id_lekarza}/${id_terminu}/${term_id}`);
+  }
 }

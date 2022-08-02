@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PatientService } from '../service/patient.service';
 
 @Component({
   selector: 'app-patient',
@@ -9,24 +10,66 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class PatientComponent implements OnInit {
   searchForm!: FormGroup;
   searchData = [''];
-  searchRole = "";
-  searchCity = "";
-  searchDateFrom = "";
-  searchDateTo = "";
-  searchTimeFrom = "";
-  searchTimeTo = "";
+  searchRole: string = "";
+  searchCity: string = "";
+  searchDateFrom: string = "";
+  searchDateTo: string = "";
+  searchTimeFrom: string = "";
+  // searchTimeTo: string = "";
 
-  constructor(private fb: FormBuilder) { }
+  //widocznosc elementow
+  isVisibleForm: boolean = true;
+  renderList: boolean = false;
+
+  //dane pobierane z bazy
+  cities: any;
+  citiesArray: Array<Object> = [];
+  specialities: any;
+  specArray: any = [];
+  uniqueSpecArray: any = [];
+  spec: any;
+  specAr: any;
+
+  constructor(private fb: FormBuilder, private patientService: PatientService) { }
 
   ngOnInit(): void {
+    this.patientService.getCities().subscribe(resp => {
+      this.cities = resp;
+      this.cities.forEach((el: { city: string; }) => {
+        this.citiesArray.push(el.city)
+      });
+    })
+
+    // jeżeli specjalizacje zostaną podane w innej formnie niż "jenda, druga" to sie wysypie
+    this.patientService.getSpec().subscribe(resp => {
+      this.specialities = resp;
+      this.specialities.forEach((el: { speciality: Object; }) => {
+        this.spec = el.speciality;
+        this.specAr = this.spec.split(', ');
+        this.specAr.forEach((el: Object) => {
+          this.specArray.push(el)
+        });
+        this.uniqueSpecArray = [...new Set(this.specArray)];
+        // console.log(this.uniqueSpecArray);
+      });
+    })
+
     this.searchForm = this.fb.group({
-      role: [this.searchRole, Validators.required],
-      city: [this.searchCity, [Validators.required]],
-      dateFrom: [this.searchDateFrom,[Validators.required]],
-      dateTo: [this.searchDateTo,[Validators.required]],
-      timeFrom: [this.searchTimeFrom, [Validators.required]],
-      timeTo: [this.searchTimeTo, [Validators.required]]
+      role: this.searchRole,
+      city: this.searchCity,
+      dateFrom: this.searchDateFrom,
+      dateTo: this.searchDateTo,
+      timeFrom: this.searchTimeFrom,
+      // timeTo: this.searchTimeTo, 
     });
+  }
+
+  showList(){
+    if(this.renderList == false){
+      this.renderList = true;
+    } else {
+      this.renderList = false;
+    }
   }
 
   save() {
@@ -35,10 +78,10 @@ export class PatientComponent implements OnInit {
     this.searchDateFrom = this.searchForm.get('dateFrom')?.value
     this.searchDateTo = this.searchForm.get('dateTo')?.value;
     this.searchTimeFrom = this.searchForm.get('timeFrom')?.value;
-    this.searchTimeTo = this.searchForm.get('timeTo')?.value;
+    // this.searchTimeTo = this.searchForm.get('timeTo')?.value;
 
-    this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom, this.searchTimeTo];
-    console.log(this.searchData);
+    this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom];
+    // console.log(this.searchData);
     
   }
 
