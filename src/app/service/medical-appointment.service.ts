@@ -29,4 +29,12 @@ export class MedicalAppointmentService {
 
     return this.httpClient.get(`http://localhost:3001/pacient/getVisitData/${id_lekarza}/${id_terminu}/${term_id}`);
   }
+
+  cancelVisit(term: any, user_id: string) {
+    console.log(term);
+    const hour = term.godzina_wizyty;
+    return this.httpClient.delete(`http://localhost:3001/pacient/cancelVisit/${hour}/${user_id}`).subscribe(resp => {
+      console.log("delete succesfull", resp);
+    })
+  }
 }

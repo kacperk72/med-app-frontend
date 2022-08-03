@@ -15,7 +15,7 @@
             <h2>Zaplanowane wizyty</h2>
             <ul>
                 <li *ngFor="let term of termDataArrayAfter">
-                    {{term.data}} {{term.godzina_wizyty}} {{term.name}} {{term.surname}} {{term.speciality}} <input type="button" value="Odwołaj">
+                    {{term.data}} {{term.godzina_wizyty}} {{term.name}} {{term.surname}} {{term.speciality}} <input type="button" value="Odwołaj" (click)="cancelVisit(term)">
                 </li>
             </ul>   
         </div>

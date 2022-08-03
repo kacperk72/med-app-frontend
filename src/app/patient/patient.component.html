@@ -1,32 +1,36 @@
 <div id="content">
     <div id="searching-container">
         <h2>Wyszukaj termin</h2>
-        <form [formGroup]="searchForm" (ngSubmit)="save()" *ngIf="isVisibleForm">
-            <mat-form-field>
-                <mat-select placeholder="specjalizacja lekarza" formControlName="role">
-                  <mat-option *ngFor="let spec of uniqueSpecArray" value="{{spec}}">{{spec}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            <mat-form-field>
-                <mat-select placeholder="miasto" multiple id="multiSelectCity" formControlName="city">
-                  <mat-option *ngFor="let city of citiesArray" value={{city}}>{{city}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label for="dateFrom">od</mat-label>
-                <input matInput type="date" name="dateFrom" formControlName="dateFrom" required>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label for="dateTo">do</mat-label>
-                <input matInput type="date" name="dateTo" formControlName="dateTo" required>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label for="timeFrom">od godziny</mat-label>
-                <input matInput type="time" name="timeFrom" formControlName="timeFrom" required>
-            </mat-form-field>
-
+        <form [formGroup]="searchForm" (ngSubmit)="save()" *ngIf="isVisibleForm" id="form">
+            <div id="speccity">
+                <mat-form-field>
+                    <mat-select placeholder="specjalizacja lekarza" formControlName="role">
+                      <mat-option *ngFor="let spec of uniqueSpecArray" value="{{spec}}">{{spec}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+    
+                <mat-form-field>
+                    <mat-select placeholder="miasto" multiple id="multiSelectCity" formControlName="city">
+                      <mat-option *ngFor="let city of citiesArray" value={{city}}>{{city}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div id="datetime">
+                <mat-form-field>
+                    <mat-label for="dateFrom">od</mat-label>
+                    <input matInput type="date" name="dateFrom" formControlName="dateFrom">
+                </mat-form-field>
+    
+                <mat-form-field>
+                    <mat-label for="dateTo">do</mat-label>
+                    <input matInput type="date" name="dateTo" formControlName="dateTo">
+                </mat-form-field>
+    
+                <mat-form-field>
+                    <mat-label for="timeFrom">od godziny</mat-label>
+                    <input matInput type="time" name="timeFrom" formControlName="timeFrom">
+                </mat-form-field>
+            </div>
             <!-- <mat-form-field>
                 <mat-label for="timeTo">do godziny</mat-label>
                 <input matInput type="time" name="timeTo" formControlName="timeTo" required>

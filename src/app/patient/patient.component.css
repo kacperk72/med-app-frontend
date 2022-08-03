@@ -24,6 +24,13 @@
 
 /* ////////////////////////////////// */
 
+#form {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+} 
+
 mat-select {
     margin: 15px 0px 10px 10px;
     padding: 10px;
@@ -41,7 +48,19 @@ mat-select {
   mat-error {
     padding-left: 60%;
   }
+  mat-form-field {
+    margin-left: 2vw;
+}
+::ng-deep .mat-form-field-underline {
+    display: none;
+}
 
+#speccity {
+    float: left;
+}
+#datetime {
+    float: left;
+}
 
 label {
     font-size: 20px;
@@ -100,9 +119,11 @@ input[type="date"] {
     font-family: "Helvetica", arial, sans-serif;
     font-size: 15px;
     border:1px solid #ecf0f1;
-    background:#ecf0f1;
+    background-color: #f6f6f6;
     padding: 10px 20px;
     width: 10vw;
+    border-radius: 5px 5px 5px 5px;
+
 }
 
 input[type="date"] {
@@ -112,12 +133,14 @@ input[type="date"] {
 }
 
 input[type="time"] {
-    background: #EAEFF1;
+    background-color: #f6f6f6;
     border: none;
     margin-bottom: .625em;
     margin-top: .3em;
     outline-offset: 3px;
-    padding: .45em .45em .45em .65em;
+    padding: 15px 10px;
+    border-radius: 5px 5px 5px 5px;
+
 }
 
 input[type="time"]:before {

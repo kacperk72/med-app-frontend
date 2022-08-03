@@ -41,6 +41,5 @@ export class EditDoctorService {
     const data = termData.split('T')[0];
 
     return this.httpClient.get(`http://localhost:3001/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}`)
-    
   }
 }

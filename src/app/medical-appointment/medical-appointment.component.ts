@@ -75,4 +75,10 @@ export class MedicalAppointmentComponent implements OnInit {
       })
     })
   }
+  
+  cancelVisit(term: any) {
+    // console.log(term);
+    this.medicalAppointment.cancelVisit(term, this.user_id);
+    window.location.reload();
+  }
 }

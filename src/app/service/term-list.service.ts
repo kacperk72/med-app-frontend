@@ -23,7 +23,24 @@ export interface TermElement {
   reason: string;
   speciality: string;
   term_id: number;
+  isVisitFree: boolean;
+
 }
+
+export interface VisitElement{
+  wynik: any;
+  speciality: string;
+  city: string;
+  id: string;
+  data:string;
+  godzina_wizyty: string;
+  name: string;
+  surname: string;
+  term_id: number;
+  isVisitFree: boolean;
+
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +57,14 @@ export class TermListService {
     return this.http.post<TermElement>('http://localhost:3001/visit', data).subscribe(resp => {
       console.log(resp);
     }) 
+  }
+
+  checkVisit(element: VisitElement) {
+    // console.log(element);
+    // let result:boolean = true;
+
+    return this.http.get<VisitElement>(`http://localhost:3001/visit/check/${element.data}/${element.term_id}/${element.id}`)
+
+    // return Boolean(result);    
   }
 }

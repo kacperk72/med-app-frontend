@@ -30,10 +30,10 @@
           <td mat-cell *matCellDef="let element"> {{element.data}} {{element.godzina_wizyty}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="icons">
+        <ng-container matColumnDef="icons" >
           <th mat-header-cell *matHeaderCellDef>  </th>
           <td mat-cell *matCellDef="let element"> 
-            <input type="button" value="Wybierz" (click)="confirmTerm(element)">
+            <input type="button" value="Wybierz" *ngIf="element.isVisitFree" (click)="confirmTerm(element)">
           </td>
         </ng-container>
 
