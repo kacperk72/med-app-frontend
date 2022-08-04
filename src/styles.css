@@ -24,6 +24,12 @@ header h1 {
 #menu {
     width: 85vw;
 }
+#icon-menu {
+    float: right;
+    display: inline;
+    padding: 10px;
+    margin-right: 20px;
+}
 #logo a {
     text-decoration: none;
     color: white;

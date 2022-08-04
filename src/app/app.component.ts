@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoginComponent } from './login/login.component';
 import { AuthService } from './service/auth.service';
 
 @Component({
@@ -11,8 +9,10 @@ import { AuthService } from './service/auth.service';
 export class AppComponent implements OnInit{
   title = 'med-app';
   role = '';
+  showMenu: boolean = false;
+  showIcon: boolean = true;
 
-  constructor(public service: AuthService, private router: Router){ 
+  constructor(public service: AuthService){ 
     
   }
 
@@ -20,7 +20,13 @@ export class AppComponent implements OnInit{
     this.role = localStorage.getItem('rola')||'';
   }
 
-
+  switchMenu(){
+    if(this.showMenu == false){
+      this.showMenu = true;
+    } else {
+      this.showMenu = false;
+    }
+  }
 
 
 }

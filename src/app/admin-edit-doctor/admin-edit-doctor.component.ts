@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../service/auth.service';
+import { ActivatedRoute } from '@angular/router';
 import { EditDoctorService } from '../service/edit-doctor.service';
 
 export interface ScheduleDataElement{
@@ -22,75 +21,76 @@ const SCHEDULE_DATA: ScheduleDataElement[] = [];
 const TERM_LIST: TermListElement[] = [];
 
 @Component({
-  selector: 'app-edit-doctor',
-  templateUrl: './edit-doctor.component.html',
-  styleUrls: ['./edit-doctor.component.css'],
+  selector: 'app-admin-edit-doctor',
+  templateUrl: './admin-edit-doctor.component.html',
+  styleUrls: ['./admin-edit-doctor.component.css']
 })
-export class EditDoctorComponent implements OnInit {
+export class AdminEditDoctorComponent implements OnInit {
 
   //widocznosc w celu pobrania danych i poprawnego wygrnerowania
   isVisibleEdit = false;
   isLoaded: boolean = false;
   isLoadedSchedule: boolean = false;
   isVisibleAdd: boolean = false;
-  // zmienne na dane zwracane z bazy
-  doctorData: any;
-  token: string = '';
-  tokenJson: any;
-  scheduleData: any;
-  scheduleDataArray: any;
-  termData: any;
-  termDataArray: any;
-  // zmienne do przetwarzania wyświetlanych danych
-  doctorLogin: string = '';
-  doctorPassword: string = '';
+
+  // dane lekarza
+  id_lek: any = "";
+  spec: any = "";
+  city: any = "";
+  login: any = "";
+  name: any = "";
+  surname: any = "";
+
+  //zmienne do przetwarzania wyświetlanych danych
   nameInputValue = '';
   surnameInputValue = '';
   specialityInputValue = '';
   cityInputValue = '';
-  doctorID = '';
+  date:any;
+  from_hour:any;
+  to_hour:any;
+
+  scheduleData: any;
+  scheduleDataArray: any;
+  termData: any;
+  termDataArray: any;
+
   // formularz dodawania terminow
   addTermForm!: FormGroup;
   addDate: string = "";
   addTimeFrom: number = 0;
   addTimeTo: number = 0;
   addData: any;
- 
 
-  constructor(private authService: AuthService, private editDoctorService: EditDoctorService, private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute, private editDoctorService: EditDoctorService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    // pobranie danych doktora z tokenu
-    this.token = this.authService.GetToken();
-    this.tokenJson = this.authService.GetRolebyToken(this.token);
-    this.doctorLogin = this.tokenJson.login;
-    this.doctorPassword = this.tokenJson.password;
+    this.scheduleDataArray = [];
+    this.termDataArray = [];
 
-    // pobranie danych doktora z bazy
-    this.editDoctorService.getOneDoctor(this.doctorLogin).subscribe((data) => {
-      this.doctorData = data;
-      // console.log(this.doctorData);
-      if(this.doctorData != []){
-        this.doctorID = this.doctorData.id_lekarza;
-        this.nameInputValue = this.doctorData.name;
-        this.surnameInputValue = this.doctorData.surname;
-        this.specialityInputValue = this.doctorData.speciality;
-        this.cityInputValue = this.doctorData.city;
+    this.id_lek = this.route.snapshot.paramMap.get('id_lek');
+    this.spec = this.route.snapshot.paramMap.get('spec');
+    this.city = this.route.snapshot.paramMap.get('city');
+    this.login = this.route.snapshot.paramMap.get('login');
+    this.name = this.route.snapshot.paramMap.get('name');
+    this.surname = this.route.snapshot.paramMap.get('surname');
 
-        this.isLoaded = true;
-      } else {
-        console.log("wystąpił błąd pobierania danych z bazy");
-      }
-    });
+    // console.log(this.id_lek, this.spec, this.city, this.login, this.name, this.surname);
+
+    this.nameInputValue = this.name;
+    this.surnameInputValue = this.surname;
+    this.specialityInputValue = this.spec;
+    this.cityInputValue = this.city;
+    
 
     // pobranie grafiku i listy terminów
-    this.editDoctorService.getSchedule(this.doctorLogin).subscribe((data) => {
+    this.editDoctorService.getSchedule(this.login).subscribe((data) => {
       this.scheduleData = data;
       //iterowanie po dniach zapisanych w grafiku lekarza
       this.scheduleData.forEach((element: ScheduleDataElement) => {
         SCHEDULE_DATA.push(element)
         // console.log("element", element);
-        this.editDoctorService.getHourList(this.doctorID, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
+        this.editDoctorService.getHourList(this.id_lek, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
           // console.log("response", response);
           this.termData = response;
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
@@ -110,17 +110,18 @@ export class EditDoctorComponent implements OnInit {
       timeTo: [this.addTimeTo, Validators.required]
     });
 
+    this.isLoaded = true;
   }
 
   updateDoctor(name: string, surname: string, speciality: string, city: string): void{
-    this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city);
+    this.editDoctorService.updateDoctorData(this.id_lek, name, surname, speciality, city);
   }
 
   editTerm() {
-    if(this.isVisibleEdit == false){
-      this.isVisibleEdit = true;
-    } else {
+    if(this.isVisibleEdit == true){
       this.isVisibleEdit = false;
+    } else {
+      this.isVisibleEdit = true;
     }
   }
 
@@ -153,15 +154,12 @@ export class EditDoctorComponent implements OnInit {
       else 
         timeT = this.addTimeTo + ":00"
 
-      this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
+      this.editDoctorService.addTerm(this.id_lek, date, timeF, timeT).subscribe((resp) => {
         console.log("dodano termin");
       })
 
       this.showTermAdd();
     }
-    
-
-
   }
 
 }

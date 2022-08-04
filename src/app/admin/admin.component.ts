@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AdminService } from '../service/admin.service';
 
 export interface PeriodicElement {
   id_lekarza: string;
@@ -39,7 +40,9 @@ export class AdminComponent implements OnInit {
   speciality!: string;
   doctorDataJson: any;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  editPanel: boolean = false;
+
+  constructor(private fb: FormBuilder, private router: Router, private adminService: AdminService ) { }
 
   ngOnInit(): void {
     this.getDoctorsData();
@@ -56,7 +59,7 @@ export class AdminComponent implements OnInit {
 
   getDoctorsData() {
     ELEMENT_DATA.splice(0, ELEMENT_DATA.length);
-    this.http.get("http://localhost:3001/doctor").subscribe(response => {
+    this.adminService.getDoctorsData().subscribe(response => {
       // console.log(response);
       this.doctorDataJson = response;
 
@@ -83,7 +86,6 @@ export class AdminComponent implements OnInit {
     } else {
       this.isVisibleAdd = true;
     }
-
     this.userName = this.addDoctorForm.get('name')?.value;
     this.userSurname = this.addDoctorForm.get('surname')?.value;
     this.userLogin = this.addDoctorForm.get('login')?.value;
@@ -93,14 +95,37 @@ export class AdminComponent implements OnInit {
 
     this.doctorData = {id: this.userId, name: this.userName, surname: this.userSurname, login: this.userLogin, password: this.userPassword, role: this.role, city: this.city, speciality: this.speciality}
 
-    console.log(this.doctorData);
-    
-
-    this.http.post("http://localhost:3001/doctor/register", this.doctorData).subscribe(response => {
+    // console.log(this.doctorData);
+    this.adminService.addDoctor(this.doctorData).subscribe(response => {
       console.log(response);
     });
 
+    // window.location.reload();
+  }
 
+  openEditPanel(element: any){
+    // console.log(element);
+    const id_lek = element.user_id;
+    const spec = element.speciality;
+    const city = element.city;
+    const login = element.login;
+    const name = element.name;
+    const surname = element.surname;
+
+    this.router.navigate(['/adminEditDoctor', id_lek, spec, city, login, name, surname])
+    // this.router.navigate('')    
+  }
+
+  deleteDoctor(element: any){
+    const id_lek = element.user_id;
+
+    if(window.confirm("Napewno chcesz usunąć?")){
+      this.adminService.deleteDoctor(id_lek).subscribe(resp => {
+        console.log("delete succesfuly", resp);
+      })
+    }
+    
+    window.location.reload();
   }
  
 }

@@ -36,8 +36,8 @@
       <ng-container matColumnDef="icons">
         <th mat-header-cell *matHeaderCellDef>  </th>
         <td mat-cell *matCellDef="let element"> 
-          <a routerLink="/edytujDoktora"><mat-icon>edit</mat-icon></a>
-          <mat-icon>delete</mat-icon>
+          <a (click)="openEditPanel(element)"><mat-icon>edit</mat-icon></a>
+          <a (click)="deleteDoctor(element)"><mat-icon>delete</mat-icon></a>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

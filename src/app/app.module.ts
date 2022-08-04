@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './service/token-interceptor.service';
+import { AdminEditDoctorComponent } from './admin-edit-doctor/admin-edit-doctor.component';
 
 
 
@@ -33,7 +34,8 @@ import { TokenInterceptorService } from './service/token-interceptor.service';
     PatientComponent,
     TermListComponent,
     EditDoctorComponent,
-    MedicalAppointmentComponent
+    MedicalAppointmentComponent,
+    AdminEditDoctorComponent
   ],
   imports: [
     BrowserModule,

@@ -42,4 +42,14 @@ export class EditDoctorService {
 
     return this.httpClient.get(`http://localhost:3001/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}`)
   }
+
+  addTerm(id: string, date: string, timeFrom: string, timeTo: string){
+    
+    return this.httpClient.post(`http://localhost:3001/doctor/addTerm`, {
+      id,
+      date,
+      timeFrom,
+      timeTo
+    });
+  }
 }
