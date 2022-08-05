@@ -22,7 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './service/token-interceptor.service';
 import { AdminEditDoctorComponent } from './admin-edit-doctor/admin-edit-doctor.component';
-
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule({
@@ -49,7 +49,8 @@ import { AdminEditDoctorComponent } from './admin-edit-doctor/admin-edit-doctor.
     MatListModule,
     MatSelectModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

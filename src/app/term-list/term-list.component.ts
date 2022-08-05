@@ -1,5 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { PatientComponent } from '../patient/patient.component';
 import { AuthService } from '../service/auth.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
@@ -40,6 +43,9 @@ export class TermListComponent implements OnInit {
   @Input()
   searchForm!: FormGroup;  
 
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
   userID = '';
   speciality = '';
   login = '';
@@ -54,17 +60,18 @@ export class TermListComponent implements OnInit {
   scheduleData: any;
   scheduleDataArray: any;
   termData: any;
-  termDataArray: any;
+  termDataArray!: MatTableDataSource<TermListElement>;
 
   // zmienne do załadowania danych do komponentów
   isVisible = true;
-  isLoaded = false;
+  isLoaded = true;
   allDataLoaded = false;
 
   //kolumny w tabeli terminów
   displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
   doctorsDataSource = TERM_LIST;
 
+  //zmienne do liczenia ilosci wizyt do wygenerowania
   iterator = 0;
   sumeOfVisits = 0;
 
@@ -85,8 +92,6 @@ export class TermListComponent implements OnInit {
   constructor(private termListService: TermListService, private editDoctorService: EditDoctorService, private authService: AuthService) { }
 
   ngOnInit() {
-    this.getDoctorsData();
-    // this.loadTerm();
     this.searchRole = this.searchForm.get('role')?.value;
     this.searchCity = this.searchForm.get('city')?.value;
     this.searchDateFrom = this.searchForm.get('dateFrom')?.value
@@ -94,6 +99,12 @@ export class TermListComponent implements OnInit {
     this.searchTimeFrom = this.searchForm.get('timeFrom')?.value;
     this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom];
     // console.log("searchData w child", this.searchData);
+
+    this.getDoctorsData();
+    this.deleteBookedVisits();
+    this.loadResults();
+
+
   }
 
   getDoctorsData() {
@@ -157,26 +168,28 @@ export class TermListComponent implements OnInit {
                               this.termListService.checkVisit(element).subscribe(resp => {
                                 let result:boolean = resp.wynik.toLowerCase();
                                 this.isVisitFree = result;
-                                // console.log(result);
+                                console.log("result", result);
                               })
                             }
                           }
                         element.isVisitFree = this.isVisitFree;
                         // console.log("isVisitFree", element.isVisitFree);
-                        // console.log("pushuje");
+                        console.log("pushuje");
                         TERM_LIST.push(element);
                         // console.log("iterator", this.iterator);
 
                         if(this.iterator == this.sumeOfVisits){
+
+                          
                           // console.log("sortowanie");
                           TERM_LIST.sort(function(a,b){
                             return Number(new Date(a.data)) - Number(new Date(b.data));
                           });
 
-                          this.termDataArray = TERM_LIST;
-
+                          this.termDataArray = new MatTableDataSource(TERM_LIST);
+                          this.termDataArray.paginator = this.paginator;
                           // console.log("ładowanie");
-                          this.isLoaded = true;
+                          // this.isLoaded = true;
                         }
                       }
                     })
@@ -193,9 +206,14 @@ export class TermListComponent implements OnInit {
     console.log("TERM_LIST", TERM_LIST);
 }
 
-loadTerm() {
+loadResults() {
   console.log("ładowanie");
   this.isLoaded = true;
+}
+
+deleteBookedVisits(){
+  console.log("ususwam");
+  
 }
   
 confirmTerm(element: any) { 
