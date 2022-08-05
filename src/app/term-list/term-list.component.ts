@@ -100,17 +100,13 @@ export class TermListComponent implements OnInit {
     this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom];
     // console.log("searchData w child", this.searchData);
 
-    this.getDoctorsData();
-    this.deleteBookedVisits();
-    this.loadResults();
-
+    this.getDoctors();
 
   }
 
-  getDoctorsData() {
+  getDoctors() {
+    SCHEDULE_DATA.splice(0, SCHEDULE_DATA.length);
     TERM_LIST.splice(0, TERM_LIST.length);
-    SCHEDULE_DATA.splice(0, DOCTORS_DATA.length);
-    TERM_LIST.splice(0, SCHEDULE_DATA.length);
 
     this.termListService.getTermInfo().subscribe((data) => {
       data.forEach(element => {
@@ -128,75 +124,7 @@ export class TermListComponent implements OnInit {
         if(element.speciality.includes(this.searchRole) || this.searchRole === ''){
           if(this.searchCity.includes(element.city) || this.searchCity === '') {
             DOCTORS_DATA.push(element);
-            // pobranie grafiku i listy terminów
-            this.editDoctorService.getSchedule(this.login).subscribe((data) => {
-              this.scheduleData = data;
-              // console.log("data",data);
-              //iterowanie po dniach zapisanych w grafiku lekarza
-              this.scheduleData.forEach((element: ScheduleDataElement) => {
-                // console.log("element", element);
-  
-                // sprawdzam czy data zawiera sie
-                if(new Date(element.data.split('T')[0]) >= new Date(this.searchDateFrom) && new Date(element.data.split('T')[0]) <= new Date(this.searchDateTo) || (this.searchDateFrom === "" && this.searchDateTo === "")){
-                  SCHEDULE_DATA.push(element)
-                  this.scheduleDataArray = SCHEDULE_DATA;
-    
-                  // obliczanie ilosci wizyt aby stworzyc licznik do generowania
-                  // byćmoże po zarezerwowaniu wizyty sie wysypie bo będzie ich mniej generowało albo zrobić tak że wizyta będzie na szaro czy coś, jeżeli w grafiku podana jest dostepnosc np. od 9.15 do 9.45 to nie wydzieli wizyt -- do poprawki
-                  let toHour = element.do_godziny.split(':');
-                  let fromHour = element.od_godziny.split(':');
-                  let resultInHours = parseInt(toHour[0]) - parseInt(fromHour[0]);
-                  this.sumeOfVisits += resultInHours * 4;
-                  // console.log(this.sumeOfVisits);
-    
-                  this.editDoctorService.getHourList(element.id_lekarza, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
-                    this.termData = response;
-                    // console.log("termData", this.termData);
-                    
-                    // iterowanie po godzinach wyznaczonych jako termin na wizytę
-                    this.termData.forEach((element: TermListElement) => {
-                      // console.log("termin element", element);
-                      this.iterator++;
-                      if(element.godzina_wizyty >= (this.searchTimeFrom + ':00') || this.searchTimeFrom === '') {
-                        for(let i=0; i<DOCTORS_DATA.length;i++){
-                            if(DOCTORS_DATA[i].id_lekarza == element.id){
-                              element.name = DOCTORS_DATA[i].name;
-                              element.surname = DOCTORS_DATA[i].surname;
-                              element.city = DOCTORS_DATA[i].city;
-                              element.speciality = DOCTORS_DATA[i].speciality;
-
-                              this.termListService.checkVisit(element).subscribe(resp => {
-                                let result:boolean = resp.wynik.toLowerCase();
-                                this.isVisitFree = result;
-                                console.log("result", result);
-                              })
-                            }
-                          }
-                        element.isVisitFree = this.isVisitFree;
-                        // console.log("isVisitFree", element.isVisitFree);
-                        console.log("pushuje");
-                        TERM_LIST.push(element);
-                        // console.log("iterator", this.iterator);
-
-                        if(this.iterator == this.sumeOfVisits){
-
-                          
-                          // console.log("sortowanie");
-                          TERM_LIST.sort(function(a,b){
-                            return Number(new Date(a.data)) - Number(new Date(b.data));
-                          });
-
-                          this.termDataArray = new MatTableDataSource(TERM_LIST);
-                          this.termDataArray.paginator = this.paginator;
-                          // console.log("ładowanie");
-                          // this.isLoaded = true;
-                        }
-                      }
-                    })
-                  });
-                }
-              });
-            }); 
+            this.getSchedule();
           }
         }
       });
@@ -206,14 +134,77 @@ export class TermListComponent implements OnInit {
     console.log("TERM_LIST", TERM_LIST);
 }
 
+// pobranie grafiku i listy terminów
+getSchedule() {
+  this.editDoctorService.getSchedule(this.login).subscribe((data) => {
+    this.scheduleData = data;
+    //iterowanie po dniach zapisanych w grafiku lekarza
+    this.scheduleData.forEach((element: ScheduleDataElement) => {
+      // sprawdzam czy data zawiera sie w podanych widełkach formularza
+      if(new Date(element.data.split('T')[0]) >= new Date(this.searchDateFrom) && new Date(element.data.split('T')[0]) <= new Date(this.searchDateTo) || (this.searchDateFrom === "" && this.searchDateTo === "")){
+        SCHEDULE_DATA.push(element)
+        this.scheduleDataArray = SCHEDULE_DATA;
+
+        // obliczanie ilosci wizyt aby stworzyc licznik do generowania
+        let toHour = element.do_godziny.split(':');
+        let fromHour = element.od_godziny.split(':');
+        let resultInHours = parseInt(toHour[0]) - parseInt(fromHour[0]);
+        this.sumeOfVisits += resultInHours * 4;
+
+        this.editDoctorService.getHourList(element.id_lekarza, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
+          this.termData = response;
+          
+          // iterowanie po godzinach wyznaczonych jako termin na wizytę
+          this.termData.forEach((element: TermListElement) => {
+            this.iterator++;
+            // sprawdzam czy godzina wizyty zawiera sie w widełkach formularza
+            if(element.godzina_wizyty >= (this.searchTimeFrom + ':00') || this.searchTimeFrom === '') {
+              for(let i=0; i<DOCTORS_DATA.length;i++){
+                  if(DOCTORS_DATA[i].id_lekarza == element.id){
+                    element.name = DOCTORS_DATA[i].name;
+                    element.surname = DOCTORS_DATA[i].surname;
+                    element.city = DOCTORS_DATA[i].city;
+                    element.speciality = DOCTORS_DATA[i].speciality;
+                  }
+                }
+
+              // dla każdej wizyty sprawdzam czy jest już zajęta - ale dzieje sie to asynchornicznie wiec program leci dalej nie czeka na sprawdzenie wszystkich
+              this.termListService.checkVisit(element).subscribe(resp => {
+                let result:boolean = resp.wynik.toLowerCase();
+                this.isVisitFree = result;
+
+                // console.log("result", result);
+
+                // console.log("pushuje");
+                TERM_LIST.push(element);
+               
+                this.setPaginator();
+              })
+
+
+            }
+          })
+        });
+      }
+    });
+  }); 
+  this.loadResults();
+}
+
 loadResults() {
   console.log("ładowanie");
   this.isLoaded = true;
 }
 
-deleteBookedVisits(){
-  console.log("ususwam");
-  
+setPaginator(){
+  if(this.iterator == this.sumeOfVisits){
+    TERM_LIST.sort(function(a,b){
+      return Number(new Date(a.data)) - Number(new Date(b.data));
+    });
+
+    this.termDataArray = new MatTableDataSource(TERM_LIST);
+    this.termDataArray.paginator = this.paginator;
+  }
 }
   
 confirmTerm(element: any) { 
@@ -249,4 +240,3 @@ bookTerm() {
   this.closeBooking();
 }
 }
-
