@@ -90,7 +90,7 @@ export class AdminEditDoctorComponent implements OnInit {
       this.scheduleData.forEach((element: ScheduleDataElement) => {
         SCHEDULE_DATA.push(element)
         // console.log("element", element);
-        this.editDoctorService.getHourList(this.id_lek, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
+        this.editDoctorService.getHourList(this.id_lek, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
           // console.log("response", response);
           this.termData = response;
           // iterowanie po godzinach wyznaczonych jako termin na wizytę

@@ -41,6 +41,8 @@ export class EditDoctorComponent implements OnInit {
   scheduleDataArray: any;
   termData: any;
   termDataArray: any;
+  bookedTermsData: any;
+  bookedTermsDataArray: any;
   // zmienne do przetwarzania wyświetlanych danych
   doctorLogin: string = '';
   doctorPassword: string = '';
@@ -55,7 +57,11 @@ export class EditDoctorComponent implements OnInit {
   addTimeFrom: number = 0;
   addTimeTo: number = 0;
   addData: any;
- 
+  // zarezerwowane wizytty
+  bookedHour: any = "";
+  bookedName: any = "";
+  bookedDate: any = "";
+  termsWithoutBookedArray: any;
 
   constructor(private authService: AuthService, private editDoctorService: EditDoctorService, private fb: FormBuilder) { }
 
@@ -77,39 +83,103 @@ export class EditDoctorComponent implements OnInit {
         this.specialityInputValue = this.doctorData.speciality;
         this.cityInputValue = this.doctorData.city;
 
+        this.getBookedTerms(this.doctorID);
+
+        this.getSchedule();
+
+        this.removeBookedVisits();
+
         this.isLoaded = true;
       } else {
         console.log("wystąpił błąd pobierania danych z bazy");
       }
     });
 
+    console.log("SCHEDULE_DATA", SCHEDULE_DATA);
+    console.log("TERM_DATA", TERM_LIST);
+    
+  }
+
+  getBookedTerms(id_lek: string){
+    this.editDoctorService.getBookedTerms(id_lek).subscribe(resp => {
+      this.bookedTermsDataArray = resp;
+      this.bookedTermsDataArray.forEach((el: {
+        date: any;
+        surname: any;
+        name: any;
+        godzina: Object; term_id: string; id_pacjenta: string; id_terminu: string; 
+}) => {
+        this.editDoctorService.getHourFromTerm(el.term_id).subscribe(resp => {
+          this.bookedHour = resp;
+          el.godzina = this.bookedHour.godzina_wizyty;        
+        })
+        this.editDoctorService.getOnePacient(el.id_pacjenta).subscribe(resp => {
+          this.bookedName = resp;
+          el.name = this.bookedName.name;
+          el.surname = this.bookedName.surname;   
+          
+        })
+        this.editDoctorService.getDateFromTerm(el.id_terminu).subscribe(resp => {
+          this.bookedDate = resp;
+          el.date = this.bookedDate.data.split('T')[0];
+        })
+
+        // console.log(el);        
+      })
+      // console.log(this.bookedTermsDataArray);
+    })
+  }
+
+  getSchedule(){
     // pobranie grafiku i listy terminów
     this.editDoctorService.getSchedule(this.doctorLogin).subscribe((data) => {
-      this.scheduleData = data;
-      //iterowanie po dniach zapisanych w grafiku lekarza
-      this.scheduleData.forEach((element: ScheduleDataElement) => {
-        SCHEDULE_DATA.push(element)
-        // console.log("element", element);
-        this.editDoctorService.getHourList(this.doctorID, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
-          // console.log("response", response);
-          this.termData = response;
-          // iterowanie po godzinach wyznaczonych jako termin na wizytę
-          this.termData.forEach((element: TermListElement) => {
-            TERM_LIST.push(element);
-          })
-          this.termDataArray = TERM_LIST;
-        });;
-      });
-      this.scheduleDataArray = SCHEDULE_DATA;
-      this.isLoadedSchedule = true;
-    });
+    this.scheduleData = data;
+    //iterowanie po dniach zapisanych w grafiku lekarza
+    this.scheduleData.forEach((element: ScheduleDataElement) => {
+      SCHEDULE_DATA.push(element)
+      console.log("element", element);
+      this.editDoctorService.getHourList(this.doctorID, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
+        // console.log("response", response);
+        this.termData = response;
+        // iterowanie po godzinach wyznaczonych jako termin na wizytę
+        this.termData.forEach((element: TermListElement) => {
+          TERM_LIST.push(element);
+        })
+        this.termDataArray = TERM_LIST;
 
+      });
+    });
+    this.scheduleDataArray = SCHEDULE_DATA;
+    this.isLoadedSchedule = true;
+    });
     this.addTermForm = this.fb.group({
       date: [this.addDate, Validators.required],
       timeFrom: [this.addTimeFrom, Validators.required],
       timeTo: [this.addTimeTo, Validators.required]
     });
+  }
 
+  
+  removeBookedVisits(){
+    // jest problem bo bookedTermsDataArray[j].date jeszcze chyba nie istnieje i jest undefined
+    // wiec nie mam jak usunąć z listy wizyt tych juz zarezerwowanych
+    // console.log(this.bookedTermsDataArray);
+    if(this.bookedTermsDataArray){
+      for(let i=0;i<this.termDataArray.length;i++){
+        for(let j=0;j<this.bookedTermsDataArray.length;j++){
+          if(this.termDataArray[i].data == this.bookedTermsDataArray[j].date){
+            if(this.termDataArray[i].godzina_wizyty == this.bookedTermsDataArray[j].godzina){
+              console.log("wizyta do usunięcia");
+  
+            }
+          }
+          // console.log(this.termDataArray[i].data);
+          // console.log(this.bookedTermsDataArray[j].date)
+        }
+      }
+    } else {
+      console.log("nadal tablica pusta");
+    }
   }
 
   updateDoctor(name: string, surname: string, speciality: string, city: string): void{
@@ -165,3 +235,4 @@ export class EditDoctorComponent implements OnInit {
   }
 
 }
+

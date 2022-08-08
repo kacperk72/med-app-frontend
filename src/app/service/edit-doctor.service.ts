@@ -37,10 +37,10 @@ export class EditDoctorService {
     
   }
 
-  getHourList(id: string, termData: string, fromHour: string, toHour: string) {
+  getHourList(id: string, termData: string, fromHour: string, toHour: string, id_terminu: string) {
     const data = termData.split('T')[0];
 
-    return this.httpClient.get(`http://localhost:3001/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}`)
+    return this.httpClient.get(`http://localhost:3001/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}/${id_terminu}`)
   }
 
   addTerm(id: string, date: string, timeFrom: string, timeTo: string){
@@ -51,5 +51,21 @@ export class EditDoctorService {
       timeFrom,
       timeTo
     });
+  }
+
+  getBookedTerms(id_lek: string){
+    return this.httpClient.get(`http://localhost:3001/doctor/getBookedTerms/${id_lek}`)
+  }
+
+  getHourFromTerm(term_id: string){
+    return this.httpClient.get(`http://localhost:3001/doctor/getHourFromTerm/${term_id}`)
+  }
+
+  getOnePacient(id_pacjenta: string) {
+    return this.httpClient.get(`http://localhost:3001/doctor/getOnePacient/${id_pacjenta}`)
+  }
+
+  getDateFromTerm(id_terminu: string) {
+    return this.httpClient.get(`http://localhost:3001/doctor/getDateFromTerm/${id_terminu}`)
   }
 }

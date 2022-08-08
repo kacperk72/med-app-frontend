@@ -151,7 +151,7 @@ getSchedule() {
         let resultInHours = parseInt(toHour[0]) - parseInt(fromHour[0]);
         this.sumeOfVisits += resultInHours * 4;
 
-        this.editDoctorService.getHourList(element.id_lekarza, element.data, element.od_godziny, element.do_godziny).subscribe((response) => {
+        this.editDoctorService.getHourList(element.id_lekarza, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
           this.termData = response;
           
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
@@ -173,7 +173,7 @@ getSchedule() {
                 let result:boolean = resp.wynik.toLowerCase();
                 this.isVisitFree = result;
 
-                // console.log("result", result);
+                console.log("result", result);
 
                 // console.log("pushuje");
                 TERM_LIST.push(element);

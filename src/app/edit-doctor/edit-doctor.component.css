@@ -171,6 +171,11 @@ hr {
     min-height: 25vh;
     float: left;
   }
+  #bookedTerms {
+    width: 90vw;
+    min-height: 25vh;
+    float: left;
+  }
   
 
   /* ul {
