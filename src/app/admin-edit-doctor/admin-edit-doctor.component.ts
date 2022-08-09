@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { EditDoctorService } from '../service/edit-doctor.service';
 
 export interface ScheduleDataElement{
@@ -26,6 +27,9 @@ const TERM_LIST: TermListElement[] = [];
   styleUrls: ['./admin-edit-doctor.component.css']
 })
 export class AdminEditDoctorComponent implements OnInit {
+  subscription1$!: Subscription;
+  subscription2$!: Subscription;
+  subscription3$!: Subscription;
 
   //widocznosc w celu pobrania danych i poprawnego wygrnerowania
   isVisibleEdit = false;
@@ -84,13 +88,13 @@ export class AdminEditDoctorComponent implements OnInit {
     
 
     // pobranie grafiku i listy terminów
-    this.editDoctorService.getSchedule(this.login).subscribe((data) => {
+    this.subscription1$ = this.editDoctorService.getSchedule(this.login).subscribe((data) => {
       this.scheduleData = data;
       //iterowanie po dniach zapisanych w grafiku lekarza
       this.scheduleData.forEach((element: ScheduleDataElement) => {
         SCHEDULE_DATA.push(element)
         // console.log("element", element);
-        this.editDoctorService.getHourList(this.id_lek, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
+        this.subscription2$ = this.editDoctorService.getHourList(this.id_lek, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
           // console.log("response", response);
           this.termData = response;
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
@@ -112,6 +116,12 @@ export class AdminEditDoctorComponent implements OnInit {
 
     this.isLoaded = true;
   }
+
+  // ngOnDestroy(){
+  //   this.subscription1$.unsubscribe();
+  //   this.subscription2$.unsubscribe();
+  //   this.subscription3$.unsubscribe();
+  // }
 
   updateDoctor(name: string, surname: string, speciality: string, city: string): void{
     this.editDoctorService.updateDoctorData(this.id_lek, name, surname, speciality, city);
@@ -154,7 +164,7 @@ export class AdminEditDoctorComponent implements OnInit {
       else 
         timeT = this.addTimeTo + ":00"
 
-      this.editDoctorService.addTerm(this.id_lek, date, timeF, timeT).subscribe((resp) => {
+      this.subscription3$ = this.editDoctorService.addTerm(this.id_lek, date, timeF, timeT).subscribe((resp) => {
         console.log("dodano termin");
       })
 

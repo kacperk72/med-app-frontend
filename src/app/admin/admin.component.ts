@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AdminService } from '../service/admin.service';
 
 export interface PeriodicElement {
@@ -22,6 +23,10 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 
 
 export class AdminComponent implements OnInit {
+  subscription1$!: Subscription;
+  subscription2$!: Subscription
+  subscription3$!: Subscription
+
   addDoctorForm!: FormGroup;
 
   displayedColumns: string[] = ['id_lekarza', 'name', 'surname', 'speciality', 'city', 'icons'];
@@ -57,9 +62,15 @@ export class AdminComponent implements OnInit {
     })
   }
 
+  // ngOnDestroy(){
+  //   this.subscription1$.unsubscribe();
+  //   this.subscription2$.unsubscribe();
+  //   this.subscription3$.unsubscribe();
+  // }
+
   getDoctorsData() {
     ELEMENT_DATA.splice(0, ELEMENT_DATA.length);
-    this.adminService.getDoctorsData().subscribe(response => {
+    this.subscription1$ = this.adminService.getDoctorsData().subscribe(response => {
       // console.log(response);
       this.doctorDataJson = response;
 
@@ -96,7 +107,7 @@ export class AdminComponent implements OnInit {
     this.doctorData = {id: this.userId, name: this.userName, surname: this.userSurname, login: this.userLogin, password: this.userPassword, role: this.role, city: this.city, speciality: this.speciality}
 
     // console.log(this.doctorData);
-    this.adminService.addDoctor(this.doctorData).subscribe(response => {
+    this.subscription2$ = this.adminService.addDoctor(this.doctorData).subscribe(response => {
       console.log(response);
     });
 
@@ -120,7 +131,7 @@ export class AdminComponent implements OnInit {
     const id_lek = element.user_id;
 
     if(window.confirm("Napewno chcesz usunąć?")){
-      this.adminService.deleteDoctor(id_lek).subscribe(resp => {
+      this.subscription3$ = this.adminService.deleteDoctor(id_lek).subscribe(resp => {
         console.log("delete succesfuly", resp);
       })
     }

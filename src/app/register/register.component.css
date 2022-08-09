@@ -44,6 +44,13 @@
   mat-error {
     padding-left: 60%;
   }
+  mat-form-field {
+    width: 100%;
+    margin: -15px;
+  }
+  input-box input {
+    width: 75%;
+  }
 
 
   input[type=button], input[type=submit], input[type=reset] {
@@ -94,7 +101,6 @@
     display: inline-block;
     font-size: 16px;
     margin: 20px 10px 10px 10px;
-    width: 75%;
     border: 2px solid #f6f6f6;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
@@ -114,8 +120,5 @@
     color: #cccccc;
   }
   
-  mat-form-field {
-    width: 100%;
-    margin: -15px;
-  }
+
   

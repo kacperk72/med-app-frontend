@@ -3,10 +3,11 @@ import { FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { PatientComponent } from '../patient/patient.component';
 import { AuthService } from '../service/auth.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
-import { DoctorDataElement, TermListService } from '../service/term-list.service';
+import { DoctorDataElement, TermListService, VisitElement } from '../service/term-list.service';
 
 export interface ScheduleDataElement{
   id_lekarza: string;
@@ -39,6 +40,9 @@ const TERM_LIST: TermListElement[] = [];
   styleUrls: ['./term-list.component.css']
 })
 export class TermListComponent implements OnInit {
+  subscription1$!: Subscription;
+  subscription2$!: Subscription;
+  subscription3$!: Subscription;
 
   @Input()
   searchForm!: FormGroup;  
@@ -61,7 +65,6 @@ export class TermListComponent implements OnInit {
   scheduleDataArray: any;
   termData: any;
   termDataArray!: MatTableDataSource<TermListElement>;
-
   // zmienne do załadowania danych do komponentów
   isVisible = true;
   isLoaded = true;
@@ -70,10 +73,6 @@ export class TermListComponent implements OnInit {
   //kolumny w tabeli terminów
   displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
   doctorsDataSource = TERM_LIST;
-
-  //zmienne do liczenia ilosci wizyt do wygenerowania
-  iterator = 0;
-  sumeOfVisits = 0;
 
   //zmienne do rezerwacji wizyty
   termDataBooking: any;
@@ -104,11 +103,17 @@ export class TermListComponent implements OnInit {
 
   }
 
+  ngOnDestroy(){
+    this.subscription1$.unsubscribe();
+    this.subscription2$.unsubscribe();
+    this.subscription3$.unsubscribe();
+  }
+
   getDoctors() {
     SCHEDULE_DATA.splice(0, SCHEDULE_DATA.length);
     TERM_LIST.splice(0, TERM_LIST.length);
 
-    this.termListService.getTermInfo().subscribe((data) => {
+    this.subscription1$ = this.termListService.getTermInfo().subscribe((data) => {
       data.forEach(element => {
         // console.log("doktor element", element);
         this.userID = element.id_lekarza;
@@ -135,8 +140,8 @@ export class TermListComponent implements OnInit {
 }
 
 // pobranie grafiku i listy terminów
-getSchedule() {
-  this.editDoctorService.getSchedule(this.login).subscribe((data) => {
+  getSchedule() {
+  this.subscription2$ = this.editDoctorService.getSchedule(this.login).subscribe((data) => {
     this.scheduleData = data;
     //iterowanie po dniach zapisanych w grafiku lekarza
     this.scheduleData.forEach((element: ScheduleDataElement) => {
@@ -144,19 +149,11 @@ getSchedule() {
       if(new Date(element.data.split('T')[0]) >= new Date(this.searchDateFrom) && new Date(element.data.split('T')[0]) <= new Date(this.searchDateTo) || (this.searchDateFrom === "" && this.searchDateTo === "")){
         SCHEDULE_DATA.push(element)
         this.scheduleDataArray = SCHEDULE_DATA;
-
-        // obliczanie ilosci wizyt aby stworzyc licznik do generowania
-        let toHour = element.do_godziny.split(':');
-        let fromHour = element.od_godziny.split(':');
-        let resultInHours = parseInt(toHour[0]) - parseInt(fromHour[0]);
-        this.sumeOfVisits += resultInHours * 4;
-
-        this.editDoctorService.getHourList(element.id_lekarza, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
+        this.subscription3$ = this.editDoctorService.getHourList(element.id_lekarza, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
           this.termData = response;
           
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
           this.termData.forEach((element: TermListElement) => {
-            this.iterator++;
             // sprawdzam czy godzina wizyty zawiera sie w widełkach formularza
             if(element.godzina_wizyty >= (this.searchTimeFrom + ':00') || this.searchTimeFrom === '') {
               for(let i=0; i<DOCTORS_DATA.length;i++){
@@ -167,44 +164,24 @@ getSchedule() {
                     element.speciality = DOCTORS_DATA[i].speciality;
                   }
                 }
-
-              // dla każdej wizyty sprawdzam czy jest już zajęta - ale dzieje sie to asynchornicznie wiec program leci dalej nie czeka na sprawdzenie wszystkich
-              this.termListService.checkVisit(element).subscribe(resp => {
-                let result:boolean = resp.wynik.toLowerCase();
-                this.isVisitFree = result;
-
-                console.log("result", result);
-
-                // console.log("pushuje");
                 TERM_LIST.push(element);
-               
-                this.setPaginator();
-              })
-
-
             }
           })
+          this.setPaginator();
         });
       }
     });
   }); 
-  this.loadResults();
-}
-
-loadResults() {
-  console.log("ładowanie");
-  this.isLoaded = true;
 }
 
 setPaginator(){
-  if(this.iterator == this.sumeOfVisits){
-    TERM_LIST.sort(function(a,b){
-      return Number(new Date(a.data)) - Number(new Date(b.data));
-    });
+  TERM_LIST.sort(function(a,b){
+    return Number(new Date(a.data)) - Number(new Date(b.data));
+  });
 
-    this.termDataArray = new MatTableDataSource(TERM_LIST);
-    this.termDataArray.paginator = this.paginator;
-  }
+  this.termDataArray = new MatTableDataSource(TERM_LIST);
+  this.termDataArray.paginator = this.paginator;
+  this.isLoaded = true;
 }
   
 confirmTerm(element: any) { 

@@ -23,6 +23,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './service/token-interceptor.service';
 import { AdminEditDoctorComponent } from './admin-edit-doctor/admin-edit-doctor.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { BookedTermsComponent } from './booked-terms/booked-terms.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     TermListComponent,
     EditDoctorComponent,
     MedicalAppointmentComponent,
-    AdminEditDoctorComponent
+    AdminEditDoctorComponent,
+    BookedTermsComponent
   ],
   imports: [
     BrowserModule,

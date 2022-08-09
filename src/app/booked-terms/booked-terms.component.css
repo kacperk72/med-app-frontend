@@ -1,0 +1,10 @@
+#bookedTerms {
+    width: 90vw;
+    min-height: 25vh;
+    float: left;
+  }
+
+  li {
+    all: initial;
+    all: revert;
+  }

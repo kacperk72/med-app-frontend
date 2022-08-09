@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface Doctor{
   name: string;
@@ -54,18 +55,19 @@ export class EditDoctorService {
   }
 
   getBookedTerms(id_lek: string){
+    console.log(id_lek);
     return this.httpClient.get(`http://localhost:3001/doctor/getBookedTerms/${id_lek}`)
   }
 
-  getHourFromTerm(term_id: string){
-    return this.httpClient.get(`http://localhost:3001/doctor/getHourFromTerm/${term_id}`)
+  getHourFromTerm(term_id: string): Observable<{godzina_wizyty: string}>{
+    return this.httpClient.get<{godzina_wizyty: string}>(`http://localhost:3001/doctor/getHourFromTerm/${term_id}`)
   }
 
-  getOnePacient(id_pacjenta: string) {
-    return this.httpClient.get(`http://localhost:3001/doctor/getOnePacient/${id_pacjenta}`)
+  getOnePacient(id_pacjenta: string): Observable<{name: string, surname: string}>{
+    return this.httpClient.get<{name: string, surname: string}>(`http://localhost:3001/doctor/getOnePacient/${id_pacjenta}`)
   }
 
-  getDateFromTerm(id_terminu: string) {
-    return this.httpClient.get(`http://localhost:3001/doctor/getDateFromTerm/${id_terminu}`)
+  getDateFromTerm(id_terminu: string): Observable<{data: string}> {
+    return this.httpClient.get<{data: string}>(`http://localhost:3001/doctor/getDateFromTerm/${id_terminu}`)
   }
 }

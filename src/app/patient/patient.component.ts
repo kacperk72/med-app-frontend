@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { PatientService } from '../service/patient.service';
 
 @Component({
@@ -8,6 +9,9 @@ import { PatientService } from '../service/patient.service';
   styleUrls: ['./patient.component.css']
 })
 export class PatientComponent implements OnInit {
+  subscription1$!: Subscription;
+  subscription2$!: Subscription;
+  
   searchForm!: FormGroup;
   searchData = [''];
   searchRole: string = "";
@@ -33,15 +37,15 @@ export class PatientComponent implements OnInit {
   constructor(private fb: FormBuilder, private patientService: PatientService) { }
 
   ngOnInit(): void {
-    this.patientService.getCities().subscribe(resp => {
+    this.subscription1$ = this.patientService.getCities().subscribe(resp => {
       this.cities = resp;
       this.cities.forEach((el: { city: string; }) => {
         this.citiesArray.push(el.city)
       });
     })
-
+  
     // jeżeli specjalizacje zostaną podane w innej formnie niż "jenda, druga" to sie wysypie
-    this.patientService.getSpec().subscribe(resp => {
+    this.subscription2$ = this.patientService.getSpec().subscribe(resp => {
       this.specialities = resp;
       this.specialities.forEach((el: { speciality: Object; }) => {
         this.spec = el.speciality;
@@ -64,12 +68,14 @@ export class PatientComponent implements OnInit {
     });
   }
 
+  // ngOnDestroy(){
+  //   this.subscription1$.unsubscribe();
+  //   this.subscription2$.unsubscribe();
+  // }
+
   showList(){
-    if(this.renderList == false){
-      this.renderList = true;
-    } else {
-      this.renderList = false;
-    }
+    // debugger
+    this.renderList =!this.renderList
   }
 
   save() {

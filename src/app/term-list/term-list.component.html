@@ -1,7 +1,12 @@
+<pre>
+  <!-- {{termDataArray |json}} -->
+
+</pre>
 <div id="content" *ngIf="isLoaded">
     <div id="container" class="mat-elevation-z8">
       <table mat-table [dataSource]="termDataArray">
       
+
         <!-- Name Column -->
         <ng-container matColumnDef="imie">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Imie </th>
@@ -42,7 +47,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedData"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedData;"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of users"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select visit of visits"></mat-paginator>
     </div>
       
 

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -14,6 +15,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoginComponent implements OnInit {
+  subscription1$!: Subscription;
+
   loginForm!: FormGroup;
   loginData = {};
   userLogin = '';
@@ -32,13 +35,17 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  // ngOnDestroy(){
+  //   this.subscription1$.unsubscribe();
+  // }
+
   logging() {
     this.userLogin = this.loginForm.get('login')?.value;
     this.userPassword = this.loginForm.get('password')?.value;
     this.loginData = {login: this.userLogin, password: this.userPassword}
     // console.log("this.loginData", this.loginData);
     
-    this.service.proceedLogin(this.loginData).subscribe(response => {
+    this.subscription1$ = this.service.proceedLogin(this.loginData).subscribe(response => {
       if(response!=null){
         this.responsedata = response;
         // console.log(this.responsedata);

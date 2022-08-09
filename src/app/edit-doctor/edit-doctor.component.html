@@ -22,17 +22,7 @@
             </ul>   
             <input type="button" value="Dodaj dzień w grafiku" (click)="showTermAdd()">
         </div>
-        <div id="bookedTerms">
-            <h2>Zarezerwowane wizyty</h2>
-            <ul>
-                <li *ngFor="let term of bookedTermsDataArray">
-                    {{term.date}} {{term.godzina}} <b>Pan/Pani</b> {{term.name}} {{term.surname}} <b>powód:</b> {{term.reason_of_visit}}
-                    <mat-icon (click)="editTerm()">edit</mat-icon>
-                    <mat-icon>delete</mat-icon>
-                </li>
-            </ul>   
-            <!-- <input type="button" value="Dodaj termin"> -->
-        </div>
+        <app-booked-terms [idLek]="doctorID"></app-booked-terms>
         <div id="term">
             <h2>Zarządzaj terminami</h2>
             <ul>

@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
       surname: [this.userSurname, Validators.required],
       login: [this.userLogin, [Validators.required, Validators.minLength(3)]],
       password: [this.userPassword, [Validators.required, Validators.minLength(4)]],
-      role: [this.userRole, Validators.required]
+      // role: [this.userRole, Validators.required]
     })
   }
 
@@ -36,9 +36,10 @@ export class RegisterComponent implements OnInit {
     this.userSurname = this.registerForm.get('surname')?.value;
     this.userLogin = this.registerForm.get('login')?.value;
     this.userPassword = this.registerForm.get('password')?.value;
-    this.userRole = this.registerForm.get('role')?.value;
-    this.daneUsera = {id: this.userId, name: this.userName, surname: this.userSurname, login: this.userLogin, password: this.userPassword, role: this.userRole}
-
+    // this.userRole = this.registerForm.get('role')?.value;
+    this.daneUsera = {id: this.userId, name: this.userName, surname: this.userSurname, login: this.userLogin, password: this.userPassword, role: this.selected}
+    console.log(this.daneUsera);
+    
     this.registerService.registerUser(this.daneUsera);
     
   }

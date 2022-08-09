@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
 
@@ -27,6 +28,10 @@ const TERM_LIST: TermListElement[] = [];
   styleUrls: ['./edit-doctor.component.css'],
 })
 export class EditDoctorComponent implements OnInit {
+  subscription1$!: Subscription;
+  subscription2$!: Subscription;
+  subscription3$!: Subscription;
+  subscription4$!: Subscription;
 
   //widocznosc w celu pobrania danych i poprawnego wygrnerowania
   isVisibleEdit = false;
@@ -41,8 +46,7 @@ export class EditDoctorComponent implements OnInit {
   scheduleDataArray: any;
   termData: any;
   termDataArray: any;
-  bookedTermsData: any;
-  bookedTermsDataArray: any;
+
   // zmienne do przetwarzania wyświetlanych danych
   doctorLogin: string = '';
   doctorPassword: string = '';
@@ -73,7 +77,7 @@ export class EditDoctorComponent implements OnInit {
     this.doctorPassword = this.tokenJson.password;
 
     // pobranie danych doktora z bazy
-    this.editDoctorService.getOneDoctor(this.doctorLogin).subscribe((data) => {
+    this.subscription4$ = this.editDoctorService.getOneDoctor(this.doctorLogin).subscribe((data) => {
       this.doctorData = data;
       // console.log(this.doctorData);
       if(this.doctorData != []){
@@ -83,11 +87,7 @@ export class EditDoctorComponent implements OnInit {
         this.specialityInputValue = this.doctorData.speciality;
         this.cityInputValue = this.doctorData.city;
 
-        this.getBookedTerms(this.doctorID);
-
         this.getSchedule();
-
-        this.removeBookedVisits();
 
         this.isLoaded = true;
       } else {
@@ -100,45 +100,22 @@ export class EditDoctorComponent implements OnInit {
     
   }
 
-  getBookedTerms(id_lek: string){
-    this.editDoctorService.getBookedTerms(id_lek).subscribe(resp => {
-      this.bookedTermsDataArray = resp;
-      this.bookedTermsDataArray.forEach((el: {
-        date: any;
-        surname: any;
-        name: any;
-        godzina: Object; term_id: string; id_pacjenta: string; id_terminu: string; 
-}) => {
-        this.editDoctorService.getHourFromTerm(el.term_id).subscribe(resp => {
-          this.bookedHour = resp;
-          el.godzina = this.bookedHour.godzina_wizyty;        
-        })
-        this.editDoctorService.getOnePacient(el.id_pacjenta).subscribe(resp => {
-          this.bookedName = resp;
-          el.name = this.bookedName.name;
-          el.surname = this.bookedName.surname;   
-          
-        })
-        this.editDoctorService.getDateFromTerm(el.id_terminu).subscribe(resp => {
-          this.bookedDate = resp;
-          el.date = this.bookedDate.data.split('T')[0];
-        })
+  // ngOnDestroy(){
+  //   this.subscription1$.unsubscribe();
+  //   this.subscription2$.unsubscribe();
+  //   this.subscription3$.unsubscribe();
+  //   this.subscription4$.unsubscribe();
+  // }
 
-        // console.log(el);        
-      })
-      // console.log(this.bookedTermsDataArray);
-    })
-  }
-
-  getSchedule(){
+  async getSchedule(){
     // pobranie grafiku i listy terminów
-    this.editDoctorService.getSchedule(this.doctorLogin).subscribe((data) => {
+    this.subscription1$ = this.editDoctorService.getSchedule(this.doctorLogin).subscribe((data) => {
     this.scheduleData = data;
     //iterowanie po dniach zapisanych w grafiku lekarza
     this.scheduleData.forEach((element: ScheduleDataElement) => {
       SCHEDULE_DATA.push(element)
-      console.log("element", element);
-      this.editDoctorService.getHourList(this.doctorID, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
+      // console.log("element", element);
+      this.subscription2$ = this.editDoctorService.getHourList(this.doctorID, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
         // console.log("response", response);
         this.termData = response;
         // iterowanie po godzinach wyznaczonych jako termin na wizytę
@@ -159,30 +136,9 @@ export class EditDoctorComponent implements OnInit {
     });
   }
 
-  
-  removeBookedVisits(){
-    // jest problem bo bookedTermsDataArray[j].date jeszcze chyba nie istnieje i jest undefined
-    // wiec nie mam jak usunąć z listy wizyt tych juz zarezerwowanych
-    // console.log(this.bookedTermsDataArray);
-    if(this.bookedTermsDataArray){
-      for(let i=0;i<this.termDataArray.length;i++){
-        for(let j=0;j<this.bookedTermsDataArray.length;j++){
-          if(this.termDataArray[i].data == this.bookedTermsDataArray[j].date){
-            if(this.termDataArray[i].godzina_wizyty == this.bookedTermsDataArray[j].godzina){
-              console.log("wizyta do usunięcia");
-  
-            }
-          }
-          // console.log(this.termDataArray[i].data);
-          // console.log(this.bookedTermsDataArray[j].date)
-        }
-      }
-    } else {
-      console.log("nadal tablica pusta");
-    }
-  }
-
   updateDoctor(name: string, surname: string, speciality: string, city: string): void{
+    console.log("update");
+    
     this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city);
   }
 
@@ -207,9 +163,6 @@ export class EditDoctorComponent implements OnInit {
       this.addTimeFrom = this.addTermForm.get('timeFrom')?.value;
       this.addTimeTo = this.addTermForm.get('timeTo')?.value;
   
-      // this.addData = [this.addDate, this.addTimeFrom, this.addTimeTo];
-      // console.log(this.addData);
-
       let timeF;
       let timeT;
       let date = this.addDate + " 02:00:00";
@@ -223,7 +176,7 @@ export class EditDoctorComponent implements OnInit {
       else 
         timeT = this.addTimeTo + ":00"
 
-      this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
+      this.subscription3$ = this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
         console.log("dodano termin");
       })
 

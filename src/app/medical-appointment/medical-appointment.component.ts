@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { MedicalAppointmentService } from '../service/medical-appointment.service';
 
@@ -19,6 +20,10 @@ const TERMS_DATA_BEFORE: TermDataElement[] = [];
   styleUrls: ['./medical-appointment.component.css']
 })
 export class MedicalAppointmentComponent implements OnInit {
+  subscription1$!: Subscription;
+  subscription2$!: Subscription;
+  subscription3$!: Subscription;
+  
   //pobrane z tokenu
   token: string = '';
   tokenJSON: any;
@@ -41,7 +46,7 @@ export class MedicalAppointmentComponent implements OnInit {
     this.login = this.tokenJSON.login;
     
     //potrzebuje imie, nazwisko, id żeby pobrac sobie wizyty 
-    this.medicalAppointment.getUser(this.login).subscribe(resp => {
+    this.subscription1$ = this.medicalAppointment.getUser(this.login).subscribe(resp => {
       // console.log(resp);
       const user = resp;
       this.user_id = resp.user_id;
@@ -49,14 +54,14 @@ export class MedicalAppointmentComponent implements OnInit {
       this.surname = resp.surname;
 
       //pobranie wizyt użytkownika
-      this.medicalAppointment.getVisits(this.user_id).subscribe(resp => {
+      this.subscription2$ = this.medicalAppointment.getVisits(this.user_id).subscribe(resp => {
         // console.log(resp);
         this.data = resp;
         this.data.forEach((el: any) => {
           // console.log(el);
           TERMS_DATA_AFTER.splice(0,TERMS_DATA_AFTER.length);
           TERMS_DATA_BEFORE.splice(0,TERMS_DATA_BEFORE.length);
-          this.medicalAppointment.getDetails(el.id_lekarza, el.id_terminu, el.term_id).subscribe(resp => {
+          this.subscription3$ = this.medicalAppointment.getDetails(el.id_lekarza, el.id_terminu, el.term_id).subscribe(resp => {
             this.visitData = resp;
             this.visitData.data = this.visitData.data.split('T')[0];
             const date1 = new Date(this.visitData.data);
@@ -76,6 +81,12 @@ export class MedicalAppointmentComponent implements OnInit {
     })
   }
   
+  ngOnDestroy(){
+    this.subscription1$.unsubscribe();
+    this.subscription2$.unsubscribe();
+    this.subscription3$.unsubscribe();
+  }
+
   cancelVisit(term: any) {
     // console.log(term);
     this.medicalAppointment.cancelVisit(term, this.user_id);
