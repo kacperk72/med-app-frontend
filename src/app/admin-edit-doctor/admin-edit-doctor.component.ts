@@ -38,7 +38,7 @@ export class AdminEditDoctorComponent implements OnInit {
   isVisibleAdd: boolean = false;
 
   // dane lekarza
-  id_lek: any = "";
+  doctorID: any = "";
   spec: any = "";
   city: any = "";
   login: any = "";
@@ -66,13 +66,19 @@ export class AdminEditDoctorComponent implements OnInit {
   addTimeTo: number = 0;
   addData: any;
 
+  // formularz edytowanie grafiku
+  editTermForm!: FormGroup;
+  editTermData: any;
+  editTimeFrom: number = 0;
+  editTimeTo: number = 0;
+
   constructor(private route: ActivatedRoute, private editDoctorService: EditDoctorService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.scheduleDataArray = [];
     this.termDataArray = [];
 
-    this.id_lek = this.route.snapshot.paramMap.get('id_lek');
+    this.doctorID = this.route.snapshot.paramMap.get('id_lek');
     this.spec = this.route.snapshot.paramMap.get('spec');
     this.city = this.route.snapshot.paramMap.get('city');
     this.login = this.route.snapshot.paramMap.get('login');
@@ -94,7 +100,7 @@ export class AdminEditDoctorComponent implements OnInit {
       this.scheduleData.forEach((element: ScheduleDataElement) => {
         SCHEDULE_DATA.push(element)
         // console.log("element", element);
-        this.subscription2$ = this.editDoctorService.getHourList(this.id_lek, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
+        this.subscription2$ = this.editDoctorService.getHourList(this.doctorID, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
           // console.log("response", response);
           this.termData = response;
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
@@ -124,23 +130,45 @@ export class AdminEditDoctorComponent implements OnInit {
   // }
 
   updateDoctor(name: string, surname: string, speciality: string, city: string): void{
-    this.editDoctorService.updateDoctorData(this.id_lek, name, surname, speciality, city);
+    this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city);
   }
 
-  editTerm() {
-    if(this.isVisibleEdit == true){
-      this.isVisibleEdit = false;
-    } else {
-      this.isVisibleEdit = true;
+  editTerm(term: any) {
+     // console.log(term);
+     this.editTermData = term;
+     this.editTermForm = this.fb.group({
+       timeFrom: [this.editTimeFrom, Validators.required],
+       timeTo: [this.editTimeTo, Validators.required]
+     });
+     
+     this.isVisibleEdit =! this.isVisibleEdit;
+  }
+
+  deleteTerm(term: any){
+    this.editDoctorService.deleteDoctorTerm(term.id_terminu).subscribe(resp => {
+      console.log("usuwanie ", term.id_terminu);
+    })
+    window.location.reload();
+  }
+
+  saveEditTerm() {
+    console.log(this.editTermData);
+    if(this.editTermForm.valid){
+      this.editTimeFrom = this.editTermForm.get('timeFrom')?.value;
+      this.editTimeTo = this.editTermForm.get('timeTo')?.value;
+      // console.log(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo);
+      this.editDoctorService.updateDoctorTerm(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo)
+      window.location.reload();
     }
   }
 
+  closeEdit(){
+    this.isVisibleEdit =! this.isVisibleEdit;
+  }
+
   showTermAdd() {
-    if(this.isVisibleAdd == false){
-      this.isVisibleAdd = true;
-    } else {
-      this.isVisibleAdd = false;
-    }  }
+    this.isVisibleAdd =! this.isVisibleAdd;
+  }
 
   addTerm(){
     if(this.addTermForm.valid){
@@ -148,9 +176,6 @@ export class AdminEditDoctorComponent implements OnInit {
       this.addTimeFrom = this.addTermForm.get('timeFrom')?.value;
       this.addTimeTo = this.addTermForm.get('timeTo')?.value;
   
-      // this.addData = [this.addDate, this.addTimeFrom, this.addTimeTo];
-      // console.log(this.addData);
-
       let timeF;
       let timeT;
       let date = this.addDate + " 02:00:00";
@@ -164,7 +189,7 @@ export class AdminEditDoctorComponent implements OnInit {
       else 
         timeT = this.addTimeTo + ":00"
 
-      this.subscription3$ = this.editDoctorService.addTerm(this.id_lek, date, timeF, timeT).subscribe((resp) => {
+      this.subscription3$ = this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
         console.log("dodano termin");
       })
 

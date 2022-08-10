@@ -13,13 +13,16 @@ export class BookedTermsComponent implements OnInit {
   subscription3$!: Subscription;
   subscription4$!: Subscription;
 
+  bookedTermsDataArray: any = [];
+
   @Input() set idLek(id: string) {
       this._idLek = id;
-      this.getBookedTerms();
+      // console.log("wywołanie");
+      // if(this.bookedTermsDataArray === [])      
+        this.getBookedTerms();
   }
 
   private _idLek = '';
-  bookedTermsDataArray: any;
   isVisibleEdit = false;
 
   constructor(private editDoctorService: EditDoctorService) { }
@@ -27,12 +30,12 @@ export class BookedTermsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  ngOnDestroy(){
-    this.subscription1$.unsubscribe();
-    this.subscription2$.unsubscribe();
-    this.subscription3$.unsubscribe();
-    this.subscription4$.unsubscribe();
-  }
+  // ngOnDestroy(){
+  //   this.subscription1$.unsubscribe();
+  //   this.subscription2$.unsubscribe();
+  //   this.subscription3$.unsubscribe();
+  //   this.subscription4$.unsubscribe();
+  // }
 
   editTerm() {
     this.isVisibleEdit != this.isVisibleEdit;
@@ -61,6 +64,13 @@ export class BookedTermsComponent implements OnInit {
         // console.log(el);        
       })
     })
+  }
+
+  cancelVisit(term: any) {
+    this.editDoctorService.cancelVisit(term.id_wizyty).subscribe( resp => {
+      console.log("Usunięto wizytę", term.id_wizyty);
+    })
+    window.location.reload();
   }
 }
 

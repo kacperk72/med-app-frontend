@@ -3,8 +3,7 @@
   <ul>
     <li *ngFor="let term of bookedTermsDataArray">
       {{term.date}} {{term.godzina}} <b>Pan/Pani</b> {{term.name}} {{term.surname}} <b>powód:</b> {{term.reason_of_visit}}
-      <mat-icon (click)="editTerm()">edit</mat-icon>
-      <mat-icon>delete</mat-icon>
+      <input type="button" value="Odwołaj" (click)="cancelVisit(term)">
     </li>
   </ul>   
 <!-- <input type="button" value="Dodaj termin">  -->

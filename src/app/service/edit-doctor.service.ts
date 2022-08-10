@@ -55,7 +55,7 @@ export class EditDoctorService {
   }
 
   getBookedTerms(id_lek: string){
-    console.log(id_lek);
+    // console.log(id_lek);
     return this.httpClient.get(`http://localhost:3001/doctor/getBookedTerms/${id_lek}`)
   }
 
@@ -70,4 +70,23 @@ export class EditDoctorService {
   getDateFromTerm(id_terminu: string): Observable<{data: string}> {
     return this.httpClient.get<{data: string}>(`http://localhost:3001/doctor/getDateFromTerm/${id_terminu}`)
   }
+
+  cancelVisit(id_wizyty: string){
+    return this.httpClient.delete(`http://localhost:3001/doctor/cancelVisit/${id_wizyty}`)
+  }
+
+  updateDoctorTerm(id_terminu: string, timeF: number, timeT: number){
+    return this.httpClient.patch(`http://localhost:3001/doctor/updateTerm`,{
+      id_terminu,
+      timeF,
+      timeT
+    }).subscribe(res => {
+      console.log("dane zapisane poprawnie");
+    });
+  }
+
+  deleteDoctorTerm(id_terminu: string) {
+    return this.httpClient.delete(`http://localhost:3001/doctor/deleteTerm/${id_terminu}`)
+  }
+
 }

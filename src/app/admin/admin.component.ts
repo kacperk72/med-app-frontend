@@ -84,11 +84,7 @@ export class AdminComponent implements OnInit {
   }
 
   addDoctor() {
-    if(this.isVisibleAdd == true){
-      this.isVisibleAdd = false;
-    } else {
-      this.isVisibleAdd = true;
-    }
+    this.isVisibleAdd =! this.isVisibleAdd;
   }
 
   addDoctorDB() {
@@ -111,7 +107,7 @@ export class AdminComponent implements OnInit {
       console.log(response);
     });
 
-    // window.location.reload();
+    window.location.reload();
   }
 
   openEditPanel(element: any){

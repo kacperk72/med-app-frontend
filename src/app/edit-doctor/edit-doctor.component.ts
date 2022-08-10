@@ -66,6 +66,11 @@ export class EditDoctorComponent implements OnInit {
   bookedName: any = "";
   bookedDate: any = "";
   termsWithoutBookedArray: any;
+  // formularz edytowanie grafiku
+  editTermForm!: FormGroup;
+  editTermData: any;
+  editTimeFrom: number = 0;
+  editTimeTo: number = 0;
 
   constructor(private authService: AuthService, private editDoctorService: EditDoctorService, private fb: FormBuilder) { }
 
@@ -137,25 +142,44 @@ export class EditDoctorComponent implements OnInit {
   }
 
   updateDoctor(name: string, surname: string, speciality: string, city: string): void{
-    console.log("update");
-    
     this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city);
   }
 
-  editTerm() {
-    if(this.isVisibleEdit == false){
-      this.isVisibleEdit = true;
-    } else {
-      this.isVisibleEdit = false;
+  editTerm(term: any) {
+    // console.log(term);
+    this.editTermData = term;
+    this.editTermForm = this.fb.group({
+      timeFrom: [this.editTimeFrom, Validators.required],
+      timeTo: [this.editTimeTo, Validators.required]
+    });
+    
+    this.isVisibleEdit =! this.isVisibleEdit;
+  }
+  deleteTerm(term: any){
+    this.editDoctorService.deleteDoctorTerm(term.id_terminu).subscribe(resp => {
+      console.log("usuwanie ", term.id_terminu);
+    })
+    window.location.reload();
+  }
+
+  saveEditTerm() {
+    console.log(this.editTermData);
+    if(this.editTermForm.valid){
+      this.editTimeFrom = this.editTermForm.get('timeFrom')?.value;
+      this.editTimeTo = this.editTermForm.get('timeTo')?.value;
+      // console.log(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo);
+      this.editDoctorService.updateDoctorTerm(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo)
+      window.location.reload();
     }
   }
 
+  closeEdit(){
+    this.isVisibleEdit =! this.isVisibleEdit;
+  }
+
   showTermAdd() {
-    if(this.isVisibleAdd == false){
-      this.isVisibleAdd = true;
-    } else {
-      this.isVisibleAdd = false;
-    }  }
+    this.isVisibleAdd =! this.isVisibleAdd;
+  }
 
   addTerm(){
     if(this.addTermForm.valid){
@@ -178,13 +202,11 @@ export class EditDoctorComponent implements OnInit {
 
       this.subscription3$ = this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
         console.log("dodano termin");
+        window.location.reload();
       })
 
       this.showTermAdd();
     }
-    
-
-
   }
 
 }

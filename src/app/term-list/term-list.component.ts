@@ -103,11 +103,11 @@ export class TermListComponent implements OnInit {
 
   }
 
-  ngOnDestroy(){
-    this.subscription1$.unsubscribe();
-    this.subscription2$.unsubscribe();
-    this.subscription3$.unsubscribe();
-  }
+  // ngOnDestroy(){
+  //   this.subscription1$.unsubscribe();
+  //   this.subscription2$.unsubscribe();
+  //   this.subscription3$.unsubscribe();
+  // }
 
   getDoctors() {
     SCHEDULE_DATA.splice(0, SCHEDULE_DATA.length);
