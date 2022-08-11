@@ -7,6 +7,7 @@ import { EditDoctorService } from '../service/edit-doctor.service';
   templateUrl: './booked-terms.component.html',
   styleUrls: ['./booked-terms.component.css']
 })
+
 export class BookedTermsComponent implements OnInit {
   subscription1$!: Subscription;
   subscription2$!: Subscription;
@@ -28,6 +29,7 @@ export class BookedTermsComponent implements OnInit {
   constructor(private editDoctorService: EditDoctorService) { }
 
   ngOnInit(): void {
+
   }
 
   // ngOnDestroy(){
@@ -42,14 +44,11 @@ export class BookedTermsComponent implements OnInit {
   }
 
    getBookedTerms(){
+    this.bookedTermsDataArray = [];
+
     this.subscription1$ = this.editDoctorService.getBookedTerms(this._idLek).subscribe(resp => {
       this.bookedTermsDataArray = resp;
-      this.bookedTermsDataArray.forEach((el: {
-        date: any;
-        surname: any;
-        name: any;
-        godzina: Object; 
-        term_id: string; id_pacjenta: string; id_terminu: string;}) => {
+      this.bookedTermsDataArray.forEach((el: {date: any; surname: any; name: any; godzina: Object; term_id: string; id_pacjenta: string; id_terminu: string;}) => {
         this.subscription2$ = this.editDoctorService.getHourFromTerm(el.term_id).subscribe((resp: {godzina_wizyty: string})=> {
           el.godzina = resp.godzina_wizyty;        
         })
