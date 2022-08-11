@@ -29,13 +29,15 @@ header h1 {
 #icon-menu {
     float: right;
     display: inline;
-    padding: 10px;
+    padding-top: 5px;
     margin-right: 20px;
 }
+
 #logo a {
     text-decoration: none;
     color: white;
 }
+
 ul {
     list-style-type: none;
     margin: 0;

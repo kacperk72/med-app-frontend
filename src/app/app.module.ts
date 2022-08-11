@@ -24,6 +24,7 @@ import { TokenInterceptorService } from './service/token-interceptor.service';
 import { AdminEditDoctorComponent } from './admin-edit-doctor/admin-edit-doctor.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { BookedTermsComponent } from './booked-terms/booked-terms.component';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -52,8 +53,9 @@ import { BookedTermsComponent } from './booked-terms/booked-terms.component';
     MatSelectModule,
     MatInputModule,
     HttpClientModule,
-    MatPaginatorModule
-  ],
+    MatPaginatorModule,
+    MatButtonModule
+    ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })

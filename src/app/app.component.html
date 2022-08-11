@@ -4,7 +4,12 @@
   </div>
   <div id="menu" >
     <div id="icon-menu" (click)="switchMenu()" *ngIf="showIcon">
-      <a ><mat-icon >menu</mat-icon></a>
+      <a>
+        <!-- <mat-icon >menu</mat-icon> -->
+          <button mat-mini-fab class="mat-mini-fab" color="white" aria-label="Menu icon">
+            <mat-icon>menu</mat-icon>
+          </button>
+      </a>
       
     </div>
     <div id="menu-options" *ngIf="showMenu">
