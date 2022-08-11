@@ -4,35 +4,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
+import { DoctorDataElement, ScheduleDataElement } from '../models/doctor-types';
+import { PacientBookTermElement } from '../models/pacient-types';
+import { TermElement } from '../models/term-types';
 import { PatientComponent } from '../patient/patient.component';
 import { AuthService } from '../service/auth.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
-import { DoctorDataElement, TermListService, VisitElement } from '../service/term-list.service';
-
-export interface ScheduleDataElement{
-  id_lekarza: string;
-  id_terminu: string;
-  data: string;
-  od_godziny: string;
-  do_godziny: string;
-}
-
-export interface TermListElement{
-  speciality: string;
-  city: string;
-  id: string;
-  data:string;
-  godzina_wizyty: string;
-  name: string;
-  surname: string;
-  isVisitFree: boolean;
-  term_id: number;
-  wynik: string;
-}
+import { TermListService } from '../service/term-list.service';
 
 const DOCTORS_DATA: DoctorDataElement[] = [];
 const SCHEDULE_DATA: ScheduleDataElement[] = [];
-const TERM_LIST: TermListElement[] = [];
+const TERM_LIST: TermElement[] = [];
 
 @Component({
   selector: 'app-term-list',
@@ -62,9 +44,9 @@ export class TermListComponent implements OnInit {
 
   // zmienne na dane zwracane z bazy
   scheduleData: any;
-  scheduleDataArray: any;
+  scheduleDataArray!: Array<ScheduleDataElement>;
   termData: any;
-  termDataArray!: MatTableDataSource<TermListElement>;
+  termDataArray!: MatTableDataSource<TermElement>;
   // zmienne do załadowania danych do komponentów
   isVisible = true;
   isLoaded = true;
@@ -75,7 +57,7 @@ export class TermListComponent implements OnInit {
   doctorsDataSource = TERM_LIST;
 
   //zmienne do rezerwacji wizyty
-  termDataBooking: any;
+  termDataBooking!: PacientBookTermElement;
 
   //zmienne z fomularza do filtrowania wyników
   searchRole: string = "";
@@ -153,7 +135,7 @@ export class TermListComponent implements OnInit {
           this.termData = response;
           
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
-          this.termData.forEach((element: TermListElement) => {
+          this.termData.forEach((element: TermElement) => {
             // sprawdzam czy godzina wizyty zawiera sie w widełkach formularza
             if(element.godzina_wizyty >= (this.searchTimeFrom + ':00') || this.searchTimeFrom === '') {
               for(let i=0; i<DOCTORS_DATA.length;i++){
@@ -176,7 +158,7 @@ export class TermListComponent implements OnInit {
 
 setPaginator(){
   TERM_LIST.sort(function(a,b){
-    return Number(new Date(a.data)) - Number(new Date(b.data));
+    return Number(new Date(a.date)) - Number(new Date(b.date));
   });
 
   this.termDataArray = new MatTableDataSource(TERM_LIST);
@@ -184,13 +166,15 @@ setPaginator(){
   this.isLoaded = true;
 }
   
-confirmTerm(element: any) { 
+confirmTerm(element: PacientBookTermElement) { 
   if(this.isVisible == true){
     this.isVisible = false;
   } else {
     this.isVisible = true;
   }
   this.termDataBooking = element;
+  console.log(this.termDataBooking);
+
 }
 
 closeBooking() {
@@ -208,12 +192,14 @@ bookTerm() {
     textAreaValue = document.querySelector<HTMLInputElement>('#textArea')?.value;
   }
 
-  this.termDataBooking.reason = textAreaValue;
+  this.termDataBooking.reason = textAreaValue || "";
   this.termDataBooking.login = login;
-  console.log(this.termDataBooking);
+  // console.log(this.termDataBooking);
 
   // dodawanie wpisu
   this.termListService.bookTerm(this.termDataBooking);
   this.closeBooking();
+  window.location.reload();
+  window.alert("Rezerwacja zakończona sukcesem!")
 }
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { BookedTermElement, BookedTermElementFull } from '../models/term-types';
 import { EditDoctorService } from '../service/edit-doctor.service';
 
 @Component({
@@ -48,9 +49,9 @@ export class BookedTermsComponent implements OnInit {
 
     this.subscription1$ = this.editDoctorService.getBookedTerms(this._idLek).subscribe(resp => {
       this.bookedTermsDataArray = resp;
-      this.bookedTermsDataArray.forEach((el: {date: any; surname: any; name: any; godzina: Object; term_id: string; id_pacjenta: string; id_terminu: string;}) => {
+      this.bookedTermsDataArray.forEach((el: BookedTermElement) => {
         this.subscription2$ = this.editDoctorService.getHourFromTerm(el.term_id).subscribe((resp: {godzina_wizyty: string})=> {
-          el.godzina = resp.godzina_wizyty;        
+          el.godzina_wizyty = resp.godzina_wizyty;        
         })
         this.subscription3$ = this.editDoctorService.getOnePacient(el.id_pacjenta).subscribe((resp: {name: string, surname: string}) => {
           el.name = resp.name;
@@ -65,7 +66,9 @@ export class BookedTermsComponent implements OnInit {
     })
   }
 
-  cancelVisit(term: any) {
+  cancelVisit(term: BookedTermElementFull) {
+    // console.log(term);
+    
     this.editDoctorService.cancelVisit(term.id_wizyty).subscribe( resp => {
       console.log("Usunięto wizytę", term.id_wizyty);
     })

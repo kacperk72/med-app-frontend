@@ -26,13 +26,13 @@ export class PatientComponent implements OnInit {
   renderList: boolean = false;
 
   //dane pobierane z bazy
-  cities: any;
+  cities: any; //subscribe
   citiesArray: Array<Object> = [];
-  specialities: any;
-  specArray: any = [];
-  uniqueSpecArray: any = [];
-  spec: any;
-  specAr: any;
+  specialities: any; //subscribe
+  specArray: Array<string> = [];
+  uniqueSpecArray: Array<string> = [];
+  spec: string = "";
+  specAr: Array<string> = [];
 
   constructor(private fb: FormBuilder, private patientService: PatientService) { }
 
@@ -47,10 +47,11 @@ export class PatientComponent implements OnInit {
     // jeżeli specjalizacje zostaną podane w innej formnie niż "jenda, druga" to sie wysypie
     this.subscription2$ = this.patientService.getSpec().subscribe(resp => {
       this.specialities = resp;
-      this.specialities.forEach((el: { speciality: Object; }) => {
+      this.specialities.forEach((el: { speciality: string; }) => {
         this.spec = el.speciality;
         this.specAr = this.spec.split(', ');
-        this.specAr.forEach((el: Object) => {
+        this.specAr.forEach((el: string) => {
+          // console.log(el);
           this.specArray.push(el)
         });
         this.uniqueSpecArray = [...new Set(this.specArray)];

@@ -2,20 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ScheduleDataElement, TermListElement } from '../models/doctor-types';
 import { EditDoctorService } from '../service/edit-doctor.service';
-
-export interface ScheduleDataElement{
-  id_lekarza: string;
-  id_terminu: string;
-  data: string;
-  od_godziny: string;
-  do_godziny: string;
-}
-
-export interface TermListElement{
-  data:string;
-  od_godziny: string;
-}
 
 const SCHEDULE_DATA: ScheduleDataElement[] = [];
 
@@ -38,37 +26,36 @@ export class AdminEditDoctorComponent implements OnInit {
   isVisibleAdd: boolean = false;
 
   // dane lekarza
-  doctorID: any = "";
-  spec: any = "";
-  city: any = "";
-  login: any = "";
-  name: any = "";
-  surname: any = "";
+  doctorID: string = "";
+  spec: string = "";
+  city: string = "";
+  login: string = "";
+  name: string = "";
+  surname: string = "";
 
   //zmienne do przetwarzania wyświetlanych danych
   nameInputValue = '';
   surnameInputValue = '';
   specialityInputValue = '';
   cityInputValue = '';
-  date:any;
-  from_hour:any;
-  to_hour:any;
+  date: string = '';
+  from_hour: string ='';
+  to_hour: string ='';
 
   scheduleData: any;
-  scheduleDataArray: any;
+  scheduleDataArray: Array<ScheduleDataElement> = [];
   termData: any;
-  termDataArray: any;
+  termDataArray: Array<TermListElement> = [];
 
   // formularz dodawania terminow
   addTermForm!: FormGroup;
   addDate: string = "";
   addTimeFrom: number = 0;
   addTimeTo: number = 0;
-  addData: any;
 
   // formularz edytowanie grafiku
   editTermForm!: FormGroup;
-  editTermData: any;
+  editTermData!: ScheduleDataElement;
   editTimeFrom: number = 0;
   editTimeTo: number = 0;
 
@@ -78,12 +65,12 @@ export class AdminEditDoctorComponent implements OnInit {
     this.scheduleDataArray = [];
     this.termDataArray = [];
 
-    this.doctorID = this.route.snapshot.paramMap.get('id_lek');
-    this.spec = this.route.snapshot.paramMap.get('spec');
-    this.city = this.route.snapshot.paramMap.get('city');
-    this.login = this.route.snapshot.paramMap.get('login');
-    this.name = this.route.snapshot.paramMap.get('name');
-    this.surname = this.route.snapshot.paramMap.get('surname');
+    this.doctorID = this.route.snapshot.paramMap.get('id_lek') || "";
+    this.spec = this.route.snapshot.paramMap.get('spec') || "";
+    this.city = this.route.snapshot.paramMap.get('city') || "";
+    this.login = this.route.snapshot.paramMap.get('login') || "";
+    this.name = this.route.snapshot.paramMap.get('name') || "";
+    this.surname = this.route.snapshot.paramMap.get('surname') || "";
 
     // console.log(this.id_lek, this.spec, this.city, this.login, this.name, this.surname);
 
@@ -133,8 +120,8 @@ export class AdminEditDoctorComponent implements OnInit {
     this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city);
   }
 
-  editTerm(term: any) {
-     // console.log(term);
+  editTerm(term: ScheduleDataElement) {
+    //  console.log(term);
      this.editTermData = term;
      this.editTermForm = this.fb.group({
        timeFrom: [this.editTimeFrom, Validators.required],
@@ -144,7 +131,7 @@ export class AdminEditDoctorComponent implements OnInit {
      this.isVisibleEdit =! this.isVisibleEdit;
   }
 
-  deleteTerm(term: any){
+  deleteTerm(term: ScheduleDataElement){
     this.editDoctorService.deleteDoctorTerm(term.id_terminu).subscribe(resp => {
       console.log("usuwanie ", term.id_terminu);
     })
@@ -152,7 +139,7 @@ export class AdminEditDoctorComponent implements OnInit {
   }
 
   saveEditTerm() {
-    console.log(this.editTermData);
+    // console.log(this.editTermData);
     if(this.editTermForm.valid){
       this.editTimeFrom = this.editTermForm.get('timeFrom')?.value;
       this.editTimeTo = this.editTermForm.get('timeTo')?.value;

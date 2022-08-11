@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Doctor{
-  name: string;
-  surname: string;
-  speciality: string;
-  city: string;
-}
+import { Doctor } from '../models/doctor-types';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +53,7 @@ export class EditDoctorService {
     return this.httpClient.get(`http://localhost:3001/doctor/getBookedTerms/${id_lek}`)
   }
 
-  getHourFromTerm(term_id: string): Observable<{godzina_wizyty: string}>{
+  getHourFromTerm(term_id: number): Observable<{godzina_wizyty: string}>{
     return this.httpClient.get<{godzina_wizyty: string}>(`http://localhost:3001/doctor/getHourFromTerm/${term_id}`)
   }
 

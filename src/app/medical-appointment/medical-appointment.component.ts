@@ -1,18 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { PacientTermElement } from '../models/pacient-types';
+import { BookedTermElement, BookedTermElementFull, TermDataElement } from '../models/term-types';
+import { tokenElement } from '../models/token-types';
 import { AuthService } from '../service/auth.service';
 import { MedicalAppointmentService } from '../service/medical-appointment.service';
 
-export interface TermDataElement {
-  name: string;
-  surname: string;
-  speciality: string;
-  data: string;
-  hour: string;
-}
-
-const TERMS_DATA_AFTER: TermDataElement[] = [];
-const TERMS_DATA_BEFORE: TermDataElement[] = [];
+const TERMS_DATA_AFTER: PacientTermElement[] = [];
+const TERMS_DATA_BEFORE: PacientTermElement[] = [];
 
 @Component({
   selector: 'app-medical-appointment',
@@ -26,17 +21,17 @@ export class MedicalAppointmentComponent implements OnInit {
   
   //pobrane z tokenu
   token: string = '';
-  tokenJSON: any;
+  tokenJSON!: tokenElement;
   login: string = '';
 
   //pobrane z bazy
   user_id: string = '';
   name: string = '';
   surname: string = '';
-  data: any;
-  visitData: any;
-  termDataArrayAfter: any;
-  termDataArrayBefore: any;
+  data: any; //subscribe
+  visitData: any; //subscribe
+  termDataArrayAfter!: Array<PacientTermElement>;
+  termDataArrayBefore!: Array<PacientTermElement>;
 
   constructor(private authService: AuthService, private medicalAppointment: MedicalAppointmentService) { }
 
@@ -57,7 +52,7 @@ export class MedicalAppointmentComponent implements OnInit {
       this.subscription2$ = this.medicalAppointment.getVisits(this.user_id).subscribe(resp => {
         // console.log(resp);
         this.data = resp;
-        this.data.forEach((el: any) => {
+        this.data.forEach((el: BookedTermElementFull) => {
           // console.log(el);
           TERMS_DATA_AFTER.splice(0,TERMS_DATA_AFTER.length);
           TERMS_DATA_BEFORE.splice(0,TERMS_DATA_BEFORE.length);
@@ -87,7 +82,7 @@ export class MedicalAppointmentComponent implements OnInit {
     this.subscription3$.unsubscribe();
   }
 
-  cancelVisit(term: any) {
+  cancelVisit(term: PacientTermElement) {
     // console.log(term);
     this.medicalAppointment.cancelVisit(term, this.user_id);
     window.location.reload();

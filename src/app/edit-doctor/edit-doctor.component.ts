@@ -2,21 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ScheduleDataElement, TermListElement, VisitElement } from '../models/doctor-types';
+import { tokenElement } from '../models/token-types';
 import { AuthService } from '../service/auth.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
-
-export interface ScheduleDataElement{
-  id_lekarza: string;
-  id_terminu: string;
-  data: string;
-  od_godziny: string;
-  do_godziny: string;
-}
-
-export interface TermListElement{
-  data:string;
-  od_godziny: string;
-}
 
 const SCHEDULE_DATA: ScheduleDataElement[] = [];
 
@@ -39,13 +28,13 @@ export class EditDoctorComponent implements OnInit {
   isLoadedSchedule: boolean = false;
   isVisibleAdd: boolean = false;
   // zmienne na dane zwracane z bazy
-  doctorData: any;
+  doctorData: any; //subscribe
   token: string = '';
-  tokenJson: any;
-  scheduleData: any;
-  scheduleDataArray: any;
-  termData: any;
-  termDataArray: any;
+  tokenJson!: tokenElement;
+  scheduleData: any; //subscribe
+  scheduleDataArray!: Array<ScheduleDataElement>;
+  termData: any; //subscribe
+  termDataArray!: Array<TermListElement>;
 
   // zmienne do przetwarzania wyświetlanych danych
   doctorLogin: string = '';
@@ -60,11 +49,10 @@ export class EditDoctorComponent implements OnInit {
   addDate: string = "";
   addTimeFrom: number = 0;
   addTimeTo: number = 0;
-  addData: any;
   // zarezerwowane wizytty
-  bookedHour: any = "";
-  bookedName: any = "";
-  bookedDate: any = "";
+  bookedHour: string = "";
+  bookedName: string = "";
+  bookedDate: string = "";
   termsWithoutBookedArray: any;
   // formularz edytowanie grafiku
   editTermForm!: FormGroup;
@@ -145,7 +133,7 @@ export class EditDoctorComponent implements OnInit {
     this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city);
   }
 
-  editTerm(term: any) {
+  editTerm(term: ScheduleDataElement) {
     // console.log(term);
     this.editTermData = term;
     this.editTermForm = this.fb.group({
@@ -155,7 +143,7 @@ export class EditDoctorComponent implements OnInit {
     
     this.isVisibleEdit =! this.isVisibleEdit;
   }
-  deleteTerm(term: any){
+  deleteTerm(term: ScheduleDataElement){
     this.editDoctorService.deleteDoctorTerm(term.id_terminu).subscribe(resp => {
       console.log("usuwanie ", term.id_terminu);
     })

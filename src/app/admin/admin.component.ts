@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatCellDef } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { EditDoctorElement, PeriodicElement } from '../models/doctor-types';
 import { AdminService } from '../service/admin.service';
-
-export interface PeriodicElement {
-  id_lekarza: string;
-  name: string;
-  surname: string;
-  speciality: string[];
-  city: string;
-  icons: string;
-}
 
 const ELEMENT_DATA: PeriodicElement[] = [];
 
@@ -20,7 +13,6 @@ const ELEMENT_DATA: PeriodicElement[] = [];
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-
 
 export class AdminComponent implements OnInit {
   subscription1$!: Subscription;
@@ -102,7 +94,6 @@ export class AdminComponent implements OnInit {
 
     this.doctorData = {id: this.userId, name: this.userName, surname: this.userSurname, login: this.userLogin, password: this.userPassword, role: this.role, city: this.city, speciality: this.speciality}
 
-    // console.log(this.doctorData);
     this.subscription2$ = this.adminService.addDoctor(this.doctorData).subscribe(response => {
       console.log(response);
     });
@@ -110,8 +101,7 @@ export class AdminComponent implements OnInit {
     window.location.reload();
   }
 
-  openEditPanel(element: any){
-    // console.log(element);
+  openEditPanel(element: EditDoctorElement){
     const id_lek = element.user_id;
     const spec = element.speciality;
     const city = element.city;
@@ -120,10 +110,9 @@ export class AdminComponent implements OnInit {
     const surname = element.surname;
 
     this.router.navigate(['/adminEditDoctor', id_lek, spec, city, login, name, surname])
-    // this.router.navigate('')    
   }
 
-  deleteDoctor(element: any){
+  deleteDoctor(element: EditDoctorElement){
     const id_lek = element.user_id;
 
     if(window.confirm("Napewno chcesz usunąć?")){
