@@ -15,9 +15,9 @@ const TERM_LIST: TermListElement[] = [];
   styleUrls: ['./admin-edit-doctor.component.css']
 })
 export class AdminEditDoctorComponent implements OnInit {
-  subscription1$!: Subscription;
-  subscription2$!: Subscription;
-  subscription3$!: Subscription;
+  subgetSchedule$!: Subscription;
+  subgetHourList$!: Subscription;
+  subaddTerm$!: Subscription;
 
   //widocznosc w celu pobrania danych i poprawnego wygrnerowania
   isVisibleEdit = false;
@@ -26,6 +26,7 @@ export class AdminEditDoctorComponent implements OnInit {
   isVisibleAdd: boolean = false;
 
   // dane lekarza
+  element: any;
   doctorID: string = "";
   spec: string = "";
   city: string = "";
@@ -72,22 +73,19 @@ export class AdminEditDoctorComponent implements OnInit {
     this.name = this.route.snapshot.paramMap.get('name') || "";
     this.surname = this.route.snapshot.paramMap.get('surname') || "";
 
-    // console.log(this.id_lek, this.spec, this.city, this.login, this.name, this.surname);
-
     this.nameInputValue = this.name;
     this.surnameInputValue = this.surname;
     this.specialityInputValue = this.spec;
     this.cityInputValue = this.city;
-    
 
     // pobranie grafiku i listy terminów
-    this.subscription1$ = this.editDoctorService.getSchedule(this.login).subscribe((data) => {
+    this.subgetSchedule$ = this.editDoctorService.getSchedule(this.login).subscribe((data) => {
       this.scheduleData = data;
       //iterowanie po dniach zapisanych w grafiku lekarza
       this.scheduleData.forEach((element: ScheduleDataElement) => {
         SCHEDULE_DATA.push(element)
         // console.log("element", element);
-        this.subscription2$ = this.editDoctorService.getHourList(this.doctorID, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
+        this.subgetHourList$ = this.editDoctorService.getHourList(this.doctorID, element).subscribe((response) => {
           // console.log("response", response);
           this.termData = response;
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
@@ -110,14 +108,22 @@ export class AdminEditDoctorComponent implements OnInit {
     this.isLoaded = true;
   }
 
-  // ngOnDestroy(){
-  //   this.subscription1$.unsubscribe();
-  //   this.subscription2$.unsubscribe();
-  //   this.subscription3$.unsubscribe();
-  // }
+  ngOnDestroy(){
+    if(this.subgetSchedule$){
+      this.subgetSchedule$.unsubscribe();
+    }
+    if(this.subgetHourList$){
+      this.subgetHourList$.unsubscribe();
+    }
+    if(this.subaddTerm$){
+      this.subaddTerm$.unsubscribe();
+    }
+  }
 
   updateDoctor(name: string, surname: string, speciality: string, city: string): void{
-    this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city);
+    this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city).subscribe(res => {
+      console.log("dane zapisane poprawnie");
+    });
   }
 
   editTerm(term: ScheduleDataElement) {
@@ -144,7 +150,9 @@ export class AdminEditDoctorComponent implements OnInit {
       this.editTimeFrom = this.editTermForm.get('timeFrom')?.value;
       this.editTimeTo = this.editTermForm.get('timeTo')?.value;
       // console.log(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo);
-      this.editDoctorService.updateDoctorTerm(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo)
+      this.editDoctorService.updateDoctorTerm(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo).subscribe(res => {
+        console.log("dane zapisane poprawnie");
+      });
       window.location.reload();
     }
   }
@@ -176,7 +184,7 @@ export class AdminEditDoctorComponent implements OnInit {
       else 
         timeT = this.addTimeTo + ":00"
 
-      this.subscription3$ = this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
+      this.subaddTerm$ = this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
         console.log("dodano termin");
       })
 

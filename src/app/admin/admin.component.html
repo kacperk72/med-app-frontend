@@ -1,6 +1,7 @@
+<ng-container *ngIf="elementData$ | async as elementData">
 <div id="content">
   <div id="container" *ngIf="isLoaded">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" (load)="getDoctorsData()">
+    <table mat-table [dataSource]="elementData" class="mat-elevation-z8">
 
       <!-- ID Column -->
       <ng-container matColumnDef="id_lekarza">
@@ -83,3 +84,6 @@
   </div>
   
 </div>
+
+</ng-container>
+

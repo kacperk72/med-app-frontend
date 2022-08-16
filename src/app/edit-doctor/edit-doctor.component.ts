@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ScheduleDataElement, TermListElement, VisitElement } from '../models/doctor-types';
@@ -16,11 +16,11 @@ const TERM_LIST: TermListElement[] = [];
   templateUrl: './edit-doctor.component.html',
   styleUrls: ['./edit-doctor.component.css'],
 })
-export class EditDoctorComponent implements OnInit {
-  subscription1$!: Subscription;
-  subscription2$!: Subscription;
-  subscription3$!: Subscription;
-  subscription4$!: Subscription;
+export class EditDoctorComponent implements OnInit, OnDestroy {
+  subgetSchedule$!: Subscription;
+  subgetHourList$!: Subscription;
+  subaddTerm$!: Subscription;
+  subgetOneDoctor$!: Subscription;
 
   //widocznosc w celu pobrania danych i poprawnego wygrnerowania
   isVisibleEdit = false;
@@ -49,11 +49,6 @@ export class EditDoctorComponent implements OnInit {
   addDate: string = "";
   addTimeFrom: number = 0;
   addTimeTo: number = 0;
-  // zarezerwowane wizytty
-  bookedHour: string = "";
-  bookedName: string = "";
-  bookedDate: string = "";
-  termsWithoutBookedArray: any;
   // formularz edytowanie grafiku
   editTermForm!: FormGroup;
   editTermData: any;
@@ -69,8 +64,11 @@ export class EditDoctorComponent implements OnInit {
     this.doctorLogin = this.tokenJson.login;
     this.doctorPassword = this.tokenJson.password;
 
+    SCHEDULE_DATA.splice(0, SCHEDULE_DATA.length);
+    TERM_LIST.splice(0, TERM_LIST.length);
+
     // pobranie danych doktora z bazy
-    this.subscription4$ = this.editDoctorService.getOneDoctor(this.doctorLogin).subscribe((data) => {
+    this.subgetOneDoctor$ = this.editDoctorService.getOneDoctor(this.doctorLogin).subscribe((data) => {
       this.doctorData = data;
       // console.log(this.doctorData);
       if(this.doctorData != []){
@@ -93,22 +91,30 @@ export class EditDoctorComponent implements OnInit {
     
   }
 
-  // ngOnDestroy(){
-  //   this.subscription1$.unsubscribe();
-  //   this.subscription2$.unsubscribe();
-  //   this.subscription3$.unsubscribe();
-  //   this.subscription4$.unsubscribe();
-  // }
+  ngOnDestroy(){
+    if(this.subgetSchedule$) {
+      this.subgetSchedule$.unsubscribe();
+    }
+    if(this.subgetHourList$) {
+      this.subgetHourList$.unsubscribe();
+    }
+    if(this.subaddTerm$) {
+      this.subaddTerm$.unsubscribe();
+    }
+    if(this.subgetOneDoctor$) {
+      this.subgetOneDoctor$.unsubscribe();
+    }
+  }
 
   async getSchedule(){
     // pobranie grafiku i listy terminów
-    this.subscription1$ = this.editDoctorService.getSchedule(this.doctorLogin).subscribe((data) => {
+    this.subgetSchedule$ = this.editDoctorService.getSchedule(this.doctorLogin).subscribe((data) => {
     this.scheduleData = data;
     //iterowanie po dniach zapisanych w grafiku lekarza
     this.scheduleData.forEach((element: ScheduleDataElement) => {
       SCHEDULE_DATA.push(element)
       // console.log("element", element);
-      this.subscription2$ = this.editDoctorService.getHourList(this.doctorID, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
+      this.subgetHourList$ = this.editDoctorService.getHourList(this.doctorID, element).subscribe((response) => {
         // console.log("response", response);
         this.termData = response;
         // iterowanie po godzinach wyznaczonych jako termin na wizytę
@@ -116,7 +122,6 @@ export class EditDoctorComponent implements OnInit {
           TERM_LIST.push(element);
         })
         this.termDataArray = TERM_LIST;
-
       });
     });
     this.scheduleDataArray = SCHEDULE_DATA;
@@ -130,7 +135,9 @@ export class EditDoctorComponent implements OnInit {
   }
 
   updateDoctor(name: string, surname: string, speciality: string, city: string): void{
-    this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city);
+    this.editDoctorService.updateDoctorData(this.doctorID, name, surname, speciality, city).subscribe(res => {
+      console.log("dane zapisane poprawnie");
+    });
   }
 
   editTerm(term: ScheduleDataElement) {
@@ -156,7 +163,9 @@ export class EditDoctorComponent implements OnInit {
       this.editTimeFrom = this.editTermForm.get('timeFrom')?.value;
       this.editTimeTo = this.editTermForm.get('timeTo')?.value;
       // console.log(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo);
-      this.editDoctorService.updateDoctorTerm(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo)
+      this.editDoctorService.updateDoctorTerm(this.editTermData.id_terminu, this.editTimeFrom, this.editTimeTo).subscribe(res => {
+        console.log("dane zapisane poprawnie");
+      });
       window.location.reload();
     }
   }
@@ -188,7 +197,7 @@ export class EditDoctorComponent implements OnInit {
       else 
         timeT = this.addTimeTo + ":00"
 
-      this.subscription3$ = this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
+      this.subaddTerm$ = this.editDoctorService.addTerm(this.doctorID, date, timeF, timeT).subscribe((resp) => {
         console.log("dodano termin");
         window.location.reload();
       })

@@ -22,9 +22,9 @@ const TERM_LIST: TermElement[] = [];
   styleUrls: ['./term-list.component.css']
 })
 export class TermListComponent implements OnInit {
-  subscription1$!: Subscription;
-  subscription2$!: Subscription;
-  subscription3$!: Subscription;
+  subgetTermInfo$!: Subscription;
+  subgetSchedule$!: Subscription;
+  subgetHourList$!: Subscription;
 
   @Input()
   searchForm!: FormGroup;  
@@ -50,7 +50,6 @@ export class TermListComponent implements OnInit {
   // zmienne do załadowania danych do komponentów
   isVisible = true;
   isLoaded = true;
-  allDataLoaded = false;
 
   //kolumny w tabeli terminów
   displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
@@ -67,9 +66,6 @@ export class TermListComponent implements OnInit {
   searchTimeFrom: string = "";
   searchData = [''];
 
-  // dla zarezerwowanych wizyt
-  isVisitFree: boolean = true;
-
   constructor(private termListService: TermListService, private editDoctorService: EditDoctorService, private authService: AuthService) { }
 
   ngOnInit() {
@@ -79,27 +75,31 @@ export class TermListComponent implements OnInit {
     this.searchDateTo = this.searchForm.get('dateTo')?.value;
     this.searchTimeFrom = this.searchForm.get('timeFrom')?.value;
     this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom];
-    // console.log("searchData w child", this.searchData);
 
     this.getDoctors();
-
   }
 
-  // ngOnDestroy(){
-  //   this.subscription1$.unsubscribe();
-  //   this.subscription2$.unsubscribe();
-  //   this.subscription3$.unsubscribe();
-  // }
+  ngOnDestroy(){
+    if(this.subgetTermInfo$){
+      this.subgetTermInfo$.unsubscribe();
+    }
+    if(this.subgetSchedule$){
+    this.subgetSchedule$.unsubscribe();
+    }
+    if(this.subgetHourList$){
+      this.subgetHourList$.unsubscribe();
+    }
+  }
 
   getDoctors() {
     SCHEDULE_DATA.splice(0, SCHEDULE_DATA.length);
     TERM_LIST.splice(0, TERM_LIST.length);
 
-    this.subscription1$ = this.termListService.getTermInfo().subscribe((data) => {
+    this.subgetTermInfo$ = this.termListService.getTermInfo().subscribe((data) => {
       data.forEach(element => {
         // console.log("doktor element", element);
         this.userID = element.id_lekarza;
-        this.speciality = element.speciality;
+        // this.speciality = element.speciality;
         this.login = element.login;
         this.password = element.password;
         this.role = element.role;
@@ -123,7 +123,7 @@ export class TermListComponent implements OnInit {
 
 // pobranie grafiku i listy terminów
   getSchedule() {
-  this.subscription2$ = this.editDoctorService.getSchedule(this.login).subscribe((data) => {
+  this.subgetSchedule$ = this.editDoctorService.getSchedule(this.login).subscribe((data) => {
     this.scheduleData = data;
     //iterowanie po dniach zapisanych w grafiku lekarza
     this.scheduleData.forEach((element: ScheduleDataElement) => {
@@ -131,7 +131,7 @@ export class TermListComponent implements OnInit {
       if(new Date(element.data.split('T')[0]) >= new Date(this.searchDateFrom) && new Date(element.data.split('T')[0]) <= new Date(this.searchDateTo) || (this.searchDateFrom === "" && this.searchDateTo === "")){
         SCHEDULE_DATA.push(element)
         this.scheduleDataArray = SCHEDULE_DATA;
-        this.subscription3$ = this.editDoctorService.getHourList(element.id_lekarza, element.data, element.od_godziny, element.do_godziny, element.id_terminu).subscribe((response) => {
+        this.subgetHourList$ = this.editDoctorService.getHourList(element.id_lekarza, element).subscribe((response) => {
           this.termData = response;
           
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
@@ -143,7 +143,7 @@ export class TermListComponent implements OnInit {
                     element.name = DOCTORS_DATA[i].name;
                     element.surname = DOCTORS_DATA[i].surname;
                     element.city = DOCTORS_DATA[i].city;
-                    element.speciality = DOCTORS_DATA[i].speciality;
+                    element.speciality = DOCTORS_DATA[i].speciality.join();
                   }
                 }
                 TERM_LIST.push(element);

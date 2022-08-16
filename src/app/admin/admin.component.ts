@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCellDef } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { EditDoctorElement, PeriodicElement } from '../models/doctor-types';
+import { map, tap, Observable, Subscription } from 'rxjs';
+import { DoctorDataElement, EditDoctorElement, PeriodicElement } from '../models/doctor-types';
 import { AdminService } from '../service/admin.service';
 
-const ELEMENT_DATA: PeriodicElement[] = [];
+
+
 
 @Component({
   selector: 'app-admin',
@@ -15,6 +16,8 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 })
 
 export class AdminComponent implements OnInit {
+  elementData$: Observable<PeriodicElement[]> = this.adminService.getDoctorsData().pipe(tap((elem)=> {this.isLoaded = true;}));
+
   subscription1$!: Subscription;
   subscription2$!: Subscription
   subscription3$!: Subscription
@@ -22,7 +25,7 @@ export class AdminComponent implements OnInit {
   addDoctorForm!: FormGroup;
 
   displayedColumns: string[] = ['id_lekarza', 'name', 'surname', 'speciality', 'city', 'icons'];
-  dataSource = ELEMENT_DATA;
+  // dataSource = ELEMENT_DATA;
   isVisibleAdd = true;
   isLoaded = false;
 
@@ -42,8 +45,6 @@ export class AdminComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router, private adminService: AdminService ) { }
 
   ngOnInit(): void {
-    this.getDoctorsData();
-
     this.addDoctorForm = this.fb.group({
       name: [this.userName, Validators.required],
       surname: [this.userSurname, Validators.required],
@@ -54,25 +55,18 @@ export class AdminComponent implements OnInit {
     })
   }
 
-  // ngOnDestroy(){
-  //   this.subscription1$.unsubscribe();
-  //   this.subscription2$.unsubscribe();
-  //   this.subscription3$.unsubscribe();
-  // }
+  ngOnDestroy(){
+    if(!!this.subscription1$) {
+      this.subscription1$.unsubscribe();
+    }
 
-  getDoctorsData() {
-    ELEMENT_DATA.splice(0, ELEMENT_DATA.length);
-    this.subscription1$ = this.adminService.getDoctorsData().subscribe(response => {
-      // console.log(response);
-      this.doctorDataJson = response;
+    if(!!this.subscription2$) {
+      this.subscription2$.unsubscribe();
+    }
 
-      this.doctorDataJson.forEach((element: PeriodicElement) => {
-        // console.log("dodaje do tablicy");
-        element.id_lekarza = element.id_lekarza.slice(0,7)
-        ELEMENT_DATA.push(element);
-      });
-      this.isLoaded = true;
-    })
+    if(!!this.subscription3$) {
+      this.subscription3$.unsubscribe();
+    }
   }
 
   addDoctor() {
@@ -103,7 +97,7 @@ export class AdminComponent implements OnInit {
 
   openEditPanel(element: EditDoctorElement){
     const id_lek = element.user_id;
-    const spec = element.speciality;
+    const spec = element.speciality.join();
     const city = element.city;
     const login = element.login;
     const name = element.name;

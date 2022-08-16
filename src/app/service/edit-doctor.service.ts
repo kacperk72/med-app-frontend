@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Doctor } from '../models/doctor-types';
+import { Doctor, ScheduleDataElement } from '../models/doctor-types';
+import { TermElement } from '../models/term-types';
 
 @Injectable({
   providedIn: 'root'
@@ -10,30 +11,31 @@ export class EditDoctorService {
 
   constructor(private httpClient: HttpClient) { }
 
+  //TODO: dodac zwracane typy
+
   getOneDoctor(doctorLogin: string) {
     return this.httpClient.get<Doctor>(`http://localhost:3001/doctor/getOne/${doctorLogin}`)
   }
 
   updateDoctorData(id: string, name: string, surname: string, speciality: string, city: string) {
-
-    this.httpClient.patch('http://localhost:3001/doctor/update', {
+    return this.httpClient.patch('http://localhost:3001/doctor/update', {
       id,
       name,
       surname,
       speciality,
       city
-    }).subscribe(res => {
-      console.log("dane zapisane poprawnie");
-    });
+    })
   }
 
   getSchedule(doctorLogin: string){
     return this.httpClient.get<Doctor>(`http://localhost:3001/doctor/getSchedule/${doctorLogin}`)
-    
   }
 
-  getHourList(id: string, termData: string, fromHour: string, toHour: string, id_terminu: string) {
-    const data = termData.split('T')[0];
+  getHourList(id: string, element: ScheduleDataElement) {
+    const fromHour = element.od_godziny;
+    const toHour = element.do_godziny;
+    const id_terminu = element.id_terminu;
+    const data = element.data.split('T')[0];
 
     return this.httpClient.get(`http://localhost:3001/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}/${id_terminu}`)
   }
@@ -49,7 +51,6 @@ export class EditDoctorService {
   }
 
   getBookedTerms(id_lek: string){
-    // console.log(id_lek);
     return this.httpClient.get(`http://localhost:3001/doctor/getBookedTerms/${id_lek}`)
   }
 
@@ -74,9 +75,7 @@ export class EditDoctorService {
       id_terminu,
       timeF,
       timeT
-    }).subscribe(res => {
-      console.log("dane zapisane poprawnie");
-    });
+    })
   }
 
   deleteDoctorTerm(id_terminu: string) {

@@ -45,7 +45,6 @@ export interface TermListVisitElement{
     surname: string;
     term_id: number;
 }
-
   
 
 

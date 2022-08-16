@@ -2,7 +2,7 @@
  <h2>Zarezerwowane wizyty</h2>
   <ul>
     <li *ngFor="let term of bookedTermsDataArray">
-      {{term.date}} {{term.godzina}} <b>Pan/Pani</b> {{term.name}} {{term.surname}} <b>powód:</b> {{term.reason_of_visit}}
+      {{term.date}} {{term.godzina_wizyty}} <b>Pan/Pani</b> {{term.name}} {{term.surname}} <b>powód:</b> {{term.reason_of_visit}}
       <input type="button" value="Odwołaj" (click)="cancelVisit(term)">
     </li>
   </ul>   

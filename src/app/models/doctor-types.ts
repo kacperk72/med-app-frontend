@@ -46,7 +46,7 @@ export interface VisitElement{
 
 export interface DoctorDataElement {
     id_lekarza: string;
-    speciality: string;
+    speciality: string[];
     city: string;
     login: string;
     password: string;
