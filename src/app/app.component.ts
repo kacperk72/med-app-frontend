@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from './service/auth.service';
 
@@ -9,28 +9,29 @@ import { AuthService } from './service/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  subscription1$!: Subscription;
 
   title = 'med-app';
   role = '';
   showMenu: boolean = false;
   showIcon: boolean = true;
 
+  private subEvent$!: Subscription;
+
   constructor(public service: AuthService,  private router: Router){ }
 
   ngOnInit(): void {
     // this.role = localStorage.getItem('rola')||'';
-    this.subscription1$ = this.router.events.subscribe((val) => { this.role = localStorage.getItem('rola')||'';})
+    this.subEvent$ = this.router.events.subscribe((val) => {this.role = localStorage.getItem('rola')||'';})
   }
 
   ngOnDestroy(){
-    this.subscription1$.unsubscribe();
+    if(this.subEvent$){
+      this.subEvent$.unsubscribe();
+    }
   }
 
   switchMenu(){
-    this.showMenu =!this.showMenu
-
+    this.showMenu =! this.showMenu;
   }
-
 
 }

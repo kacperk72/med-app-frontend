@@ -9,8 +9,6 @@ import { PatientService } from '../service/patient.service';
   styleUrls: ['./patient.component.css']
 })
 export class PatientComponent implements OnInit {
-  subscription1$!: Subscription;
-  subscription2$!: Subscription;
   
   searchForm!: FormGroup;
   searchData = [''];
@@ -34,10 +32,13 @@ export class PatientComponent implements OnInit {
   spec: string = "";
   specAr: Array<string> = [];
 
+  private subgetCities$!: Subscription;
+  private subgetSpec$!: Subscription;
+
   constructor(private fb: FormBuilder, private patientService: PatientService) { }
 
   ngOnInit(): void {
-    this.subscription1$ = this.patientService.getCities().subscribe(resp => {
+    this.subgetCities$ = this.patientService.getCities().subscribe(resp => {
       this.cities = resp;
       this.cities.forEach((el: { city: string; }) => {
         this.citiesArray.push(el.city)
@@ -45,7 +46,7 @@ export class PatientComponent implements OnInit {
     })
   
     // jeżeli specjalizacje zostaną podane w innej formnie niż "jenda, druga" to sie wysypie
-    this.subscription2$ = this.patientService.getSpec().subscribe(resp => {
+    this.subgetSpec$ = this.patientService.getSpec().subscribe(resp => {
       this.specialities = resp;
       this.specialities.forEach((el: { speciality: string; }) => {
         this.spec = el.speciality;
@@ -69,13 +70,16 @@ export class PatientComponent implements OnInit {
     });
   }
 
-  // ngOnDestroy(){
-  //   this.subscription1$.unsubscribe();
-  //   this.subscription2$.unsubscribe();
-  // }
+  ngOnDestroy(){
+    if(this.subgetCities$){
+      this.subgetCities$.unsubscribe();
+    }
+    if(this.subgetSpec$){
+      this.subgetSpec$.unsubscribe();
+    }
+  }
 
   showList(){
-    // debugger
     this.renderList =!this.renderList
   }
 

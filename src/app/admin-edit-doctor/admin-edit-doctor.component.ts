@@ -5,19 +5,12 @@ import { Subscription } from 'rxjs';
 import { ScheduleDataElement, TermListElement } from '../models/doctor-types';
 import { EditDoctorService } from '../service/edit-doctor.service';
 
-const SCHEDULE_DATA: ScheduleDataElement[] = [];
-
-const TERM_LIST: TermListElement[] = [];
-
 @Component({
   selector: 'app-admin-edit-doctor',
   templateUrl: './admin-edit-doctor.component.html',
   styleUrls: ['./admin-edit-doctor.component.css']
 })
 export class AdminEditDoctorComponent implements OnInit {
-  subgetSchedule$!: Subscription;
-  subgetHourList$!: Subscription;
-  subaddTerm$!: Subscription;
 
   //widocznosc w celu pobrania danych i poprawnego wygrnerowania
   isVisibleEdit = false;
@@ -44,9 +37,9 @@ export class AdminEditDoctorComponent implements OnInit {
   to_hour: string ='';
 
   scheduleData: any;
-  scheduleDataArray: Array<ScheduleDataElement> = [];
+  scheduleDataArray: ScheduleDataElement[] = [];
   termData: any;
-  termDataArray: Array<TermListElement> = [];
+  termDataArray: TermListElement[] = [];
 
   // formularz dodawania terminow
   addTermForm!: FormGroup;
@@ -59,6 +52,10 @@ export class AdminEditDoctorComponent implements OnInit {
   editTermData!: ScheduleDataElement;
   editTimeFrom: number = 0;
   editTimeTo: number = 0;
+  
+  private subgetSchedule$!: Subscription;
+  private subgetHourList$!: Subscription;
+  private subaddTerm$!: Subscription;
 
   constructor(private route: ActivatedRoute, private editDoctorService: EditDoctorService, private fb: FormBuilder) {}
 
@@ -83,19 +80,17 @@ export class AdminEditDoctorComponent implements OnInit {
       this.scheduleData = data;
       //iterowanie po dniach zapisanych w grafiku lekarza
       this.scheduleData.forEach((element: ScheduleDataElement) => {
-        SCHEDULE_DATA.push(element)
+        this.scheduleDataArray.push(element)
         // console.log("element", element);
         this.subgetHourList$ = this.editDoctorService.getHourList(this.doctorID, element).subscribe((response) => {
           // console.log("response", response);
           this.termData = response;
           // iterowanie po godzinach wyznaczonych jako termin na wizytę
           this.termData.forEach((element: TermListElement) => {
-            TERM_LIST.push(element);
+            this.termDataArray.push(element);
           })
-          this.termDataArray = TERM_LIST;
-        });;
+        });
       });
-      this.scheduleDataArray = SCHEDULE_DATA;
       this.isLoadedSchedule = true;
     });
 
@@ -104,7 +99,6 @@ export class AdminEditDoctorComponent implements OnInit {
       timeFrom: [this.addTimeFrom, Validators.required],
       timeTo: [this.addTimeTo, Validators.required]
     });
-
     this.isLoaded = true;
   }
 

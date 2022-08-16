@@ -6,18 +6,12 @@ import { tokenElement } from '../models/token-types';
 import { AuthService } from '../service/auth.service';
 import { MedicalAppointmentService } from '../service/medical-appointment.service';
 
-const TERMS_DATA_AFTER: PacientTermElement[] = [];
-const TERMS_DATA_BEFORE: PacientTermElement[] = [];
-
 @Component({
   selector: 'app-medical-appointment',
   templateUrl: './medical-appointment.component.html',
   styleUrls: ['./medical-appointment.component.css']
 })
 export class MedicalAppointmentComponent implements OnInit {
-  subscription1$!: Subscription;
-  subscription2$!: Subscription;
-  subscription3$!: Subscription;
   
   //pobrane z tokenu
   token: string = '';
@@ -30,8 +24,12 @@ export class MedicalAppointmentComponent implements OnInit {
   surname: string = '';
   data: any; //subscribe
   visitData: any; //subscribe
-  termDataArrayAfter!: Array<PacientTermElement>;
-  termDataArrayBefore!: Array<PacientTermElement>;
+  termDataArrayAfter: PacientTermElement[] = [];
+  termDataArrayBefore: PacientTermElement[] = [];
+
+  private subgetUser$!: Subscription;
+  private subgetVisits$!: Subscription;
+  private subgetDetails$!: Subscription;
 
   constructor(private authService: AuthService, private medicalAppointment: MedicalAppointmentService) { }
 
@@ -41,7 +39,7 @@ export class MedicalAppointmentComponent implements OnInit {
     this.login = this.tokenJSON.login;
     
     //potrzebuje imie, nazwisko, id żeby pobrac sobie wizyty 
-    this.subscription1$ = this.medicalAppointment.getUser(this.login).subscribe(resp => {
+    this.subgetUser$ = this.medicalAppointment.getUser(this.login).subscribe(resp => {
       // console.log(resp);
       const user = resp;
       this.user_id = resp.user_id;
@@ -49,37 +47,41 @@ export class MedicalAppointmentComponent implements OnInit {
       this.surname = resp.surname;
 
       //pobranie wizyt użytkownika
-      this.subscription2$ = this.medicalAppointment.getVisits(this.user_id).subscribe(resp => {
+      this.subgetVisits$ = this.medicalAppointment.getVisits(this.user_id).subscribe(resp => {
         // console.log(resp);
         this.data = resp;
         this.data.forEach((el: BookedTermElementFull) => {
           // console.log(el);
-          TERMS_DATA_AFTER.splice(0,TERMS_DATA_AFTER.length);
-          TERMS_DATA_BEFORE.splice(0,TERMS_DATA_BEFORE.length);
-          this.subscription3$ = this.medicalAppointment.getDetails(el.id_lekarza, el.id_terminu, el.term_id).subscribe(resp => {
+          this.subgetDetails$ = this.medicalAppointment.getDetails(el.id_lekarza, el.id_terminu, el.term_id).subscribe(resp => {
             this.visitData = resp;
             this.visitData.data = this.visitData.data.split('T')[0];
             const date1 = new Date(this.visitData.data);
             const today = new Date();
             
             if(date1 > today) {
-              TERMS_DATA_AFTER.push(this.visitData)
+              this.termDataArrayAfter.push(this.visitData)
             } 
             if(date1 < today) {
-              TERMS_DATA_BEFORE.push(this.visitData);
+              this.termDataArrayBefore.push(this.visitData);
             }
           })
-          this.termDataArrayAfter = TERMS_DATA_AFTER;
-          this.termDataArrayBefore = TERMS_DATA_BEFORE;
+          this.termDataArrayAfter = this.termDataArrayAfter;
+          this.termDataArrayBefore = this.termDataArrayBefore;
         })
       })
     })
   }
   
   ngOnDestroy(){
-    this.subscription1$.unsubscribe();
-    this.subscription2$.unsubscribe();
-    this.subscription3$.unsubscribe();
+    if(this.subgetUser$){
+      this.subgetUser$.unsubscribe();
+    }
+    if(this.subgetDetails$){
+      this.subgetDetails$.unsubscribe();
+    }
+    if(this.subgetVisits$){
+      this.subgetVisits$.unsubscribe();
+    }
   }
 
   cancelVisit(term: PacientTermElement) {

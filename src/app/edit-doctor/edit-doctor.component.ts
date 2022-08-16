@@ -7,20 +7,12 @@ import { tokenElement } from '../models/token-types';
 import { AuthService } from '../service/auth.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
 
-const SCHEDULE_DATA: ScheduleDataElement[] = [];
-
-const TERM_LIST: TermListElement[] = [];
-
 @Component({
   selector: 'app-edit-doctor',
   templateUrl: './edit-doctor.component.html',
   styleUrls: ['./edit-doctor.component.css'],
 })
 export class EditDoctorComponent implements OnInit, OnDestroy {
-  subgetSchedule$!: Subscription;
-  subgetHourList$!: Subscription;
-  subaddTerm$!: Subscription;
-  subgetOneDoctor$!: Subscription;
 
   //widocznosc w celu pobrania danych i poprawnego wygrnerowania
   isVisibleEdit = false;
@@ -32,9 +24,9 @@ export class EditDoctorComponent implements OnInit, OnDestroy {
   token: string = '';
   tokenJson!: tokenElement;
   scheduleData: any; //subscribe
-  scheduleDataArray!: Array<ScheduleDataElement>;
+  scheduleDataArray: ScheduleDataElement[] = [];
   termData: any; //subscribe
-  termDataArray!: Array<TermListElement>;
+  termDataArray: TermListElement[] = [];
 
   // zmienne do przetwarzania wyświetlanych danych
   doctorLogin: string = '';
@@ -55,6 +47,11 @@ export class EditDoctorComponent implements OnInit, OnDestroy {
   editTimeFrom: number = 0;
   editTimeTo: number = 0;
 
+  private subgetSchedule$!: Subscription;
+  private subgetHourList$!: Subscription;
+  private subaddTerm$!: Subscription;
+  private subgetOneDoctor$!: Subscription;
+
   constructor(private authService: AuthService, private editDoctorService: EditDoctorService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -63,9 +60,6 @@ export class EditDoctorComponent implements OnInit, OnDestroy {
     this.tokenJson = this.authService.GetRolebyToken(this.token);
     this.doctorLogin = this.tokenJson.login;
     this.doctorPassword = this.tokenJson.password;
-
-    SCHEDULE_DATA.splice(0, SCHEDULE_DATA.length);
-    TERM_LIST.splice(0, TERM_LIST.length);
 
     // pobranie danych doktora z bazy
     this.subgetOneDoctor$ = this.editDoctorService.getOneDoctor(this.doctorLogin).subscribe((data) => {
@@ -85,10 +79,6 @@ export class EditDoctorComponent implements OnInit, OnDestroy {
         console.log("wystąpił błąd pobierania danych z bazy");
       }
     });
-
-    console.log("SCHEDULE_DATA", SCHEDULE_DATA);
-    console.log("TERM_DATA", TERM_LIST);
-    
   }
 
   ngOnDestroy(){
@@ -112,19 +102,17 @@ export class EditDoctorComponent implements OnInit, OnDestroy {
     this.scheduleData = data;
     //iterowanie po dniach zapisanych w grafiku lekarza
     this.scheduleData.forEach((element: ScheduleDataElement) => {
-      SCHEDULE_DATA.push(element)
+      this.scheduleDataArray.push(element)
       // console.log("element", element);
       this.subgetHourList$ = this.editDoctorService.getHourList(this.doctorID, element).subscribe((response) => {
         // console.log("response", response);
         this.termData = response;
         // iterowanie po godzinach wyznaczonych jako termin na wizytę
         this.termData.forEach((element: TermListElement) => {
-          TERM_LIST.push(element);
+          this.termDataArray.push(element);
         })
-        this.termDataArray = TERM_LIST;
       });
     });
-    this.scheduleDataArray = SCHEDULE_DATA;
     this.isLoadedSchedule = true;
     });
     this.addTermForm = this.fb.group({

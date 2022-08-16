@@ -6,9 +6,6 @@ import { map, tap, Observable, Subscription } from 'rxjs';
 import { DoctorDataElement, EditDoctorElement, PeriodicElement } from '../models/doctor-types';
 import { AdminService } from '../service/admin.service';
 
-
-
-
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -18,14 +15,8 @@ import { AdminService } from '../service/admin.service';
 export class AdminComponent implements OnInit {
   elementData$: Observable<PeriodicElement[]> = this.adminService.getDoctorsData().pipe(tap((elem)=> {this.isLoaded = true;}));
 
-  subscription1$!: Subscription;
-  subscription2$!: Subscription
-  subscription3$!: Subscription
-
   addDoctorForm!: FormGroup;
-
   displayedColumns: string[] = ['id_lekarza', 'name', 'surname', 'speciality', 'city', 'icons'];
-  // dataSource = ELEMENT_DATA;
   isVisibleAdd = true;
   isLoaded = false;
 
@@ -42,6 +33,9 @@ export class AdminComponent implements OnInit {
 
   editPanel: boolean = false;
 
+  private subaddDoctor$!: Subscription;
+  private subdeleteDoctor$!: Subscription;
+
   constructor(private fb: FormBuilder, private router: Router, private adminService: AdminService ) { }
 
   ngOnInit(): void {
@@ -56,16 +50,11 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnDestroy(){
-    if(!!this.subscription1$) {
-      this.subscription1$.unsubscribe();
+    if(!!this.subdeleteDoctor$) {
+      this.subdeleteDoctor$.unsubscribe();
     }
-
-    if(!!this.subscription2$) {
-      this.subscription2$.unsubscribe();
-    }
-
-    if(!!this.subscription3$) {
-      this.subscription3$.unsubscribe();
+    if(!!this.subaddDoctor$) {
+      this.subaddDoctor$.unsubscribe();
     }
   }
 
@@ -88,7 +77,7 @@ export class AdminComponent implements OnInit {
 
     this.doctorData = {id: this.userId, name: this.userName, surname: this.userSurname, login: this.userLogin, password: this.userPassword, role: this.role, city: this.city, speciality: this.speciality}
 
-    this.subscription2$ = this.adminService.addDoctor(this.doctorData).subscribe(response => {
+    this.subaddDoctor$ = this.adminService.addDoctor(this.doctorData).subscribe(response => {
       console.log(response);
     });
 
@@ -110,7 +99,7 @@ export class AdminComponent implements OnInit {
     const id_lek = element.user_id;
 
     if(window.confirm("Napewno chcesz usunąć?")){
-      this.subscription3$ = this.adminService.deleteDoctor(id_lek).subscribe(resp => {
+      this.subdeleteDoctor$ = this.adminService.deleteDoctor(id_lek).subscribe(resp => {
         console.log("delete succesfuly", resp);
       })
     }

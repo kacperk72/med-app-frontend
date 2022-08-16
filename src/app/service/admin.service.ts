@@ -17,7 +17,6 @@ export class AdminService {
        return doctors.map(doc => ({ ...doc,
           id_lekarza: doc.id_lekarza?.slice(0,7),
           icons: ''}))
-      
       }
     ));
   }

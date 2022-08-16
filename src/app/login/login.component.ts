@@ -15,14 +15,14 @@ import { Subscription } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginComponent implements OnInit {
-  subscription1$!: Subscription;
-
   loginForm!: FormGroup;
   loginData = {};
   userLogin = '';
   userPassword = '';
   responsedata: any;
   actualRole = '';
+
+  private subproceedLogin$!: Subscription;
 
   constructor(private fb: FormBuilder, private service: AuthService, private router: Router) { 
     localStorage.clear();
@@ -35,9 +35,11 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  // ngOnDestroy(){
-  //   this.subscription1$.unsubscribe();
-  // }
+  ngOnDestroy(){
+    if(this.subproceedLogin$){
+      this.subproceedLogin$.unsubscribe();
+    }
+  }
 
   logging() {
     this.userLogin = this.loginForm.get('login')?.value;
@@ -45,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.loginData = {login: this.userLogin, password: this.userPassword}
     // console.log("this.loginData", this.loginData);
     
-    this.subscription1$ = this.service.proceedLogin(this.loginData).subscribe(response => {
+    this.subproceedLogin$ = this.service.proceedLogin(this.loginData).subscribe(response => {
       if(response!=null){
         this.responsedata = response;
         // console.log(this.responsedata);

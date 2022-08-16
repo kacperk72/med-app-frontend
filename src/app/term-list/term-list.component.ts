@@ -1,20 +1,14 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { DoctorDataElement, ScheduleDataElement } from '../models/doctor-types';
 import { PacientBookTermElement } from '../models/pacient-types';
 import { TermElement } from '../models/term-types';
-import { PatientComponent } from '../patient/patient.component';
 import { AuthService } from '../service/auth.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
 import { TermListService } from '../service/term-list.service';
-
-const DOCTORS_DATA: DoctorDataElement[] = [];
-const SCHEDULE_DATA: ScheduleDataElement[] = [];
-const TERM_LIST: TermElement[] = [];
 
 @Component({
   selector: 'app-term-list',
@@ -22,10 +16,6 @@ const TERM_LIST: TermElement[] = [];
   styleUrls: ['./term-list.component.css']
 })
 export class TermListComponent implements OnInit {
-  subgetTermInfo$!: Subscription;
-  subgetSchedule$!: Subscription;
-  subgetHourList$!: Subscription;
-
   @Input()
   searchForm!: FormGroup;  
 
@@ -44,16 +34,18 @@ export class TermListComponent implements OnInit {
 
   // zmienne na dane zwracane z bazy
   scheduleData: any;
-  scheduleDataArray!: Array<ScheduleDataElement>;
+  scheduleDataArray: ScheduleDataElement[] = [];
   termData: any;
   termDataArray!: MatTableDataSource<TermElement>;
+  doctorDataArray: DoctorDataElement[] = [];
+  termListArray: TermElement[] = [];
   // zmienne do załadowania danych do komponentów
   isVisible = true;
   isLoaded = true;
 
   //kolumny w tabeli terminów
   displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
-  doctorsDataSource = TERM_LIST;
+  doctorsDataSource = this.termListArray;
 
   //zmienne do rezerwacji wizyty
   termDataBooking!: PacientBookTermElement;
@@ -65,6 +57,10 @@ export class TermListComponent implements OnInit {
   searchDateTo: string = "";
   searchTimeFrom: string = "";
   searchData = [''];
+
+  private subgetTermInfo$!: Subscription;
+  private subgetSchedule$!: Subscription;
+  private subgetHourList$!: Subscription;
 
   constructor(private termListService: TermListService, private editDoctorService: EditDoctorService, private authService: AuthService) { }
 
@@ -92,8 +88,7 @@ export class TermListComponent implements OnInit {
   }
 
   getDoctors() {
-    SCHEDULE_DATA.splice(0, SCHEDULE_DATA.length);
-    TERM_LIST.splice(0, TERM_LIST.length);
+    this.termListArray.splice(0, this.termListArray.length);
 
     this.subgetTermInfo$ = this.termListService.getTermInfo().subscribe((data) => {
       data.forEach(element => {
@@ -110,15 +105,15 @@ export class TermListComponent implements OnInit {
         // sprawdzam czy w formularzu była jego specjalizacja
         if(element.speciality.includes(this.searchRole) || this.searchRole === ''){
           if(this.searchCity.includes(element.city) || this.searchCity === '') {
-            DOCTORS_DATA.push(element);
+            this.doctorDataArray.push(element);
             this.getSchedule();
           }
         }
       });
     })
-    console.log("DOCTORS_DATA", DOCTORS_DATA);
-    console.log("SCHEDULE_DATA", SCHEDULE_DATA);
-    console.log("TERM_LIST", TERM_LIST);
+    console.log("DOCTORS_DATA_ARRAY", this.doctorDataArray);
+    console.log("SCHEDULE_DATA_ARRAY", this.scheduleDataArray);
+    console.log("TERM_LIST_ARRAY", this.termListArray);
 }
 
 // pobranie grafiku i listy terminów
@@ -129,8 +124,7 @@ export class TermListComponent implements OnInit {
     this.scheduleData.forEach((element: ScheduleDataElement) => {
       // sprawdzam czy data zawiera sie w podanych widełkach formularza
       if(new Date(element.data.split('T')[0]) >= new Date(this.searchDateFrom) && new Date(element.data.split('T')[0]) <= new Date(this.searchDateTo) || (this.searchDateFrom === "" && this.searchDateTo === "")){
-        SCHEDULE_DATA.push(element)
-        this.scheduleDataArray = SCHEDULE_DATA;
+        this.scheduleDataArray.push(element)
         this.subgetHourList$ = this.editDoctorService.getHourList(element.id_lekarza, element).subscribe((response) => {
           this.termData = response;
           
@@ -138,15 +132,15 @@ export class TermListComponent implements OnInit {
           this.termData.forEach((element: TermElement) => {
             // sprawdzam czy godzina wizyty zawiera sie w widełkach formularza
             if(element.godzina_wizyty >= (this.searchTimeFrom + ':00') || this.searchTimeFrom === '') {
-              for(let i=0; i<DOCTORS_DATA.length;i++){
-                  if(DOCTORS_DATA[i].id_lekarza == element.id){
-                    element.name = DOCTORS_DATA[i].name;
-                    element.surname = DOCTORS_DATA[i].surname;
-                    element.city = DOCTORS_DATA[i].city;
-                    element.speciality = DOCTORS_DATA[i].speciality.join();
+              for(let i=0; i<this.doctorDataArray.length;i++){
+                  if(this.doctorDataArray[i].id_lekarza == element.id){
+                    element.name = this.doctorDataArray[i].name;
+                    element.surname = this.doctorDataArray[i].surname;
+                    element.city = this.doctorDataArray[i].city;
+                    element.speciality = this.doctorDataArray[i].speciality.join();
                   }
                 }
-                TERM_LIST.push(element);
+                this.termListArray.push(element);
             }
           })
           this.setPaginator();
@@ -157,11 +151,11 @@ export class TermListComponent implements OnInit {
 }
 
 setPaginator(){
-  TERM_LIST.sort(function(a,b){
+  this.termListArray.sort(function(a,b){
     return Number(new Date(a.date)) - Number(new Date(b.date));
   });
 
-  this.termDataArray = new MatTableDataSource(TERM_LIST);
+  this.termDataArray = new MatTableDataSource(this.termListArray);
   this.termDataArray.paginator = this.paginator;
   this.isLoaded = true;
 }
