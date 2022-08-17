@@ -8,14 +8,14 @@
                 "project": ["tsconfig.json", "e2e/tsconfig.json"],
                 "createDefaultProgram": true
             },
-            // "extends": [
-            //     "plugin:@angular-eslint/ng-cli-compat",
-            //     "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-            //     "plugin:@angular-eslint/template/process-inline-templates",
-            //     "plugin:cypress/recommended",
-            //     "plugin:chai-friendly/recommended"
-            // ],
-            // "plugins": ["cypress", "chai-friendly"],
+            "extends": [
+                "plugin:@angular-eslint/ng-cli-compat",
+                "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+                "plugin:@angular-eslint/template/process-inline-templates",
+                "plugin:cypress/recommended",
+                "plugin:chai-friendly/recommended"
+            ],
+            "plugins": ["cypress", "chai-friendly"],
             "rules": {
                 "@angular-eslint/component-class-suffix": "warn",
                 "@angular-eslint/component-selector": [

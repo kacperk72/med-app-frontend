@@ -32,7 +32,7 @@ export interface ScheduleDataElement{
 }
 
 export interface TermListElement{
-    data:string;
+    data: string;
     od_godziny: string;
 }
 
@@ -54,4 +54,3 @@ export interface DoctorDataElement {
     surname: string;
     role: string;
   }
-  

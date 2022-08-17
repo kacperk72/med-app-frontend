@@ -1,99 +1,99 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { PatientService } from '../service/patient.service';
 
 @Component({
-  selector: 'app-patient',
-  templateUrl: './patient.component.html',
-  styleUrls: ['./patient.component.css']
+    selector: 'app-patient',
+    templateUrl: './patient.component.html',
+    styleUrls: ['./patient.component.css']
 })
-export class PatientComponent implements OnInit {
-  
-  searchForm!: FormGroup;
-  searchData = [''];
-  searchRole: string = "";
-  searchCity: string = "";
-  searchDateFrom: string = "";
-  searchDateTo: string = "";
-  searchTimeFrom: string = "";
-  // searchTimeTo: string = "";
+export class PatientComponent implements OnInit, OnDestroy {
 
-  //widocznosc elementow
-  isVisibleForm: boolean = true;
-  renderList: boolean = false;
+    searchForm!: FormGroup;
+    searchData = [''];
+    searchRole = '';
+    searchCity = '';
+    searchDateFrom = '';
+    searchDateTo = '';
+    searchTimeFrom = '';
+    // searchTimeTo: string = "";
 
-  //dane pobierane z bazy
-  cities: any; //subscribe
-  citiesArray: Array<Object> = [];
-  specialities: any; //subscribe
-  specArray: Array<string> = [];
-  uniqueSpecArray: Array<string> = [];
-  spec: string = "";
-  specAr: Array<string> = [];
+    //widocznosc elementow
+    isVisibleForm = true;
+    renderList = false;
 
-  private subgetCities$!: Subscription;
-  private subgetSpec$!: Subscription;
+    //dane pobierane z bazy
+    cities: any; //subscribe
+    citiesArray: Object[] = [];
+    specialities: any; //subscribe
+    specArray: string[] = [];
+    uniqueSpecArray: string[] = [];
+    spec = '';
+    specAr: string[] = [];
 
-  constructor(private fb: FormBuilder, private patientService: PatientService) { }
+    private subgetCities$!: Subscription;
+    private subgetSpec$!: Subscription;
 
-  ngOnInit(): void {
-    this.subgetCities$ = this.patientService.getCities().subscribe(resp => {
-      this.cities = resp;
-      this.cities.forEach((el: { city: string; }) => {
-        this.citiesArray.push(el.city)
-      });
-    })
-  
-    // jeżeli specjalizacje zostaną podane w innej formnie niż "jenda, druga" to sie wysypie
-    this.subgetSpec$ = this.patientService.getSpec().subscribe(resp => {
-      this.specialities = resp;
-      this.specialities.forEach((el: { speciality: string; }) => {
-        this.spec = el.speciality;
-        this.specAr = this.spec.split(', ');
-        this.specAr.forEach((el: string) => {
-          // console.log(el);
-          this.specArray.push(el)
+    constructor(private fb: FormBuilder, private patientService: PatientService) { }
+
+    ngOnInit(): void {
+        this.subgetCities$ = this.patientService.getCities().subscribe(resp => {
+            this.cities = resp;
+            this.cities.forEach((el: { city: string }) => {
+                this.citiesArray.push(el.city);
+            });
         });
-        this.uniqueSpecArray = [...new Set(this.specArray)];
-        // console.log(this.uniqueSpecArray);
-      });
-    })
 
-    this.searchForm = this.fb.group({
-      role: this.searchRole,
-      city: this.searchCity,
-      dateFrom: this.searchDateFrom,
-      dateTo: this.searchDateTo,
-      timeFrom: this.searchTimeFrom,
-      // timeTo: this.searchTimeTo, 
-    });
-  }
+        // jeżeli specjalizacje zostaną podane w innej formnie niż "jenda, druga" to sie wysypie
+        this.subgetSpec$ = this.patientService.getSpec().subscribe(resp => {
+            this.specialities = resp;
+            this.specialities.forEach((el: { speciality: string }) => {
+                this.spec = el.speciality;
+                this.specAr = this.spec.split(', ');
+                this.specAr.forEach((element: string) => {
+                    // console.log(el);
+                    this.specArray.push(element);
+                });
+                this.uniqueSpecArray = [...new Set(this.specArray)];
+                // console.log(this.uniqueSpecArray);
+            });
+        });
 
-  ngOnDestroy(){
-    if(this.subgetCities$){
-      this.subgetCities$.unsubscribe();
+        this.searchForm = this.fb.group({
+            role: this.searchRole,
+            city: this.searchCity,
+            dateFrom: this.searchDateFrom,
+            dateTo: this.searchDateTo,
+            timeFrom: this.searchTimeFrom,
+            // timeTo: this.searchTimeTo,
+        });
     }
-    if(this.subgetSpec$){
-      this.subgetSpec$.unsubscribe();
+
+    ngOnDestroy(): void{
+        if(this.subgetCities$){
+            this.subgetCities$.unsubscribe();
+        }
+        if(this.subgetSpec$){
+            this.subgetSpec$.unsubscribe();
+        }
     }
-  }
 
-  showList(){
-    this.renderList =!this.renderList
-  }
+    showList(): void{
+        this.renderList =!this.renderList;
+    }
 
-  save() {
-    this.searchRole = this.searchForm.get('role')?.value;
-    this.searchCity = this.searchForm.get('city')?.value;
-    this.searchDateFrom = this.searchForm.get('dateFrom')?.value
-    this.searchDateTo = this.searchForm.get('dateTo')?.value;
-    this.searchTimeFrom = this.searchForm.get('timeFrom')?.value;
-    // this.searchTimeTo = this.searchForm.get('timeTo')?.value;
+    save(): void{
+        this.searchRole = this.searchForm.get('role')?.value;
+        this.searchCity = this.searchForm.get('city')?.value;
+        this.searchDateFrom = this.searchForm.get('dateFrom')?.value;
+        this.searchDateTo = this.searchForm.get('dateTo')?.value;
+        this.searchTimeFrom = this.searchForm.get('timeFrom')?.value;
+        // this.searchTimeTo = this.searchForm.get('timeTo')?.value;
 
-    this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom];
-    // console.log(this.searchData);
-    
-  }
+        this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom];
+        // console.log(this.searchData);
+
+    }
 
 }

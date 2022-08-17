@@ -39,13 +39,12 @@ export interface TermListVisitElement{
     speciality: string;
     city: string;
     id: string;
-    data:string;
+    data: string;
     godzina_wizyty: string;
     name: string;
     surname: string;
     term_id: number;
 }
-  
 
 
-  
+
