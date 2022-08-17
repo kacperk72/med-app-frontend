@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ export class AuthService {
 
     constructor(private http: HttpClient, private router: Router) { }
 
-    proceedLogin(usercred: any){
+    proceedLogin(usercred: any): Observable<{token: string}>{
         return this.http.post<{token: string}>('http://localhost:3001/user/login', usercred);
     }
 
@@ -29,7 +30,7 @@ export class AuthService {
     }
 
     GetRolebyToken(token: any){
-        if( token != ''){
+        if( token !== ''){
             const _extractedtoken = token.split('.')[1];
             const atobData = atob(_extractedtoken);
             const _finalData = JSON.parse(atobData);

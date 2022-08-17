@@ -46,5 +46,13 @@ export interface TermListVisitElement{
     term_id: number;
 }
 
+export interface VisitFromDB {
+    id_wizyty: string;
+    id_lekarza: string;
+    id_pacjenta: string;
+    id_terminu: string;
+    term_id: number;
+    reason_of_visit: string;
+}
 
 

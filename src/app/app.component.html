@@ -14,13 +14,13 @@
     </div>
     <div id="menu-options" *ngIf="showMenu">
       <ul>
-        <li *ngIf='role != ""'><a routerLink="/" (click)="service.Logout()" (click)="switchMenu()">Wyloguj</a></li>
-        <li *ngIf='role == ""'><a routerLink="/zaloguj" (click)="switchMenu()">Zaloguj</a></li>
-        <li *ngIf='role == ""'><a routerLink="/zarejestruj" (click)="switchMenu()">Zarejestruj</a></li>
-        <li *ngIf='role == "lekarz"'><a routerLink="/edytujDoktora" (click)="switchMenu()">Moje dane</a></li>
-        <li *ngIf='role == "admin"'><a routerLink="/admin" (click)="switchMenu()">Zarządzaj lekarzami</a></li>
-        <li *ngIf='role == "pacjent"'><a routerLink="/mojeWizyty" (click)="switchMenu()">Moje wizyty</a></li>
-        <li *ngIf='role == "pacjent" || role == "admin" || role == "lekarz"'><a routerLink="/pacjent" (click)="switchMenu()">Szukaj wizyty</a></li>
+        <li *ngIf='role !== ""'><a routerLink="/" (click)="service.Logout()" (click)="switchMenu()">Wyloguj</a></li>
+        <li *ngIf='role === ""'><a routerLink="/zaloguj" (click)="switchMenu()">Zaloguj</a></li>
+        <li *ngIf='role === ""'><a routerLink="/zarejestruj" (click)="switchMenu()">Zarejestruj</a></li>
+        <li *ngIf='role === "lekarz"'><a routerLink="/edytujDoktora" (click)="switchMenu()">Moje dane</a></li>
+        <li *ngIf='role === "admin"'><a routerLink="/admin" (click)="switchMenu()">Zarządzaj lekarzami</a></li>
+        <li *ngIf='role === "pacjent"'><a routerLink="/mojeWizyty" (click)="switchMenu()">Moje wizyty</a></li>
+        <li *ngIf='role === "pacjent" || role === "admin" || role === "lekarz"'><a routerLink="/pacjent" (click)="switchMenu()">Szukaj wizyty</a></li>
       </ul>
     </div>
   </div>

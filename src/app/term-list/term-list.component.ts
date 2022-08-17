@@ -191,7 +191,9 @@ export class TermListComponent implements OnInit, OnDestroy {
       // console.log(this.termDataBooking);
 
       // dodawanie wpisu
-      this.termListService.bookTerm(this.termDataBooking);
+      this.termListService.bookTerm(this.termDataBooking).subscribe(() => {
+          console.log('dodano wizyte');
+      });
       this.closeBooking();
       window.location.reload();
       window.alert('Rezerwacja zakończona sukcesem!');

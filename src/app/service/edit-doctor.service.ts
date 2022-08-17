@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Doctor, ScheduleDataElement } from '../models/doctor-types';
+import { Doctor, ScheduleDataElement, VisitElement } from '../models/doctor-types';
+import { VisitFromDB } from '../models/term-types';
 
 @Injectable({
     providedIn: 'root'
@@ -10,14 +11,12 @@ export class EditDoctorService {
 
     constructor(private httpClient: HttpClient) { }
 
-    //TODO: dodac zwracane typy
-
-    getOneDoctor(doctorLogin: string) {
+    getOneDoctor(doctorLogin: string): Observable<Doctor>{
         return this.httpClient.get<Doctor>(`http://localhost:3001/doctor/getOne/${doctorLogin}`);
     }
 
-    updateDoctorData(id: string, name: string, surname: string, speciality: string, city: string) {
-        return this.httpClient.patch('http://localhost:3001/doctor/update', {
+    updateDoctorData(id: string, name: string, surname: string, speciality: string, city: string): Observable<void> {
+        return this.httpClient.patch<void>('http://localhost:3001/doctor/update', {
             id,
             name,
             surname,
@@ -26,22 +25,22 @@ export class EditDoctorService {
         });
     }
 
-    getSchedule(doctorLogin: string){
+    getSchedule(doctorLogin: string): Observable<Doctor>{
         return this.httpClient.get<Doctor>(`http://localhost:3001/doctor/getSchedule/${doctorLogin}`);
     }
 
-    getHourList(id: string, element: ScheduleDataElement) {
+    getHourList(id: string, element: ScheduleDataElement): Observable<VisitElement[]> {
         const fromHour = element.od_godziny;
         const toHour = element.do_godziny;
         const id_terminu = element.id_terminu;
         const data = element.data.split('T')[0];
 
-        return this.httpClient.get(`http://localhost:3001/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}/${id_terminu}`);
+        return this.httpClient.get<VisitElement[]>(`http://localhost:3001/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}/${id_terminu}`);
     }
 
-    addTerm(id: string, date: string, timeFrom: string, timeTo: string){
+    addTerm(id: string, date: string, timeFrom: string, timeTo: string): Observable<void>{
 
-        return this.httpClient.post(`http://localhost:3001/doctor/addTerm`, {
+        return this.httpClient.post<void>(`http://localhost:3001/doctor/addTerm`, {
             id,
             date,
             timeFrom,
@@ -49,8 +48,8 @@ export class EditDoctorService {
         });
     }
 
-    getBookedTerms(id_lek: string){
-        return this.httpClient.get(`http://localhost:3001/doctor/getBookedTerms/${id_lek}`);
+    getBookedTerms(id_lek: string): Observable<VisitFromDB[]>{
+        return this.httpClient.get<VisitFromDB[]>(`http://localhost:3001/doctor/getBookedTerms/${id_lek}`);
     }
 
     getHourFromTerm(term_id: number): Observable<{godzina_wizyty: string}>{
@@ -65,20 +64,20 @@ export class EditDoctorService {
         return this.httpClient.get<{data: string}>(`http://localhost:3001/doctor/getDateFromTerm/${id_terminu}`);
     }
 
-    cancelVisit(id_wizyty: string){
-        return this.httpClient.delete(`http://localhost:3001/doctor/cancelVisit/${id_wizyty}`);
+    cancelVisit(id_wizyty: string): Observable<void>{
+        return this.httpClient.delete<void>(`http://localhost:3001/doctor/cancelVisit/${id_wizyty}`);
     }
 
-    updateDoctorTerm(id_terminu: string, timeF: number, timeT: number){
-        return this.httpClient.patch(`http://localhost:3001/doctor/updateTerm`,{
+    updateDoctorTerm(id_terminu: string, timeF: number, timeT: number): Observable<void>{
+        return this.httpClient.patch<void>(`http://localhost:3001/doctor/updateTerm`,{
             id_terminu,
             timeF,
             timeT
         });
     }
 
-    deleteDoctorTerm(id_terminu: string) {
-        return this.httpClient.delete(`http://localhost:3001/doctor/deleteTerm/${id_terminu}`);
+    deleteDoctorTerm(id_terminu: string): Observable<void> {
+        return this.httpClient.delete<void>(`http://localhost:3001/doctor/deleteTerm/${id_terminu}`);
     }
 
 }

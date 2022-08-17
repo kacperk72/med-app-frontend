@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { DoctorDataElement } from '../models/doctor-types';
 
@@ -21,11 +21,11 @@ export class AdminService {
             ));
     }
 
-    addDoctor(doctorData: any){
-        return this.http.post('http://localhost:3001/doctor/register', doctorData);
+    addDoctor(doctorData: any): Observable<void>{
+        return this.http.post<void>('http://localhost:3001/doctor/register', doctorData);
     }
 
-    deleteDoctor(doctorId: string) {
-        return this.http.delete(`http://localhost:3001/doctor/delete/${doctorId}`);
+    deleteDoctor(doctorId: string): Observable<void>{
+        return this.http.delete<void>(`http://localhost:3001/doctor/delete/${doctorId}`);
     }
 }

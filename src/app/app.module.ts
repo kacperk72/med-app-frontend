@@ -28,35 +28,35 @@ import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    AdminComponent,
-    PatientComponent,
-    TermListComponent,
-    EditDoctorComponent,
-    MedicalAppointmentComponent,
-    AdminEditDoctorComponent,
-    BookedTermsComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatIconModule,
-    BrowserAnimationsModule,
-    MatTabsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatTableModule,
-    MatListModule,
-    MatSelectModule,
-    MatInputModule,
-    HttpClientModule,
-    MatPaginatorModule,
-    MatButtonModule
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        RegisterComponent,
+        AdminComponent,
+        PatientComponent,
+        TermListComponent,
+        EditDoctorComponent,
+        MedicalAppointmentComponent,
+        AdminEditDoctorComponent,
+        BookedTermsComponent
     ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatIconModule,
+        BrowserAnimationsModule,
+        MatTabsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatTableModule,
+        MatListModule,
+        MatSelectModule,
+        MatInputModule,
+        HttpClientModule,
+        MatPaginatorModule,
+        MatButtonModule
+    ],
+    providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -86,7 +86,9 @@ export class MedicalAppointmentComponent implements OnInit, OnDestroy {
 
     cancelVisit(term: PacientTermElement): void{
     // console.log(term);
-        this.medicalAppointment.cancelVisit(term, this.userId);
+        this.medicalAppointment.cancelVisit(term, this.userId).subscribe(resp => {
+            console.log('delete succesfull');
+        });
         window.location.reload();
     }
 }
