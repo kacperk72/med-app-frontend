@@ -7,6 +7,7 @@ import { AuthService } from '../service/auth.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
 
 @Component({
+    // eslint-disable-next-line @angular-eslint/component-selector
     selector: 'app-edit-doctor',
     templateUrl: './edit-doctor.component.html',
     styleUrls: ['./edit-doctor.component.css'],
@@ -64,7 +65,7 @@ export class EditDoctorComponent implements OnInit, OnDestroy {
         this.subgetOneDoctor$ = this.editDoctorService.getOneDoctor(this.doctorLogin).subscribe((data) => {
             this.doctorData = data;
             // console.log(this.doctorData);
-            if(this.doctorData != []){
+            if(this.doctorData !== []){
                 this.doctorID = this.doctorData.id_lekarza;
                 this.nameInputValue = this.doctorData.name;
                 this.surnameInputValue = this.doctorData.surname;

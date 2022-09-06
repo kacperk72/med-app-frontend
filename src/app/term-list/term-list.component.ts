@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -62,15 +62,25 @@ export class TermListComponent implements OnInit, OnDestroy {
   private subgetSchedule$!: Subscription;
   private subgetHourList$!: Subscription;
 
-  constructor(private termListService: TermListService, private editDoctorService: EditDoctorService, private authService: AuthService) { }
+  constructor(private termListService: TermListService, private editDoctorService: EditDoctorService, private authService: AuthService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+
       this.searchRole = this.searchForm.get('role')?.value;
       this.searchCity = this.searchForm.get('city')?.value;
       this.searchDateFrom = this.searchForm.get('dateFrom')?.value;
       this.searchDateTo = this.searchForm.get('dateTo')?.value;
       this.searchTimeFrom = this.searchForm.get('timeFrom')?.value;
       this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom];
+
+      this.searchForm = this.fb.group({
+          role: this.searchRole,
+          city: this.searchCity,
+          dateFrom: this.searchDateFrom,
+          dateTo: this.searchDateTo,
+          timeFrom: this.searchTimeFrom,
+          // timeTo: this.searchTimeTo,
+      });
 
       this.getDoctors();
   }
@@ -132,12 +142,12 @@ export class TermListComponent implements OnInit, OnDestroy {
                       this.termData.forEach((termEl: TermElement) => {
                           // sprawdzam czy godzina wizyty zawiera sie w widełkach formularza
                           if(termEl.godzina_wizyty >= (this.searchTimeFrom + ':00') || this.searchTimeFrom === '') {
-                              for(let i=0; i<this.doctorDataArray.length;i++){
-                                  if(this.doctorDataArray[i].id_lekarza === termEl.id){
-                                      termEl.name = this.doctorDataArray[i].name;
-                                      termEl.surname = this.doctorDataArray[i].surname;
-                                      termEl.city = this.doctorDataArray[i].city;
-                                      termEl.speciality = this.doctorDataArray[i].speciality.join();
+                              for(const doctorDataElement of this.doctorDataArray){
+                                  if(doctorDataElement.id_lekarza === termEl.id){
+                                      termEl.name = doctorDataElement.name;
+                                      termEl.surname = doctorDataElement.surname;
+                                      termEl.city = doctorDataElement.city;
+                                      termEl.speciality = doctorDataElement.speciality.join();
                                   }
                               }
                               this.termListArray.push(termEl);

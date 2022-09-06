@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,7 +54,8 @@ import {MatButtonModule} from '@angular/material/button';
         MatInputModule,
         HttpClientModule,
         MatPaginatorModule,
-        MatButtonModule
+        MatButtonModule,
+        FormsModule,
     ],
     providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
     bootstrap: [AppComponent]

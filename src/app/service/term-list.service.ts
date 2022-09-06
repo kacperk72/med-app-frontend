@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PacientBookTermElement } from '../models/pacient-types';
 import { DoctorDataElement } from '../models/doctor-types';
 import { TermElement, TermListVisitElement } from '../models/term-types';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class TermListService {
+export class TermListService implements HttpClientModule {
 
     constructor(private http: HttpClient) { }
 

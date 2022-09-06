@@ -8,8 +8,10 @@ module.exports = function (config) {
         plugins: [
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
+            require('karma-firefox-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
+            require('karma-junit-reporter'),
             require('@angular-devkit/build-angular/plugins/karma')
         ],
         client: {
@@ -18,6 +20,7 @@ module.exports = function (config) {
                 // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
                 // for example, you can disable the random execution with `random: false`
                 // or set a specific seed with `seed: 4321`
+                failSpecWithNoExpectations: true,
             },
             clearContext: false // leave Jasmine Spec Runner output visible in browser
         },
@@ -32,13 +35,13 @@ module.exports = function (config) {
                 { type: 'text-summary' }
             ]
         },
-        reporters: ['progress', 'kjhtml'],
+        reporters: ['progress', 'kjhtml', 'junit'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['Chrome'],
+        browsers: ['Chrome', 'Firefox'],
         singleRun: false,
-        restartOnFileChange: true
+        restartOnFileChange: true,
     });
 };

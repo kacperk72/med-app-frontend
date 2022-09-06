@@ -11,7 +11,7 @@ export class AuthService {
 
     constructor(private http: HttpClient, private router: Router) { }
 
-    proceedLogin(usercred: any): Observable<{token: string}>{
+    proceedLogin(usercred: {login: string; password: string}): Observable<{token: string}>{
         return this.http.post<{token: string}>('http://localhost:3001/user/login', usercred);
     }
 

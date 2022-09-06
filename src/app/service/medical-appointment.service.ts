@@ -26,6 +26,6 @@ export class MedicalAppointmentService {
     cancelVisit(term: any, user_id: string): Observable<void> {
         // console.log(term);
         const hour = term.godzina_wizyty;
-        return this.httpClient.delete<void>(`http://localhost:3001/pacient/cancelVisit/${hour}/${user_id}`)
+        return this.httpClient.delete<void>(`http://localhost:3001/pacient/cancelVisit/${hour}/${user_id}`);
     }
 }

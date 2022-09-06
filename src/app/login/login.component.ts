@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 
 
 @Component({
+    // eslint-disable-next-line @angular-eslint/component-selector
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
@@ -16,7 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy {
     loginForm!: FormGroup;
-    loginData = {};
+    loginData = {login: '', password: ''};
     userLogin = '';
     userPassword = '';
     responsedata: any;
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         localStorage.clear();
     }
 
+    // eslint-disable-next-line @angular-eslint/contextual-lifecycle
     ngOnInit(): void {
         this.loginForm = this.fb.group({
             login: [this.userLogin, Validators.required],

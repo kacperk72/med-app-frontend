@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+<testsuite name="Chrome 104.0.5112.101 (Windows 10)" package="" timestamp="2022-09-06T09:56:08" id="0" hostname="DESKTOP-0UKLBAA" tests="32" errors="0" failures="1" time="0.258">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.101 Safari/537.36"/>
+  </properties>
+  <testcase name="RegisterService should be created" time="0.013" classname="Chrome_104_0_5112_101_(Windows_10).RegisterService"/>
+  <testcase name="AdminService should get doctors data" time="0.004" classname="Chrome_104_0_5112_101_(Windows_10).AdminService"/>
+  <testcase name="AdminService should be created" time="0.002" classname="Chrome_104_0_5112_101_(Windows_10).AdminService"/>
+  <testcase name="AdminEditDoctorComponent should create" time="0.042" classname="Chrome_104_0_5112_101_(Windows_10).AdminEditDoctorComponent"/>
+  <testcase name="LoginComponent Auth service should be injected" time="0.013" classname="Chrome_104_0_5112_101_(Windows_10).LoginComponent"/>
+  <testcase name="LoginComponent Login component should be created" time="0.008" classname="Chrome_104_0_5112_101_(Windows_10).LoginComponent"/>
+  <testcase name="MedicalAppointmentComponent should create" time="0.013" classname="Chrome_104_0_5112_101_(Windows_10).MedicalAppointmentComponent"/>
+  <testcase name="EditDoctorService should be created" time="0.004" classname="Chrome_104_0_5112_101_(Windows_10).EditDoctorService"/>
+  <testcase name="EditDoctorService should get one doctor" time="0.003" classname="Chrome_104_0_5112_101_(Windows_10).EditDoctorService"/>
+  <testcase name="EditDoctorService should get doctor terms" time="0.002" classname="Chrome_104_0_5112_101_(Windows_10).EditDoctorService"/>
+  <testcase name="AuthService should return error code 500 from logging" time="0.002" classname="Chrome_104_0_5112_101_(Windows_10).AuthService"/>
+  <testcase name="AuthService should call POST method" time="0.001" classname="Chrome_104_0_5112_101_(Windows_10).AuthService"/>
+  <testcase name="AuthService should test HttpClient.post" time="0.001" classname="Chrome_104_0_5112_101_(Windows_10).AuthService"/>
+  <testcase name="AuthService should be created" time="0.004" classname="Chrome_104_0_5112_101_(Windows_10).AuthService"/>
+  <testcase name="AuthService should return error from logging" time="0.003" classname="Chrome_104_0_5112_101_(Windows_10).AuthService"/>
+  <testcase name="DoctorRoleGuard should ..." time="0.005" classname="Chrome_104_0_5112_101_(Windows_10).DoctorRoleGuard"/>
+  <testcase name="AdminRoleGuard should ..." time="0.006" classname="Chrome_104_0_5112_101_(Windows_10).AdminRoleGuard"/>
+  <testcase name="EditDoctorComponent should create" time="0.023" classname="Chrome_104_0_5112_101_(Windows_10).EditDoctorComponent"/>
+  <testcase name="AdminComponent should create" time="0.019" classname="Chrome_104_0_5112_101_(Windows_10).AdminComponent"/>
+  <testcase name="TokenInterceptorService should be created" time="0.001" classname="Chrome_104_0_5112_101_(Windows_10).TokenInterceptorService"/>
+  <testcase name="PatientComponent should create" time="0.01" classname="Chrome_104_0_5112_101_(Windows_10).PatientComponent"/>
+  <testcase name="RegisterComponent should create" time="0.009" classname="Chrome_104_0_5112_101_(Windows_10).RegisterComponent"/>
+  <testcase name="AppComponent should create the app" time="0.017" classname="Chrome_104_0_5112_101_(Windows_10).AppComponent"/>
+  <testcase name="AppComponent should render MedApp in header" time="0.009" classname="Chrome_104_0_5112_101_(Windows_10).AppComponent"/>
+  <testcase name="MedicalAppointmentService should be created" time="0.005" classname="Chrome_104_0_5112_101_(Windows_10).MedicalAppointmentService"/>
+  <testcase name="MedicalAppointmentService should get one user" time="0.003" classname="Chrome_104_0_5112_101_(Windows_10).MedicalAppointmentService"/>
+  <testcase name="PacientRoleGuard should ..." time="0.004" classname="Chrome_104_0_5112_101_(Windows_10).PacientRoleGuard"/>
+  <testcase name="TermListService should be created" time="0.003" classname="Chrome_104_0_5112_101_(Windows_10).TermListService"/>
+  <testcase name="TermListComponent should create" time="0.016" classname="Chrome_104_0_5112_101_(Windows_10).TermListComponent">
+    <failure type="">TypeError: Cannot read properties of undefined (reading 'get')
+    at TermListComponent.call [as ngOnInit] (src/app/term-list/term-list.component.ts:69:41)
+    at callHook (node_modules/@angular/core/fesm2020/core.mjs:2494:22)
+    at callHooks (node_modules/@angular/core/fesm2020/core.mjs:2463:17)
+    at executeInitAndCheckHooks (node_modules/@angular/core/fesm2020/core.mjs:2414:9)
+    at refreshView (node_modules/@angular/core/fesm2020/core.mjs:11713:21)
+    at renderComponentOrTemplate (node_modules/@angular/core/fesm2020/core.mjs:11815:9)
+    at tickRootContext (node_modules/@angular/core/fesm2020/core.mjs:12969:13)
+    at detectChangesInRootView (node_modules/@angular/core/fesm2020/core.mjs:12995:5)
+    at RootViewRef.detectChanges (node_modules/@angular/core/fesm2020/core.mjs:21421:9)
+    at ComponentFixture._tick (node_modules/@angular/core/fesm2020/testing.mjs:140:32)
+</failure>
+  </testcase>
+  <testcase name="AuthGuard should ..." time="0.003" classname="Chrome_104_0_5112_101_(Windows_10).AuthGuard"/>
+  <testcase name="PatientService should be created" time="0.003" classname="Chrome_104_0_5112_101_(Windows_10).PatientService"/>
+  <testcase name="BookedTermsComponent should create" time="0.007" classname="Chrome_104_0_5112_101_(Windows_10).BookedTermsComponent"/>
+  <system-out>
+    <![CDATA[Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'app-booked-terms' is not a known element (used in the 'AdminEditDoctorComponent' component template):
+1. If 'app-booked-terms' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'idLek' since it isn't a known property of 'app-booked-terms' (used in the 'AdminEditDoctorComponent' component template).
+1. If 'app-booked-terms' is an Angular component and it has the 'idLek' input, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-icon' is not a known element (used in the 'AppComponent' component template):
+1. If 'mat-icon' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-icon' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-icon' is not a known element (used in the 'AppComponent' component template):
+1. If 'mat-icon' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-icon' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'LoginComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'LoginComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Firefox 104.0 (Windows 10) LOG: 'Brak tokenu'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-select' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-select' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-select' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-select' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-select' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-select' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'PatientComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'app-booked-terms' is not a known element (used in the 'EditDoctorComponent' component template):
+1. If 'app-booked-terms' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) LOG: 'Brak tokenu'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'idLek' since it isn't a known property of 'app-booked-terms' (used in the 'EditDoctorComponent' component template).
+1. If 'app-booked-terms' is an Angular component and it has the 'idLek' input, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Firefox 104.0 (Windows 10) LOG: 'Brak tokenu'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'app-booked-terms' is not a known element (used in the 'AdminEditDoctorComponent' component template):
+1. If 'app-booked-terms' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0303: Can't bind to 'idLek' since it isn't a known property of 'app-booked-terms' (used in the 'AdminEditDoctorComponent' component template).
+1. If 'app-booked-terms' is an Angular component and it has the 'idLek' input, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'LoginComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'LoginComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Chrome 104.0.5112.101 (Windows 10) LOG: 'Brak tokenu'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'app-booked-terms' is not a known element (used in the 'EditDoctorComponent' component template):
+1. If 'app-booked-terms' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) LOG: 'Brak tokenu'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0303: Can't bind to 'idLek' since it isn't a known property of 'app-booked-terms' (used in the 'EditDoctorComponent' component template).
+1. If 'app-booked-terms' is an Angular component and it has the 'idLek' input, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-select' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-select' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-select' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-select' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-select' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-select' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
+1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'PatientComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'RegisterComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'RegisterComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'RegisterComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-error' is not a known element (used in the 'RegisterComponent' component template):
+1. If 'mat-error' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-error' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'RegisterComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-error' is not a known element (used in the 'RegisterComponent' component template):
+1. If 'mat-error' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-error' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'RegisterComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-icon' is not a known element (used in the 'AppComponent' component template):
+1. If 'mat-icon' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-icon' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 104.0.5112.101 (Windows 10) ERROR: 'NG0304: 'mat-icon' is not a known element (used in the 'AppComponent' component template):
+1. If 'mat-icon' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-icon' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
