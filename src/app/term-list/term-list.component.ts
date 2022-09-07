@@ -1,13 +1,9 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { DoctorDataElement, ScheduleDataElement } from '../models/doctor-types';
 import { PacientBookTermElement } from '../models/pacient-types';
 import { TermElement } from '../models/term-types';
 import { AuthService } from '../service/auth.service';
-import { EditDoctorService } from '../service/edit-doctor.service';
 import { TermListService } from '../service/term-list.service';
 
 @Component({
@@ -15,160 +11,32 @@ import { TermListService } from '../service/term-list.service';
     templateUrl: './term-list.component.html',
     styleUrls: ['./term-list.component.css'],
 })
-export class TermListComponent implements OnInit, OnDestroy {
-    @Input() doctors: DoctorDataElement[] = [];
-    @Input() searchForm!: FormGroup;
+export class TermListComponent implements OnInit {
+    // @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+    @Input() termListArray: TermElement[] = [];
+    @Input() termDataArray!: MatTableDataSource<TermElement>;
+    @Input() renderTable!: boolean;
+    @Input() loadDataSpinner!: boolean;
 
     // @Output() onChange:
 
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-    userID = '';
-    speciality = '';
-    login = '';
-    password = '';
-    role = '';
-    name = '';
-    surname = '';
-    city = '';
-    term = '';
-
-    // zmienne na dane zwracane z bazy
-    scheduleData: any;
-    scheduleDataArray: ScheduleDataElement[] = [];
-    termData: any;
-    termDataArray!: MatTableDataSource<TermElement>;
-    doctorDataArray: DoctorDataElement[] = [];
-    termListArray: TermElement[] = [];
-    // zmienne do załadowania danych do komponentów
-    isVisible = true;
-    isLoaded = true;
-
     //kolumny w tabeli terminów
     displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
-    doctorsDataSource = this.termListArray;
+    dataSource: any;
 
     //zmienne do rezerwacji wizyty
     termDataBooking!: PacientBookTermElement;
 
-    //zmienne z fomularza do filtrowania wyników
-    // search = {
-    //     role: '',
-    // };
-    searchRole = '';
-    searchCity = '';
-    searchDateFrom = '';
-    searchDateTo = '';
-    searchTimeFrom = '';
-    searchData = [''];
+    // zmienne do załadowania danych do komponentów
+    isVisible = true;
+    isLoadedData = false;
 
-    private subgetSchedule$!: Subscription;
-    private subgetHourList$!: Subscription;
-
-    constructor(private termListService: TermListService, private editDoctorService: EditDoctorService, private authService: AuthService, private fb: FormBuilder) {}
+    constructor(private termListService: TermListService, private authService: AuthService) {}
 
     ngOnInit(): void {
-        console.log(this.searchForm);
-        // this.search = this.searchForm.value;
-        this.searchRole = this.searchForm.get('role')?.value;
-        this.searchCity = this.searchForm.get('city')?.value;
-        this.searchDateFrom = this.searchForm.get('dateFrom')?.value;
-        this.searchDateTo = this.searchForm.get('dateTo')?.value;
-        this.searchTimeFrom = this.searchForm.get('timeFrom')?.value;
-        this.searchData = [this.searchRole, this.searchCity, this.searchDateFrom, this.searchDateTo, this.searchTimeFrom];
-
-        this.searchForm = this.fb.group({
-            role: this.searchRole,
-            city: this.searchCity,
-            dateFrom: this.searchDateFrom,
-            dateTo: this.searchDateTo,
-            timeFrom: this.searchTimeFrom,
-            // timeTo: this.searchTimeTo,
-        });
-
-        this.getSchedule();
-    }
-
-    ngOnDestroy(): void {
-        if (this.subgetSchedule$) {
-            this.subgetSchedule$.unsubscribe();
-        }
-        if (this.subgetHourList$) {
-            this.subgetHourList$.unsubscribe();
-        }
-    }
-
-    getSchedule(): void {
-        this.doctors.forEach((element) => {
-            // console.log("doktor element", element);
-            this.userID = element.id_lekarza;
-            // this.speciality = element.speciality;
-            this.login = element.login;
-            this.password = element.password;
-            this.role = element.role;
-            this.name = element.name;
-            this.surname = element.surname;
-            this.city = element.city;
-            this._checkSpecAndGetSchedule(element);
-        });
-    }
-
-    private _checkSpecAndGetSchedule(element: DoctorDataElement): void {
-        if (element.speciality.includes(this.searchRole) || this.searchRole === '') {
-            if (this.searchCity.includes(element.city) || this.searchCity === '') {
-                this.doctorDataArray.push(element);
-                this._getScheduleRequest();
-            }
-        }
-    }
-
-    // pobranie grafiku i listy terminów
-    private _getScheduleRequest(): void {
-        this.subgetSchedule$ = this.editDoctorService.getSchedule(this.login, this.searchForm.value).subscribe((data) => {
-            this.scheduleData = data;
-            //iterowanie po dniach zapisanych w grafiku lekarza
-            this.scheduleData.forEach((element: ScheduleDataElement) => {
-                // sprawdzam czy data zawiera sie w podanych widełkach formularza
-                if (
-                    (new Date(element.data.split('T')[0]) >= new Date(this.searchDateFrom) && new Date(element.data.split('T')[0]) <= new Date(this.searchDateTo)) ||
-                    (this.searchDateFrom === '' && this.searchDateTo === '')
-                ) {
-                    this.scheduleDataArray.push(element);
-                    this.subgetHourList$ = this.editDoctorService.getHourList(element.id_lekarza, element).subscribe((response) => {
-                        this.termData = response;
-
-                        // iterowanie po godzinach wyznaczonych jako termin na wizytę
-                        this.termData.forEach((termEl: TermElement) => {
-                            // sprawdzam czy godzina wizyty zawiera sie w widełkach formularza
-                            if (termEl.godzina_wizyty >= this.searchTimeFrom + ':00' || this.searchTimeFrom === '') {
-                                for (const doctorDataElement of this.doctorDataArray) {
-                                    if (doctorDataElement.id_lekarza === termEl.id) {
-                                        termEl.name = doctorDataElement.name;
-                                        termEl.surname = doctorDataElement.surname;
-                                        termEl.city = doctorDataElement.city;
-                                        termEl.speciality = doctorDataElement.speciality.join();
-                                    }
-                                }
-                                this.termListArray.push(termEl);
-                            }
-                        });
-                        this.setPaginator();
-                    });
-                }
-            });
-        });
-    }
-
-    // private _;
-
-    setPaginator(): void {
-        this.termListArray.sort(function (a, b) {
-            return Number(new Date(a.date)) - Number(new Date(b.date));
-        });
-
-        this.termDataArray = new MatTableDataSource(this.termListArray);
-        this.termDataArray.paginator = this.paginator;
-        this.isLoaded = true;
+        this.dataSource = new MatTableDataSource(this.termListArray);
+        // this.dataSource.paginator = this.paginator;
     }
 
     confirmTerm(element: PacientBookTermElement): void {
@@ -178,7 +46,6 @@ export class TermListComponent implements OnInit, OnDestroy {
             this.isVisible = true;
         }
         this.termDataBooking = element;
-        console.log(this.termDataBooking);
     }
 
     closeBooking(): void {

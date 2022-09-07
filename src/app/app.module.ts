@@ -22,10 +22,10 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './service/token-interceptor.service';
 import { AdminEditDoctorComponent } from './admin-edit-doctor/admin-edit-doctor.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { BookedTermsComponent } from './booked-terms/booked-terms.component';
-import {MatButtonModule} from '@angular/material/button';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
     declarations: [
@@ -38,7 +38,7 @@ import {MatButtonModule} from '@angular/material/button';
         EditDoctorComponent,
         MedicalAppointmentComponent,
         AdminEditDoctorComponent,
-        BookedTermsComponent
+        BookedTermsComponent,
     ],
     imports: [
         BrowserModule,
@@ -56,8 +56,9 @@ import {MatButtonModule} from '@angular/material/button';
         MatPaginatorModule,
         MatButtonModule,
         FormsModule,
+        MatProgressSpinnerModule,
     ],
-    providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
-    bootstrap: [AppComponent]
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

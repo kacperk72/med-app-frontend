@@ -39,6 +39,6 @@
             <input type="submit" value="Szukaj" id="searchInput" (click)="showList()" />
         </form>
 
-        <app-term-list [searchForm]="searchForm" [doctors]="doctors" *ngIf="renderList"></app-term-list>
+        <app-term-list [termDataArray]="termDataArray" [termListArray]="termListArray" [renderTable]="renderTable" [loadDataSpinner]="loadDataSpinner"></app-term-list>
     </div>
 </div>

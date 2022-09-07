@@ -1,56 +1,56 @@
-<div id="content" *ngIf="isLoaded">
-    <div id="container" class="mat-elevation-z8">
-      <table mat-table [dataSource]="termDataArray">
-        <!-- Name Column -->
-        <ng-container matColumnDef="imie">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Imie </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
-      
-        <!-- Surname Column -->
-        <ng-container matColumnDef="nazwisko">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwisko </th>
-          <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
-        </ng-container>
-      
-        <!-- specialization -->
-        <ng-container matColumnDef="specjalnosc">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Specjalność </th>
-          <td mat-cell *matCellDef="let element"> {{element.speciality}} </td> -->
-        </ng-container>
+<div id="content">
+    <div *ngIf="loadDataSpinner"><mat-spinner></mat-spinner></div>
+    <div id="container" class="mat-elevation-z8" *ngIf="renderTable">
+        <table mat-table [dataSource]="dataSource">
+            <!-- Name Column -->
+            <ng-container matColumnDef="imie">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Imie</th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
 
-        <!-- City Column -->
-        <ng-container matColumnDef="miasto">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Miasto </th>
-          <td mat-cell *matCellDef="let element"> {{element.city}} </td>
-        </ng-container>
+            <!-- Surname Column -->
+            <ng-container matColumnDef="nazwisko">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwisko</th>
+                <td mat-cell *matCellDef="let element">{{ element.surname }}</td>
+            </ng-container>
 
-        <ng-container matColumnDef="termin">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Termin </th>
-          <td mat-cell *matCellDef="let element"> {{element.data}} {{element.godzina_wizyty}} </td>
-        </ng-container>
+            <!-- specialization -->
+            <ng-container matColumnDef="specjalnosc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Specjalność</th>
+                <td mat-cell *matCellDef="let element">{{ element.speciality }}</td>
+                -->
+            </ng-container>
 
-        <ng-container matColumnDef="icons" >
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
-          <td mat-cell *matCellDef="let element">
-            <a *ngIf="element.isVisitFree">Wybierz</a>
-            <input type="button" value="Wybierz"  (click)="confirmTerm(element)">
-          </td>
-        </ng-container>
+            <!-- City Column -->
+            <ng-container matColumnDef="miasto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Miasto</th>
+                <td mat-cell *matCellDef="let element">{{ element.city }}</td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedData"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedData;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select visit of visits"></mat-paginator>
+            <ng-container matColumnDef="termin">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Termin</th>
+                <td mat-cell *matCellDef="let element">{{ element.data }} {{ element.godzina_wizyty }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="icons">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                <td mat-cell *matCellDef="let element">
+                    <a *ngIf="element.isVisitFree">Wybierz</a>
+                    <input type="button" value="Wybierz" (click)="confirmTerm(element)" />
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedData"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedData"></tr>
+        </table>
+        <input type="button" value="Załaduj więcej" />
+        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select visit of visits"></mat-paginator> -->
     </div>
-      
 
-      <div id="confirmWindow" [hidden]="isVisible">
-          <h2>Potwierdź wizytę!</h2>
-          <textarea placeholder="powód wizyty (opcjonalne)" id="textArea"></textarea>
-          <input type="button" value="wróć" style="margin: 10px;" (click)="closeBooking()">
-          <input type="button" value="potwierdź" style="margin: 10px;" (click)="bookTerm()">
-      </div>
-
-
+    <div id="confirmWindow" [hidden]="isVisible">
+        <h2>Potwierdź wizytę!</h2>
+        <textarea placeholder="powód wizyty (opcjonalne)" id="textArea"></textarea>
+        <input type="button" value="wróć" style="margin: 10px" (click)="closeBooking()" />
+        <input type="button" value="potwierdź" style="margin: 10px" (click)="bookTerm()" />
+    </div>
 </div>

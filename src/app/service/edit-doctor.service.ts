@@ -19,7 +19,7 @@ export class EditDoctorService {
     }
 
     updateDoctorData(id: string, name: string, surname: string, speciality: string, city: string): Observable<void> {
-        return this.httpClient.patch<void>('${this._host}/doctor/update', {
+        return this.httpClient.patch<void>(`${this._host}/doctor/update`, {
             id,
             name,
             surname,
@@ -28,8 +28,12 @@ export class EditDoctorService {
         });
     }
 
-    getSchedule(doctorLogin: string, value?: any): Observable<Doctor> {
-        return this.httpClient.get<Doctor>(`${this._host}/doctor/getSchedule/${doctorLogin}`, { params: value });
+    getSchedule(doctorLogin: string): Observable<Doctor> {
+        return this.httpClient.get<Doctor>(`${this._host}/doctor/getSchedule/${doctorLogin}`);
+    }
+
+    getFormSchedule(doctorLogin: string, value?: any): Observable<Doctor> {
+        return this.httpClient.get<Doctor>(`${this._host}/doctor/getFormSchedule/${doctorLogin}`, { params: value });
     }
 
     getHourList(id: string, element: ScheduleDataElement): Observable<VisitElement[]> {

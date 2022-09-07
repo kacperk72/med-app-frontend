@@ -1,4 +1,4 @@
-export interface Doctor{
+export interface Doctor {
     name: string;
     surname: string;
     speciality: string;
@@ -23,7 +23,7 @@ export interface EditDoctorElement {
     login: string;
 }
 
-export interface ScheduleDataElement{
+export interface ScheduleDataElement {
     id_lekarza: string;
     id_terminu: string;
     data: string;
@@ -31,12 +31,12 @@ export interface ScheduleDataElement{
     do_godziny: string;
 }
 
-export interface TermListElement{
+export interface TermListElement {
     data: string;
     od_godziny: string;
 }
 
-export interface VisitElement{
+export interface VisitElement {
     data: string;
     godzina_wizyty: string;
     id: string;
@@ -53,4 +53,4 @@ export interface DoctorDataElement {
     name: string;
     surname: string;
     role: string;
-  }
+}
