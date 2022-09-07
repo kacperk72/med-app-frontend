@@ -6,82 +6,86 @@ import { EditDoctorService } from '../service/edit-doctor.service';
 @Component({
     selector: 'app-booked-terms',
     templateUrl: './booked-terms.component.html',
-    styleUrls: ['./booked-terms.component.css']
+    styleUrls: ['./booked-terms.component.css'],
 })
-
 export class BookedTermsComponent implements OnDestroy {
-
-  @Input() set idLek(id: string) {
+    @Input() set idLek(id: string) {
         this._idLek = id;
 
-        if(!!id.length) {
+        if (!!id.length) {
             this.getBookedTerms();
         }
     }
 
-  isVisibleEdit = false;
-  bookedTermsDataArray: any = [];
+    isVisibleEdit = false;
+    bookedTermsDataArray: any = [];
 
-  private _idLek = '';
-  private subBookedTerms$!: Subscription;
-  private subHourFromTerm$!: Subscription;
-  private subGetOnePacient$!: Subscription;
-  private subGetDate$!: Subscription;
+    private _idLek = '';
+    private subBookedTerms$!: Subscription;
+    private subHourFromTerm$!: Subscription;
+    private subGetOnePacient$!: Subscription;
+    private subGetDate$!: Subscription;
 
-  constructor(private editDoctorService: EditDoctorService) { }
+    constructor(private editDoctorService: EditDoctorService) {}
 
-  ngOnDestroy(): void{
-      if(!!this.subBookedTerms$){
-          this.subBookedTerms$.unsubscribe();
-      }
-      if(this.subHourFromTerm$) {
-          this.subHourFromTerm$.unsubscribe();
-      }
-      if(this.subGetOnePacient$) {
-          this.subGetOnePacient$.unsubscribe();
-      }
-      if(this.subGetDate$) {
-          this.subGetDate$.unsubscribe();
-      }
-  }
+    ngOnDestroy(): void {
+        if (!!this.subBookedTerms$) {
+            this.subBookedTerms$.unsubscribe();
+        }
+        if (this.subHourFromTerm$) {
+            this.subHourFromTerm$.unsubscribe();
+        }
+        if (this.subGetOnePacient$) {
+            this.subGetOnePacient$.unsubscribe();
+        }
+        if (this.subGetDate$) {
+            this.subGetDate$.unsubscribe();
+        }
+    }
 
-  editTerm(): void{
-      this.isVisibleEdit != this.isVisibleEdit;
-  }
+    editTerm(): void {
+        this.isVisibleEdit = !this.isVisibleEdit;
+    }
 
-  private getBookedTerms(): void{
-      this.bookedTermsDataArray = [];
+    private getBookedTerms(): void {
+        this.bookedTermsDataArray = [];
 
-      this.subBookedTerms$ = this.editDoctorService.getBookedTerms(this._idLek).subscribe(resp => {
-          this.bookedTermsDataArray = resp;
-          this.getMoreData();
-      });
-  }
+        this.subBookedTerms$ = this.editDoctorService
+            .getBookedTerms(this._idLek)
+            .subscribe((resp) => {
+                this.bookedTermsDataArray = resp;
+                this.getMoreData();
+            });
+    }
 
-  private getMoreData(): void{
-      this.bookedTermsDataArray.forEach((el: BookedTermElement) => {
-          this.subHourFromTerm$ = this.editDoctorService.getHourFromTerm(el.term_id).subscribe((resp: {godzina_wizyty: string})=> {
-              el.godzina_wizyty = resp.godzina_wizyty;
-          });
-          this.subGetOnePacient$ = this.editDoctorService.getOnePacient(el.id_pacjenta).subscribe((resp: {name: string; surname: string}) => {
-              el.name = resp.name;
-              el.surname = resp.surname;
-          });
-          this.subGetDate$ = this.editDoctorService.getDateFromTerm(el.id_terminu).subscribe((resp: {data: string}) => {
-              el.date = resp.data.split('T')[0];
-          });
-      // console.log(el);
-      });
-  }
+    private getMoreData(): void {
+        this.bookedTermsDataArray.forEach((el: BookedTermElement) => {
+            this.subHourFromTerm$ = this.editDoctorService
+                .getHourFromTerm(el.term_id)
+                .subscribe((resp: { godzina_wizyty: string }) => {
+                    el.godzina_wizyty = resp.godzina_wizyty;
+                });
+            this.subGetOnePacient$ = this.editDoctorService
+                .getOnePacient(el.id_pacjenta)
+                .subscribe((resp: { name: string; surname: string }) => {
+                    el.name = resp.name;
+                    el.surname = resp.surname;
+                });
+            this.subGetDate$ = this.editDoctorService
+                .getDateFromTerm(el.id_terminu)
+                .subscribe((resp: { data: string }) => {
+                    el.date = resp.data.split('T')[0];
+                });
+            // console.log(el);
+        });
+    }
 
-  cancelVisit(term: BookedTermElementFull): void{
-      // console.log(term);
+    cancelVisit(term: BookedTermElementFull): void {
+        // console.log(term);
 
-      this.editDoctorService.cancelVisit(term.id_wizyty).subscribe( resp => {
-          console.log('Usunięto wizytę', term.id_wizyty);
-      });
-      window.location.reload();
-  }
+        this.editDoctorService.cancelVisit(term.id_wizyty).subscribe((resp) => {
+            console.log('Usunięto wizytę', term.id_wizyty);
+        });
+        window.location.reload();
+    }
 }
-
-

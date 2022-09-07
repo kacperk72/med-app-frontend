@@ -1,41 +1,17 @@
 <?xml version="1.0"?>
-<testsuite name="Firefox 104.0 (Windows 10)" package="" timestamp="2022-09-06T09:56:07" id="0" hostname="DESKTOP-0UKLBAA" tests="32" errors="0" failures="1" time="10.436">
+<testsuite name="Firefox 104.0 (Windows 10)" package="" timestamp="2022-09-06T11:31:43" id="0" hostname="DESKTOP-0UKLBAA" tests="35" errors="0" failures="1" time="11.432">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0"/>
   </properties>
-  <testcase name="MedicalAppointmentComponent should create" time="1.042" classname="Firefox_104_0_(Windows_10).MedicalAppointmentComponent"/>
-  <testcase name="PatientComponent should create" time="1.044" classname="Firefox_104_0_(Windows_10).PatientComponent"/>
-  <testcase name="RegisterComponent should create" time="1.029" classname="Firefox_104_0_(Windows_10).RegisterComponent"/>
-  <testcase name="AdminComponent should create" time="1.026" classname="Firefox_104_0_(Windows_10).AdminComponent"/>
-  <testcase name="TermListService should be created" time="0.003" classname="Firefox_104_0_(Windows_10).TermListService"/>
-  <testcase name="AppComponent should render MedApp in header" time="0.021" classname="Firefox_104_0_(Windows_10).AppComponent"/>
-  <testcase name="AppComponent should create the app" time="0.01" classname="Firefox_104_0_(Windows_10).AppComponent"/>
-  <testcase name="RegisterService should be created" time="0.009" classname="Firefox_104_0_(Windows_10).RegisterService"/>
-  <testcase name="PatientService should be created" time="0.007" classname="Firefox_104_0_(Windows_10).PatientService"/>
-  <testcase name="BookedTermsComponent should create" time="1.035" classname="Firefox_104_0_(Windows_10).BookedTermsComponent"/>
-  <testcase name="EditDoctorComponent should create" time="2.052" classname="Firefox_104_0_(Windows_10).EditDoctorComponent"/>
+  <testcase name="PatientComponent should create" time="1.068" classname="Firefox_104_0_(Windows_10).PatientComponent"/>
+  <testcase name="RegisterComponent should create" time="1.025" classname="Firefox_104_0_(Windows_10).RegisterComponent"/>
+  <testcase name="MedicalAppointmentService should get one user" time="0.005" classname="Firefox_104_0_(Windows_10).MedicalAppointmentService"/>
   <testcase name="MedicalAppointmentService should be created" time="0.004" classname="Firefox_104_0_(Windows_10).MedicalAppointmentService"/>
-  <testcase name="MedicalAppointmentService should get one user" time="0.003" classname="Firefox_104_0_(Windows_10).MedicalAppointmentService"/>
-  <testcase name="AuthGuard should ..." time="0.003" classname="Firefox_104_0_(Windows_10).AuthGuard"/>
-  <testcase name="AdminRoleGuard should ..." time="0.004" classname="Firefox_104_0_(Windows_10).AdminRoleGuard"/>
-  <testcase name="AdminEditDoctorComponent should create" time="1.032" classname="Firefox_104_0_(Windows_10).AdminEditDoctorComponent"/>
-  <testcase name="TokenInterceptorService should be created" time="0.003" classname="Firefox_104_0_(Windows_10).TokenInterceptorService"/>
-  <testcase name="DoctorRoleGuard should ..." time="0.004" classname="Firefox_104_0_(Windows_10).DoctorRoleGuard"/>
-  <testcase name="EditDoctorService should be created" time="0.003" classname="Firefox_104_0_(Windows_10).EditDoctorService"/>
-  <testcase name="EditDoctorService should get doctor terms" time="0.003" classname="Firefox_104_0_(Windows_10).EditDoctorService"/>
-  <testcase name="EditDoctorService should get one doctor" time="0.004" classname="Firefox_104_0_(Windows_10).EditDoctorService"/>
-  <testcase name="AuthService should call POST method" time="0.002" classname="Firefox_104_0_(Windows_10).AuthService"/>
-  <testcase name="AuthService should be created" time="1.02" classname="Firefox_104_0_(Windows_10).AuthService"/>
-  <testcase name="AuthService should return error code 500 from logging" time="0.005" classname="Firefox_104_0_(Windows_10).AuthService"/>
-  <testcase name="AuthService should return error from logging" time="0.003" classname="Firefox_104_0_(Windows_10).AuthService"/>
-  <testcase name="AuthService should test HttpClient.post" time="0.003" classname="Firefox_104_0_(Windows_10).AuthService"/>
-  <testcase name="LoginComponent Auth service should be injected" time="0.014" classname="Firefox_104_0_(Windows_10).LoginComponent"/>
-  <testcase name="LoginComponent Login component should be created" time="0.011" classname="Firefox_104_0_(Windows_10).LoginComponent"/>
-  <testcase name="AdminService should get doctors data" time="0.004" classname="Firefox_104_0_(Windows_10).AdminService"/>
-  <testcase name="AdminService should be created" time="0.003" classname="Firefox_104_0_(Windows_10).AdminService"/>
-  <testcase name="TermListComponent should create" time="1.027" classname="Firefox_104_0_(Windows_10).TermListComponent">
-    <failure type="">TypeError: this.searchForm is undefined in main.js (line 19213)
-ngOnInit@main.js:19213:5
+  <testcase name="PacientRoleGuard should ..." time="0.005" classname="Firefox_104_0_(Windows_10).PacientRoleGuard"/>
+  <testcase name="AdminComponent should create" time="2.033" classname="Firefox_104_0_(Windows_10).AdminComponent"/>
+  <testcase name="TermListComponent should create" time="1.036" classname="Firefox_104_0_(Windows_10).TermListComponent">
+    <failure type="">TypeError: this.searchForm is undefined in main.js (line 19245)
+ngOnInit@main.js:19245:5
 callHook@vendor.js:67638:14
 callHooks@vendor.js:67594:17
 executeInitAndCheckHooks@vendor.js:67530:14
@@ -54,7 +30,7 @@ invoke@polyfills.js:532:46
 run@polyfills.js:273:35
 run@vendor.js:95103:24
 detectChanges@vendor.js:99576:19
-2970/&lt;/&lt;@main.js:16994:13
+2970/&lt;/&lt;@main.js:17026:13
 invoke@polyfills.js:532:158
 onInvoke@vendor.js:4834:33
 invoke@polyfills.js:532:46
@@ -77,42 +53,36 @@ invokeTask@polyfills.js:657:26
 4946/patchTimer/scheduleTask/data.args[0]@polyfills.js:2951:26
 </failure>
   </testcase>
-  <testcase name="PacientRoleGuard should ..." time="0.003" classname="Firefox_104_0_(Windows_10).PacientRoleGuard"/>
+  <testcase name="TermListService should be created" time="0.01" classname="Firefox_104_0_(Windows_10).TermListService"/>
+  <testcase name="AppComponent should render MedApp in header" time="0.035" classname="Firefox_104_0_(Windows_10).AppComponent"/>
+  <testcase name="AppComponent should create the app" time="0.011" classname="Firefox_104_0_(Windows_10).AppComponent"/>
+  <testcase name="RegisterService should call POST method" time="0.005" classname="Firefox_104_0_(Windows_10).RegisterService"/>
+  <testcase name="RegisterService should be created" time="1.006" classname="Firefox_104_0_(Windows_10).RegisterService"/>
+  <testcase name="RegisterService should test POST method" time="0.003" classname="Firefox_104_0_(Windows_10).RegisterService"/>
+  <testcase name="AdminRoleGuard should ..." time="0.004" classname="Firefox_104_0_(Windows_10).AdminRoleGuard"/>
+  <testcase name="TokenInterceptorService should be created" time="0.003" classname="Firefox_104_0_(Windows_10).TokenInterceptorService"/>
+  <testcase name="LoginComponent Login component should be created" time="0.019" classname="Firefox_104_0_(Windows_10).LoginComponent"/>
+  <testcase name="LoginComponent Auth service should be injected" time="0.007" classname="Firefox_104_0_(Windows_10).LoginComponent"/>
+  <testcase name="MedicalAppointmentComponent should create" time="2.039" classname="Firefox_104_0_(Windows_10).MedicalAppointmentComponent"/>
+  <testcase name="AdminEditDoctorComponent should create" time="1.033" classname="Firefox_104_0_(Windows_10).AdminEditDoctorComponent"/>
+  <testcase name="AuthGuard should ..." time="0.004" classname="Firefox_104_0_(Windows_10).AuthGuard"/>
+  <testcase name="AdminService should get doctors data" time="0.004" classname="Firefox_104_0_(Windows_10).AdminService"/>
+  <testcase name="AdminService should be created" time="0.003" classname="Firefox_104_0_(Windows_10).AdminService"/>
+  <testcase name="EditDoctorComponent should create" time="1.023" classname="Firefox_104_0_(Windows_10).EditDoctorComponent"/>
+  <testcase name="EditDoctorService should get doctor terms" time="0.004" classname="Firefox_104_0_(Windows_10).EditDoctorService"/>
+  <testcase name="EditDoctorService should be created" time="0.002" classname="Firefox_104_0_(Windows_10).EditDoctorService"/>
+  <testcase name="EditDoctorService should get one doctor" time="0.003" classname="Firefox_104_0_(Windows_10).EditDoctorService"/>
+  <testcase name="AuthService should call POST method" time="0.003" classname="Firefox_104_0_(Windows_10).AuthService"/>
+  <testcase name="AuthService should be created" time="0.003" classname="Firefox_104_0_(Windows_10).AuthService"/>
+  <testcase name="AuthService should return error code 500 from logging" time="0.003" classname="Firefox_104_0_(Windows_10).AuthService"/>
+  <testcase name="AuthService should return error from logging" time="0.002" classname="Firefox_104_0_(Windows_10).AuthService"/>
+  <testcase name="AuthService should test HttpClient.post" time="0.002" classname="Firefox_104_0_(Windows_10).AuthService"/>
+  <testcase name="DoctorRoleGuard should ..." time="0.004" classname="Firefox_104_0_(Windows_10).DoctorRoleGuard"/>
+  <testcase name="BookedTermsComponent should create" time="1.016" classname="Firefox_104_0_(Windows_10).BookedTermsComponent"/>
+  <testcase name="PatientService should be created" time="0.003" classname="Firefox_104_0_(Windows_10).PatientService"/>
+  <testcase name="PatientService should get all cities" time="0.002" classname="Firefox_104_0_(Windows_10).PatientService"/>
   <system-out>
-    <![CDATA[Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-select' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-select' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-select' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-select' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-select' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-select' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-label' is not a known element (used in the 'PatientComponent' component template):
-1. If 'mat-label' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-label' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'PatientComponent' component template).
-1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
-2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'RegisterComponent' component template):
+    <![CDATA[Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'RegisterComponent' component template):
 1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
 2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
 ,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'RegisterComponent' component template):
@@ -139,6 +109,32 @@ invokeTask@polyfills.js:657:26
 ,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-icon' is not a known element (used in the 'AppComponent' component template):
 1. If 'mat-icon' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
 2. If 'mat-icon' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'LoginComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
+1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'LoginComponent' component template).
+1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
+,Firefox 104.0 (Windows 10) LOG: 'Brak tokenu'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'app-booked-terms' is not a known element (used in the 'AdminEditDoctorComponent' component template):
+1. If 'app-booked-terms' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'idLek' since it isn't a known property of 'app-booked-terms' (used in the 'AdminEditDoctorComponent' component template).
+1. If 'app-booked-terms' is an Angular component and it has the 'idLek' input, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
 ,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'app-booked-terms' is not a known element (used in the 'EditDoctorComponent' component template):
 1. If 'app-booked-terms' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
 2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
@@ -147,31 +143,6 @@ invokeTask@polyfills.js:657:26
 1. If 'app-booked-terms' is an Angular component and it has the 'idLek' input, then verify that it is a part of an @NgModule where this component is declared.
 2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
 3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'app-booked-terms' is not a known element (used in the 'AdminEditDoctorComponent' component template):
-1. If 'app-booked-terms' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'idLek' since it isn't a known property of 'app-booked-terms' (used in the 'AdminEditDoctorComponent' component template).
-1. If 'app-booked-terms' is an Angular component and it has the 'idLek' input, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'app-booked-terms' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
-3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'LoginComponent' component template).
-1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
-2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0304: 'mat-form-field' is not a known element (used in the 'LoginComponent' component template):
-1. If 'mat-form-field' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
-2. If 'mat-form-field' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
-,Firefox 104.0 (Windows 10) ERROR: 'NG0303: Can't bind to 'formGroup' since it isn't a known property of 'form' (used in the 'LoginComponent' component template).
-1. If 'form' is an Angular component and it has the 'formGroup' input, then verify that it is a part of an @NgModule where this component is declared.
-2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.'
 
 ]]>
   </system-out>

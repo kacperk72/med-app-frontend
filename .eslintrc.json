@@ -18,23 +18,7 @@
             "plugins": ["cypress", "chai-friendly"],
             "rules": {
                 "@angular-eslint/component-class-suffix": "warn",
-                "@angular-eslint/component-selector": [
-                    "error",
-                    {
-                        "type": "element",
-                        "prefix": ["mn"],
-                        "style": "kebab-case"
-                    }
-                ],
                 "@angular-eslint/directive-class-suffix": "warn",
-                "@angular-eslint/directive-selector": [
-                    "error",
-                    {
-                        "type": "attribute",
-                        "prefix": ["mn"],
-                        "style": "camelCase"
-                    }
-                ],
                 "@angular-eslint/contextual-lifecycle": "warn",
                 "@angular-eslint/no-conflicting-lifecycle": "warn",
                 "@angular-eslint/no-host-metadata-property": "warn",
@@ -64,7 +48,13 @@
                         "trailingUnderscore": "allow"
                     },
                     {
-                        "selector": ["enum", "enumMember", "objectLiteralProperty", "typeProperty", "typeAlias"],
+                        "selector": [
+                            "enum",
+                            "enumMember",
+                            "objectLiteralProperty",
+                            "typeProperty",
+                            "typeAlias"
+                        ],
                         "format": ["camelCase", "PascalCase", "UPPER_CASE"],
                         "leadingUnderscore": "allow",
                         "trailingUnderscore": "allow"
@@ -91,7 +81,12 @@
                         "modifiers": ["readonly"]
                     },
                     {
-                        "selector": ["class", "interface", "enum", "typeParameter"],
+                        "selector": [
+                            "class",
+                            "interface",
+                            "enum",
+                            "typeParameter"
+                        ],
                         "format": ["PascalCase", "StrictPascalCase"]
                     }
                 ],
@@ -147,7 +142,14 @@
                 "@typescript-eslint/prefer-for-of": "warn",
 
                 "curly": "warn",
-                "indent": ["warn", 4, { "ignoredNodes": ["ConditionalExpression *"], "SwitchCase": 1 }],
+                "indent": [
+                    "warn",
+                    4,
+                    {
+                        "ignoredNodes": ["ConditionalExpression *"],
+                        "SwitchCase": 1
+                    }
+                ],
                 "max-len": [
                     "warn",
                     {
@@ -179,7 +181,14 @@
                 "arrow-body-style": "off", // ["warn", "as-needed"]
                 "no-trailing-spaces": "warn",
                 "id-blacklist": "warn",
-                "no-unused-vars": ["warn", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
+                "no-unused-vars": [
+                    "warn",
+                    {
+                        "vars": "all",
+                        "args": "none",
+                        "ignoreRestSiblings": false
+                    }
+                ],
                 "no-debugger": "warn",
 
                 // cypress

@@ -39,7 +39,7 @@ describe('MedicalAppointmentService', () => {
         });
         const req = httpTestingController.expectOne(url);
         req.flush(testData);
-        httpTestingController.verify();
+        // httpTestingController.verify();
     });
 
     afterEach(() => {

@@ -10,35 +10,33 @@ describe('AuthService', () => {
     const url = `http://localhost:3001/user/login`;
     let httpTestingController: HttpTestingController;
     let httpClient: HttpClient;
-    const testUser: {login: string; password: string} = {
+    const testUser: { login: string; password: string } = {
         login: 'test',
-        password: 'test'
+        password: 'test',
     };
-    const testFakeUser: {login: string; password: string} = {
+    const testFakeUser: { login: string; password: string } = {
         login: 'abcd',
-        password: 'abcd'
+        password: 'abcd',
     };
     const errorResponseLogin = {
         status: 500,
-        statusText: 'nieudana próba logowania'
+        statusText: 'nieudana próba logowania',
     };
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [AuthService],
-            imports: [
-                HttpClientTestingModule,
-                RouterTestingModule
-            ]
+            imports: [HttpClientTestingModule, RouterTestingModule],
         });
         httpClient = TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
     });
 
-    it('should be created', inject([AuthService],(service: AuthService) => {
+    it('should be created', inject([AuthService], (service: AuthService) => {
         expect(service).toBeTruthy();
     }));
 
-    it('should call POST method', inject([AuthService],(service: AuthService) => {
+    it('should call POST method', inject([AuthService], (service: AuthService) => {
         const PostApiMethod = 'POST';
 
         service.proceedLogin(testUser).subscribe();
@@ -51,24 +49,26 @@ describe('AuthService', () => {
     }));
 
     it('should test HttpClient.post', () => {
-        httpClient.post(url, {
-            login: 'test',
-            password: 'test'
-        }).subscribe();
+        httpClient
+            .post(url, {
+                login: 'test',
+                password: 'test',
+            })
+            .subscribe();
         const req = httpTestingController.expectOne(url);
         expect(req.request.method).toEqual('POST');
         req.flush({
             login: 'test',
-            password: 'test'
+            password: 'test',
         });
         // httpTestingController.verify();
     });
 
-    it('should return error from logging', inject([AuthService],(service: AuthService) => {
+    it('should return error from logging', inject([AuthService], (service: AuthService) => {
         service.proceedLogin(testFakeUser).subscribe({
             error: (err) => {
                 expect(err.message).toContain('nieudana próba logowania');
-            }
+            },
         });
         const req = httpTestingController.expectOne(url);
         req.flush(testFakeUser, errorResponseLogin);
@@ -77,15 +77,17 @@ describe('AuthService', () => {
     it('should return error code 500 from logging', () => {
         const errmess = 'nieudana próba logowania';
 
-        httpClient.post(url,{
-            login: 'testZly',
-            password: 'testZly'
-        }).subscribe({
-            error: (error: HttpErrorResponse) => {
-                expect(error.status).withContext('status').toEqual(500);
-                expect(error.error).withContext('message').toContain(errmess);
-            }
-        });
+        httpClient
+            .post(url, {
+                login: 'testZly',
+                password: 'testZly',
+            })
+            .subscribe({
+                error: (error: HttpErrorResponse) => {
+                    expect(error.status).withContext('status').toEqual(500);
+                    expect(error.error).withContext('message').toContain(errmess);
+                },
+            });
 
         const req = httpTestingController.expectOne(url);
 
@@ -97,4 +99,3 @@ describe('AuthService', () => {
         httpTestingController.verify();
     });
 });
-

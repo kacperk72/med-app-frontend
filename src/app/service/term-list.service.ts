@@ -6,15 +6,10 @@ import { TermElement, TermListVisitElement } from '../models/term-types';
 import { Observable } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TermListService implements HttpClientModule {
-
-    constructor(private http: HttpClient) { }
-
-    getTermInfo(): Observable<DoctorDataElement[]> {
-        return this.http.get<DoctorDataElement[]>('http://localhost:3001/doctor');
-    }
+    constructor(private http: HttpClient) {}
 
     bookTerm(data: PacientBookTermElement): Observable<TermElement> {
         return this.http.post<TermElement>('http://localhost:3001/visit', data);

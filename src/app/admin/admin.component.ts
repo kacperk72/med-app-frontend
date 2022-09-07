@@ -8,11 +8,14 @@ import { AdminService } from '../service/admin.service';
 @Component({
     selector: 'app-admin',
     templateUrl: './admin.component.html',
-    styleUrls: ['./admin.component.css']
+    styleUrls: ['./admin.component.css'],
 })
-
 export class AdminComponent implements OnInit, OnDestroy {
-    elementData$: Observable<PeriodicElement[]> = this.adminService.getDoctorsData().pipe(tap((elem)=> {this.isLoaded = true;}));
+    elementData$: Observable<PeriodicElement[]> = this.adminService.getDoctorsData().pipe(
+        tap((elem) => {
+            this.isLoaded = true;
+        })
+    );
 
     addDoctorForm!: FormGroup;
     displayedColumns: string[] = ['id_lekarza', 'name', 'surname', 'speciality', 'city', 'icons'];
@@ -35,7 +38,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     private subaddDoctor$!: Subscription;
     private subdeleteDoctor$!: Subscription;
 
-    constructor(private fb: FormBuilder, private router: Router, private adminService: AdminService ) { }
+    constructor(private fb: FormBuilder, private router: Router, private adminService: AdminService) {}
 
     ngOnInit(): void {
         this.addDoctorForm = this.fb.group({
@@ -44,25 +47,25 @@ export class AdminComponent implements OnInit, OnDestroy {
             login: [this.userLogin, [Validators.required, Validators.minLength(3)]],
             password: [this.userPassword, [Validators.required, Validators.minLength(4)]],
             city: [this.city, Validators.required],
-            speciality: [this.speciality, Validators.required]
+            speciality: [this.speciality, Validators.required],
         });
     }
 
-    ngOnDestroy(): void{
-        if(!!this.subdeleteDoctor$) {
+    ngOnDestroy(): void {
+        if (!!this.subdeleteDoctor$) {
             this.subdeleteDoctor$.unsubscribe();
         }
-        if(!!this.subaddDoctor$) {
+        if (!!this.subaddDoctor$) {
             this.subaddDoctor$.unsubscribe();
         }
     }
 
     addDoctor(): void {
-        this.isVisibleAdd =! this.isVisibleAdd;
+        this.isVisibleAdd = !this.isVisibleAdd;
     }
 
     addDoctorDB(): void {
-        if(this.isVisibleAdd === true){
+        if (this.isVisibleAdd === true) {
             this.isVisibleAdd = false;
         } else {
             this.isVisibleAdd = true;
@@ -82,17 +85,17 @@ export class AdminComponent implements OnInit, OnDestroy {
             password: this.userPassword,
             role: this.role,
             city: this.city,
-            speciality: this.speciality
+            speciality: this.speciality,
         };
 
-        this.subaddDoctor$ = this.adminService.addDoctor(this.doctorData).subscribe(response => {
+        this.subaddDoctor$ = this.adminService.addDoctor(this.doctorData).subscribe((response) => {
             console.log(response);
         });
 
         window.location.reload();
     }
 
-    openEditPanel(element: EditDoctorElement): void{
+    openEditPanel(element: EditDoctorElement): void {
         const idLek = element.user_id;
         const spec = element.speciality.join();
         const city = element.city;
@@ -103,16 +106,15 @@ export class AdminComponent implements OnInit, OnDestroy {
         this.router.navigate(['/adminEditDoctor', idLek, spec, city, login, name, surname]);
     }
 
-    deleteDoctor(element: EditDoctorElement): void{
+    deleteDoctor(element: EditDoctorElement): void {
         const idLek = element.user_id;
 
-        if(window.confirm('Napewno chcesz usunąć?')){
-            this.subdeleteDoctor$ = this.adminService.deleteDoctor(idLek).subscribe(resp => {
+        if (window.confirm('Napewno chcesz usunąć?')) {
+            this.subdeleteDoctor$ = this.adminService.deleteDoctor(idLek).subscribe((resp) => {
                 console.log('delete succesfulLy', resp);
             });
         }
 
         window.location.reload();
     }
-
 }

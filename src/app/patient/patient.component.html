@@ -5,30 +5,30 @@
             <div id="speccity">
                 <mat-form-field>
                     <mat-select placeholder="specjalizacja lekarza" formControlName="role">
-                      <mat-option *ngFor="let spec of uniqueSpecArray" value="{{spec}}">{{spec}}</mat-option>
+                        <mat-option *ngFor="let spec of uniqueSpecArray" value="{{ spec }}">{{ spec }}</mat-option>
                     </mat-select>
                 </mat-form-field>
-    
+
                 <mat-form-field>
                     <mat-select placeholder="miasto" multiple id="multiSelectCity" formControlName="city">
-                      <mat-option *ngFor="let city of citiesArray" value={{city}}>{{city}}</mat-option>
+                        <mat-option *ngFor="let city of citiesArray" value="{{ city }}">{{ city }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div id="datetime">
                 <mat-form-field>
                     <mat-label for="dateFrom">od</mat-label>
-                    <input matInput type="date" name="dateFrom" formControlName="dateFrom">
+                    <input matInput type="date" name="dateFrom" formControlName="dateFrom" />
                 </mat-form-field>
-    
+
                 <mat-form-field>
                     <mat-label for="dateTo">do</mat-label>
-                    <input matInput type="date" name="dateTo" formControlName="dateTo">
+                    <input matInput type="date" name="dateTo" formControlName="dateTo" />
                 </mat-form-field>
-    
+
                 <mat-form-field>
                     <mat-label for="timeFrom">od godziny</mat-label>
-                    <input matInput type="time" name="timeFrom" formControlName="timeFrom">
+                    <input matInput type="time" name="timeFrom" formControlName="timeFrom" />
                 </mat-form-field>
             </div>
             <!-- <mat-form-field>
@@ -36,9 +36,9 @@
                 <input matInput type="time" name="timeTo" formControlName="timeTo" required>
             </mat-form-field> -->
 
-            <input type="submit" value="Szukaj" id="searchInput" (click)="showList()">    
+            <input type="submit" value="Szukaj" id="searchInput" (click)="showList()" />
         </form>
-        
-        <app-term-list  [searchForm]="searchForm" *ngIf="renderList"></app-term-list>
+
+        <app-term-list [searchForm]="searchForm" [doctors]="doctors" *ngIf="renderList"></app-term-list>
     </div>
 </div>
