@@ -24,11 +24,31 @@ export interface EditDoctorElement {
 }
 
 export interface ScheduleDataElement {
+    name: string;
+    surname: string;
+    speciality: string[];
     id_lekarza: string;
     id_terminu: string;
+    city: string;
     data: string;
+    shortData: string;
     od_godziny: string;
     do_godziny: string;
+    visits: string[];
+}
+
+export interface ScheduleDataTermElement {
+    name: string;
+    surname: string;
+    speciality: string[];
+    id_lekarza: string;
+    id_terminu: string;
+    city: string;
+    data: string;
+    reason: string;
+    login: string;
+    visit_hour: string;
+    visit_time: string;
 }
 
 export interface TermListElement {
@@ -37,11 +57,10 @@ export interface TermListElement {
 }
 
 export interface VisitElement {
-    data: string;
-    godzina_wizyty: string;
-    id: string;
     id_terminu: string;
-    term_id: number;
+    id_lekarza: string;
+    data: string;
+    godzina: string;
 }
 
 export interface DoctorDataElement {
@@ -53,4 +72,12 @@ export interface DoctorDataElement {
     name: string;
     surname: string;
     role: string;
+}
+
+export interface SearchForm {
+    role: string;
+    city: string;
+    dateFrom: string;
+    dateTo: string;
+    timeFrom: string;
 }

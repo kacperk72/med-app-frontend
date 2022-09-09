@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { map } from 'rxjs';
 import { DoctorDataElement, ScheduleDataElement } from '../models/doctor-types';
@@ -135,38 +135,18 @@ export class PatientComponent implements OnInit {
         }
     }
 
-    // pobranie grafiku i listy terminów
     private _getScheduleRequest(): void {
         this.editDoctorService.getFormSchedule(this.doctor.login, this.searchForm.value).subscribe((data) => {
             this.scheduleData = data;
-            //iterowanie po dniach zapisanych w grafiku lekarza
-            this.scheduleData.forEach((element: ScheduleDataElement) => {
-                // sprawdzam czy data zawiera sie w podanych widełkach formularza
-                if (
-                    (new Date(element.data.split('T')[0]) >= new Date(this.search.dateFrom) && new Date(element.data.split('T')[0]) <= new Date(this.search.dateTo)) ||
-                    (this.search.dateFrom === '' && this.search.dateTo === '')
-                ) {
-                    this.scheduleDataArray.push(element);
-                    this.editDoctorService.getHourList(element.id_lekarza, element).subscribe((response) => {
-                        // this.termData = response;
-
-                        // iterowanie po godzinach wyznaczonych jako termin na wizytę
-                        response.forEach((termEl: any) => {
-                            // sprawdzam czy godzina wizyty zawiera sie w widełkach formularza
-                            if (termEl.godzina_wizyty >= this.search.timeFrom + ':00' || this.search.timeFrom === '') {
-                                for (const doctorDataElement of this.doctorDataArray) {
-                                    if (doctorDataElement.id_lekarza === termEl.id) {
-                                        termEl.name = doctorDataElement.name;
-                                        termEl.surname = doctorDataElement.surname;
-                                        termEl.city = doctorDataElement.city;
-                                        termEl.speciality = doctorDataElement.speciality.join();
-                                    }
-                                }
-                                this.termListArray.push(termEl);
-                            }
-                        });
-                    });
-                }
+            this.scheduleData.daneZGrafiku.forEach((element: ScheduleDataElement) => {
+                element.name = this.scheduleData.name;
+                element.surname = this.scheduleData.surname;
+                element.speciality = this.scheduleData.spec;
+                element.city = this.scheduleData.city;
+                element.shortData = element.data.split('T')[0];
+                element.visits = [];
+                this.scheduleDataArray.push(element);
+                // console.log(this.scheduleDataArray);
             });
         });
     }
@@ -183,7 +163,7 @@ export class PatientComponent implements OnInit {
         setTimeout(() => {
             this.loadDataSpinner = false;
             this.renderTable = true;
-        }, 3000);
+        }, 2000);
     }
 
     save(): void {

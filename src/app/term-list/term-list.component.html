@@ -1,27 +1,23 @@
 <div id="content">
     <div *ngIf="loadDataSpinner"><mat-spinner></mat-spinner></div>
     <div id="container" class="mat-elevation-z8" *ngIf="renderTable">
-        <table mat-table [dataSource]="dataSource">
-            <!-- Name Column -->
+        <!-- <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="imie">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Imie</th>
                 <td mat-cell *matCellDef="let element">{{ element.name }}</td>
             </ng-container>
 
-            <!-- Surname Column -->
             <ng-container matColumnDef="nazwisko">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwisko</th>
                 <td mat-cell *matCellDef="let element">{{ element.surname }}</td>
             </ng-container>
 
-            <!-- specialization -->
             <ng-container matColumnDef="specjalnosc">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Specjalność</th>
                 <td mat-cell *matCellDef="let element">{{ element.speciality }}</td>
-                -->
+                
             </ng-container>
 
-            <!-- City Column -->
             <ng-container matColumnDef="miasto">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Miasto</th>
                 <td mat-cell *matCellDef="let element">{{ element.city }}</td>
@@ -42,8 +38,33 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedData"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedData"></tr>
-        </table>
-        <input type="button" value="Załaduj więcej" />
+        </table> -->
+
+        <div class="selectVisitTime">
+            <p>Długość wizyty</p>
+            <select [(ngModel)]="selectedTime" (change)="calculateVisits($event)">
+                <option *ngFor="let o of options" [value]="o.value">{{ o.name }}</option>
+            </select>
+        </div>
+
+        <div *ngIf="loadDataSpinner2" class="spinner"><mat-spinner></mat-spinner></div>
+
+        <div *ngIf="renderVisits">
+            <div class="doctorTermDiv" *ngFor="let doctor of scheduleDataArray">
+                <div class="termData">
+                    <h2>{{ doctor.name }} {{ doctor.surname }} - {{ doctor.speciality }} - {{ doctor.city }}</h2>
+                    {{ doctor.shortData }}
+                    <!-- {{ doctor.od_godziny }} - {{ doctor.do_godziny }} -->
+                </div>
+                <div class="hourList">
+                    <input *ngFor="let visit of doctor.visits" type="button" value="{{ visit }}" (click)="confirmTerm(doctor, visit, selectedTime)" />
+                </div>
+            </div>
+            <div class="dataFooter">
+                <input type="button" value="Załaduj więcej" />
+            </div>
+        </div>
+
         <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select visit of visits"></mat-paginator> -->
     </div>
 

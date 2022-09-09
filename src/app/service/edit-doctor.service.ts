@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Doctor, ScheduleDataElement, VisitElement } from '../models/doctor-types';
+import { Doctor, ScheduleDataElement } from '../models/doctor-types';
 import { VisitFromDB } from '../models/term-types';
 
 @Injectable({
@@ -36,14 +36,18 @@ export class EditDoctorService {
         return this.httpClient.get<Doctor>(`${this._host}/doctor/getFormSchedule/${doctorLogin}`, { params: value });
     }
 
-    getHourList(id: string, element: ScheduleDataElement): Observable<VisitElement[]> {
-        const fromHour = element.od_godziny;
-        const toHour = element.do_godziny;
-        const id_terminu = element.id_terminu;
-        const data = element.data.split('T')[0];
-
-        return this.httpClient.get<VisitElement[]>(`${this._host}/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}/${id_terminu}`);
+    getHourSchedule(id_terminu: string, id_lekarza: string, visitTime: number): Observable<ScheduleDataElement[]> {
+        return this.httpClient.get<ScheduleDataElement[]>(`${this._host}/doctor/getHourSchedule/${id_terminu}/${id_lekarza}/${visitTime}`);
     }
+
+    // getHourList(id: string, element: ScheduleDataElement): Observable<VisitElement[]> {
+    //     const fromHour = element.od_godziny;
+    //     const toHour = element.do_godziny;
+    //     const id_terminu = element.id_terminu;
+    //     const data = element.data.split('T')[0];
+
+    //     return this.httpClient.get<VisitElement[]>(`${this._host}/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}/${id_terminu}`);
+    // }
 
     addTerm(id: string, date: string, timeFrom: string, timeTo: string): Observable<void> {
         return this.httpClient.post<void>(`${this._host}/doctor/addTerm`, {

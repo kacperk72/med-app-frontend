@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { PacientBookTermElement } from '../models/pacient-types';
-import { DoctorDataElement } from '../models/doctor-types';
+import { ScheduleDataTermElement } from '../models/doctor-types';
 import { TermElement, TermListVisitElement } from '../models/term-types';
 import { Observable } from 'rxjs';
 
@@ -11,7 +10,7 @@ import { Observable } from 'rxjs';
 export class TermListService implements HttpClientModule {
     constructor(private http: HttpClient) {}
 
-    bookTerm(data: PacientBookTermElement): Observable<TermElement> {
+    bookTerm(data: ScheduleDataTermElement): Observable<TermElement> {
         return this.http.post<TermElement>('http://localhost:3001/visit', data);
     }
 

@@ -15,16 +15,15 @@ export interface PacientBookTermElement {
     name: string;
     speciality: string;
     surname: string;
-    term_id: number;
     reason: string;
     login: string;
 }
 
-export interface User{
+export interface User {
     user_id: string;
     name: string;
     surname: string;
-  }
+}
 
 export interface RegisterUser {
     id: string;
