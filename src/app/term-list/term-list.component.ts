@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ScheduleDataElement, ScheduleDataTermElement, SearchForm } from '../models/doctor-types';
 import { AuthService } from '../service/auth.service';
 import { TermListService } from '../service/term-list.service';
@@ -15,10 +15,15 @@ export class TermListComponent implements OnInit {
 
     @Input() scheduleDataArray!: ScheduleDataElement[];
     @Input() renderTable!: boolean;
+    @Input() renderVisits!: boolean;
     @Input() loadDataSpinner!: boolean;
+    @Input() loadDataSpinner2!: boolean;
     @Input() search!: SearchForm;
 
     // @Output() onChange:
+
+    @Output() paginator: EventEmitter<number> = new EventEmitter();
+    @Output() calculate: EventEmitter<void> = new EventEmitter();
 
     //kolumny w tabeli terminów
     displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
@@ -28,9 +33,6 @@ export class TermListComponent implements OnInit {
 
     // zmienne do załadowania danych do komponentów
     isVisible = true;
-    isLoadedData = false;
-    renderVisits = false;
-    loadDataSpinner2 = false;
 
     selectedTime = '';
     options = [
@@ -39,9 +41,7 @@ export class TermListComponent implements OnInit {
         { name: '1 h', value: 60 },
     ];
 
-    visits: any = [];
-    visit: any;
-    done = true;
+    paginatorCount = 2;
 
     constructor(private termListService: TermListService, private authService: AuthService, private editDoctorService: EditDoctorService) {}
 
@@ -51,38 +51,12 @@ export class TermListComponent implements OnInit {
     }
 
     calculateVisits(event: any): void {
-        console.log('searchForm', this.search);
+        this.calculate.emit(event.target.value);
+    }
 
-        console.log('scheduleDataArray', this.scheduleDataArray);
-        const visitTime = event.target.value;
-        this.scheduleDataArray.forEach((el) => {
-            el.visits = [];
-        });
-        this.scheduleDataArray.forEach((elem) => {
-            this.editDoctorService
-                .getHourSchedule(elem.id_terminu, elem.id_lekarza, visitTime)
-                .pipe(
-                    map((el) => {
-                        el.map((element: any) => {
-                            this.visits.push(element);
-                            this.scheduleDataArray.forEach((term) => {
-                                if (term.id_lekarza === element.id_lekarza && term.id_terminu === element.id_terminu && term.data === element.data) {
-                                    term.visits.push(element.godzina);
-                                }
-                            });
-                        });
-                    })
-                )
-                .subscribe(() => {});
-        });
-        this.loadDataSpinner2 = true;
-        this.renderVisits = false;
-        setTimeout(() => {
-            this.loadDataSpinner2 = false;
-            this.renderVisits = true;
-        }, 2000);
-        // console.log('visits', this.visits);
-        // console.log('scheduleDataArray', this.scheduleDataArray);
+    loadMore() {
+        this.paginatorCount += 1;
+        this.paginator.emit(this.paginatorCount);
     }
 
     confirmTerm(element: ScheduleDataElement, godzinaWizyty: string, czasTrwaniaW: string): void {

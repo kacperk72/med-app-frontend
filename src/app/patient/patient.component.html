@@ -39,6 +39,15 @@
             <input type="submit" value="Szukaj" id="searchInput" (click)="showList()" />
         </form>
 
-        <app-term-list [scheduleDataArray]="scheduleDataArray" [renderTable]="renderTable" [loadDataSpinner]="loadDataSpinner" [search]="search"></app-term-list>
+        <app-term-list
+            [scheduleDataArray]="scheduleDataArray"
+            [renderTable]="renderTable"
+            [renderVisits]="renderVisits"
+            [loadDataSpinner]="loadDataSpinner"
+            [loadDataSpinner2]="loadDataSpinner2"
+            [search]="search"
+            (paginator)="loadMoreData($event)"
+            (calculate)="calculateVisits($event)"
+        ></app-term-list>
     </div>
 </div>

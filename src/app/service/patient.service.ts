@@ -10,7 +10,7 @@ export class PatientService {
     constructor(private http: HttpClient) {}
 
     getDoctors(): Observable<DoctorDataElement[]> {
-        return this.http.get<DoctorDataElement[]>('http://localhost:3001/doctor');
+        return this.http.get<DoctorDataElement[]>(`http://localhost:3001/doctor`);
     }
 
     getCities(): Observable<{ city: string }[]> {

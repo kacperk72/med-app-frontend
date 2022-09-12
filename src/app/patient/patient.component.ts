@@ -35,6 +35,8 @@ export class PatientComponent implements OnInit {
     // zmienne do załadowania danych do komponentów
     loadDataSpinner = false;
     isLoaded = true;
+    loadDataSpinner2 = false;
+    renderVisits = false;
 
     //dane pobierane z bazy
     cities: any; //subscribe
@@ -44,6 +46,8 @@ export class PatientComponent implements OnInit {
     uniqueSpecArray: string[] = [];
     spec = '';
     specAr: string[] = [];
+    visits: any = [];
+    visit: any;
 
     doctors: DoctorDataElement[] = [];
     doctorDataArray: DoctorDataElement[] = [];
@@ -59,7 +63,8 @@ export class PatientComponent implements OnInit {
         city: '',
         term: '',
     };
-
+    paginator = 2;
+    visitTime = 0;
     constructor(private fb: FormBuilder, private patientService: PatientService, private editDoctorService: EditDoctorService) {}
 
     ngOnInit(): void {
@@ -105,24 +110,25 @@ export class PatientComponent implements OnInit {
         this.patientService.getDoctors().subscribe((data) => {
             this.doctors = data;
         });
-        // this.getSchedule();
-
-        // console.log('DOCTORS_DATA_ARRAY', this.doctorDataArray);
-        // console.log('SCHEDULE_DATA_ARRAY', this.scheduleDataArray);
-        // console.log('TERM_LIST_ARRAY', this.termListArray);
     }
 
-    getSchedule(): void {
-        this.doctors.forEach((element) => {
-            // console.log("doktor element", element);
-            this.doctor.userID = element.id_lekarza;
-            this.doctor.login = element.login;
-            this.doctor.password = element.password;
-            this.doctor.role = element.role;
-            this.doctor.name = element.name;
-            this.doctor.surname = element.surname;
-            this.doctor.city = element.city;
-            this._checkSpecAndGetSchedule(element);
+    private _getSchedule(): void {
+        for (let i = 0; i < this.paginator; i++) {
+            this.doctor.userID = this.doctors[i].id_lekarza;
+            this.doctor.login = this.doctors[i].login;
+            this.doctor.password = this.doctors[i].password;
+            this.doctor.role = this.doctors[i].role;
+            this.doctor.name = this.doctors[i].name;
+            this.doctor.surname = this.doctors[i].surname;
+            this.doctor.city = this.doctors[i].city;
+            this._checkSpecAndGetSchedule(this.doctors[i]);
+            // console.log(this.doctors[i]);
+        }
+    }
+
+    sortArray() {
+        this.scheduleDataArray.sort((a, b) => {
+            return Number(new Date(a.data)) - Number(new Date(b.data));
         });
     }
 
@@ -138,6 +144,7 @@ export class PatientComponent implements OnInit {
     private _getScheduleRequest(): void {
         this.editDoctorService.getFormSchedule(this.doctor.login, this.searchForm.value).subscribe((data) => {
             this.scheduleData = data;
+            // console.log('scheduleData', this.scheduleData);
             this.scheduleData.daneZGrafiku.forEach((element: ScheduleDataElement) => {
                 element.name = this.scheduleData.name;
                 element.surname = this.scheduleData.surname;
@@ -146,24 +153,73 @@ export class PatientComponent implements OnInit {
                 element.shortData = element.data.split('T')[0];
                 element.visits = [];
                 this.scheduleDataArray.push(element);
-                // console.log(this.scheduleDataArray);
+                // console.log('scheduleDataArray', this.scheduleDataArray);
             });
         });
     }
 
-    showList(): void {
-        this.getSchedule();
-
-        this.termListArray.sort((a, b) => {
-            return Number(new Date(a.date)) - Number(new Date(b.date));
+    calculateVisits(event: any): void {
+        // TODO: filtrowanie po godziny a reszte na backendzie
+        this.visitTime = event;
+        this.scheduleDataArray.forEach((el) => {
+            el.visits = [];
         });
+        this.scheduleDataArray.forEach((elem) => {
+            this.editDoctorService
+                .getHourSchedule(elem.id_terminu, elem.id_lekarza, this.visitTime)
+                .pipe(
+                    map((el) => {
+                        el.map((element: any) => {
+                            this.visits.push(element);
+                            this.scheduleDataArray.forEach((term) => {
+                                if (term.id_lekarza === element.id_lekarza && term.id_terminu === element.id_terminu && term.data === element.data) {
+                                    term.visits.push(element.godzina);
+                                }
+                            });
+                        });
+                    })
+                )
+                .subscribe(() => {});
+        });
+        console.log(this.scheduleDataArray);
+        this.sortArray();
+        console.log(this.scheduleDataArray);
+        this.loadDataSpinner = true;
+        this.renderVisits = false;
+        this.renderTable = false;
+        setTimeout(() => {
+            this.loadDataSpinner = false;
+            this.renderTable = true;
+            this.renderVisits = true;
+        }, 1000);
+    }
 
+    loadMoreData(counter: number): void {
+        this.paginator = counter;
+        this.scheduleDataArray = [];
+        this._getSchedule();
+        // debugger;
         this.loadDataSpinner = true;
         this.renderTable = false;
         setTimeout(() => {
             this.loadDataSpinner = false;
             this.renderTable = true;
-        }, 2000);
+            this.calculateVisits(this.visitTime);
+        }, 1000);
+    }
+
+    showList(): void {
+        this._getSchedule();
+        // this.termListArray.sort((a, b) => {
+        //     return Number(new Date(a.date)) - Number(new Date(b.date));
+        // });
+
+        // this.loadDataSpinner = true;
+        // this.renderTable = false;
+        // setTimeout(() => {
+        //     this.loadDataSpinner = false;
+        this.renderTable = true;
+        // }, 1000);
     }
 
     save(): void {
