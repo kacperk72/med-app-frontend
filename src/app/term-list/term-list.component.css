@@ -12,33 +12,52 @@
     font-family: 'Nunito', sans-serif;
 }
 
-/* table {
-    min-width: 90%;
-  }
+#container {
+    min-width: 85vw;
+}
 
-  table th {
-    text-align: center;
-  }
+.photo {
+    width: 6vw;
+    height: 13vh;
+}
 
-  table td {
-    text-align: center;
-    padding: 15px;
-  } */
+.photoDiv {
+    width: 8vw;
+    float: left;
+}
 
 .doctorTermDiv {
-    margin: 20px;
     min-width: 90%;
-    text-align: center;
+    text-align: left;
     padding: 15px;
+    /* border: 1px solid black; */
+    display: block;
+    min-height: 20vh;
 }
 
 .doctorTermDiv input[type='button'] {
     margin: 10px;
 }
 
+.termData {
+    width: 25vw;
+    float: left;
+}
+
+.hourList {
+    float: left;
+    width: 50vw;
+    text-align: left;
+}
+
+.break {
+    padding-top: 10px;
+    clear: both;
+}
+
 .dataFooter {
     text-align: center;
-    margin: 20px;
+    margin: 40px 0px 20px 0px;
 }
 
 .selectVisitTime {

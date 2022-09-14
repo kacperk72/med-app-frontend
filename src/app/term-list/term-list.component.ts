@@ -19,6 +19,7 @@ export class TermListComponent implements OnInit {
     @Input() loadDataSpinner!: boolean;
     @Input() loadDataSpinner2!: boolean;
     @Input() search!: SearchForm;
+    @Input() visitTime!: number;
 
     // @Output() onChange:
 
@@ -33,13 +34,6 @@ export class TermListComponent implements OnInit {
 
     // zmienne do załadowania danych do komponentów
     isVisible = true;
-
-    selectedTime = '';
-    options = [
-        { name: '15 min', value: 15 },
-        { name: '30 min', value: 30 },
-        { name: '1 h', value: 60 },
-    ];
 
     paginatorCount = 2;
 
@@ -59,7 +53,7 @@ export class TermListComponent implements OnInit {
         this.paginator.emit(this.paginatorCount);
     }
 
-    confirmTerm(element: ScheduleDataElement, godzinaWizyty: string, czasTrwaniaW: string): void {
+    confirmTerm(element: ScheduleDataElement, godzinaWizyty: string, czasTrwaniaW: number): void {
         if (this.isVisible === true) {
             this.isVisible = false;
         } else {

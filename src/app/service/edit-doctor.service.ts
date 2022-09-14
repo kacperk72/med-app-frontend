@@ -35,6 +35,10 @@ export class EditDoctorService {
     getFormSchedule(doctorLogin: string, value?: any): Observable<Doctor> {
         return this.httpClient.get<Doctor>(`${this._host}/doctor/getFormSchedule/${doctorLogin}`, { params: value });
     }
+    // jednen REST zwracający przefiltrowane terminy z wizytami do zarezerwowania bez tych juz zajetych
+    getDoctorsSchedule(value?: any): Observable<Doctor> {
+        return this.httpClient.get<Doctor>(`${this._host}/doctor/getDoctorsSchedule`, { params: value });
+    }
 
     getHourSchedule(id_terminu: string, id_lekarza: string, visitTime: number): Observable<ScheduleDataElement[]> {
         return this.httpClient.get<ScheduleDataElement[]>(`${this._host}/doctor/getHourSchedule/${id_terminu}/${id_lekarza}/${visitTime}`);

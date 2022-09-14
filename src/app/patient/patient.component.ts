@@ -1,6 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { DoctorDataElement, ScheduleDataElement } from '../models/doctor-types';
 import { PatientService } from '../service/patient.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
@@ -15,6 +15,7 @@ import { TermElement } from '../models/term-types';
 export class PatientComponent implements OnInit {
     searchForm!: FormGroup;
     search = {
+        visitTime: 15,
         role: '',
         city: '',
         dateFrom: '',
@@ -65,6 +66,15 @@ export class PatientComponent implements OnInit {
     };
     paginator = 2;
     visitTime = 0;
+
+    options = [
+        { name: '15 min', value: 15 },
+        { name: '30 min', value: 30 },
+        { name: '1 h', value: 60 },
+    ];
+    speciality = 'specjalizacja';
+    city = 'miasto';
+
     constructor(private fb: FormBuilder, private patientService: PatientService, private editDoctorService: EditDoctorService) {}
 
     ngOnInit(): void {
@@ -98,12 +108,24 @@ export class PatientComponent implements OnInit {
             .subscribe();
 
         this.searchForm = this.fb.group({
+            visitTime: this.search.visitTime,
             role: this.search.role,
             city: this.search.city,
             dateFrom: this.search.dateFrom,
             dateTo: this.search.dateTo,
             timeFrom: this.search.timeFrom,
         });
+    }
+
+    private _getDoctorsSchedule() {
+        this.editDoctorService
+            .getDoctorsSchedule(this.searchForm.value)
+            .pipe(
+                tap((data) => {
+                    console.log(data);
+                })
+            )
+            .subscribe();
     }
 
     private _getDoctors(): void {
@@ -122,7 +144,6 @@ export class PatientComponent implements OnInit {
             this.doctor.surname = this.doctors[i].surname;
             this.doctor.city = this.doctors[i].city;
             this._checkSpecAndGetSchedule(this.doctors[i]);
-            // console.log(this.doctors[i]);
         }
     }
 
@@ -144,7 +165,6 @@ export class PatientComponent implements OnInit {
     private _getScheduleRequest(): void {
         this.editDoctorService.getFormSchedule(this.doctor.login, this.searchForm.value).subscribe((data) => {
             this.scheduleData = data;
-            // console.log('scheduleData', this.scheduleData);
             this.scheduleData.daneZGrafiku.forEach((element: ScheduleDataElement) => {
                 element.name = this.scheduleData.name;
                 element.surname = this.scheduleData.surname;
@@ -153,13 +173,11 @@ export class PatientComponent implements OnInit {
                 element.shortData = element.data.split('T')[0];
                 element.visits = [];
                 this.scheduleDataArray.push(element);
-                // console.log('scheduleDataArray', this.scheduleDataArray);
             });
         });
     }
 
     calculateVisits(event: any): void {
-        // TODO: filtrowanie po godziny a reszte na backendzie
         this.visitTime = event;
         this.scheduleDataArray.forEach((el) => {
             el.visits = [];
@@ -181,17 +199,15 @@ export class PatientComponent implements OnInit {
                 )
                 .subscribe(() => {});
         });
-        console.log(this.scheduleDataArray);
         this.sortArray();
-        console.log(this.scheduleDataArray);
-        this.loadDataSpinner = true;
-        this.renderVisits = false;
-        this.renderTable = false;
-        setTimeout(() => {
-            this.loadDataSpinner = false;
-            this.renderTable = true;
-            this.renderVisits = true;
-        }, 1000);
+        // this.loadDataSpinner = true;
+        // // this.renderVisits = false;
+        // // this.renderTable = false;
+        // setTimeout(() => {
+        //     this.loadDataSpinner = false;
+        //     // this.renderTable = true;
+        //     // this.renderVisits = true;
+        // }, 1000);
     }
 
     loadMoreData(counter: number): void {
@@ -209,17 +225,18 @@ export class PatientComponent implements OnInit {
     }
 
     showList(): void {
-        this._getSchedule();
-        // this.termListArray.sort((a, b) => {
-        //     return Number(new Date(a.date)) - Number(new Date(b.date));
-        // });
+        this._getDoctorsSchedule();
 
-        // this.loadDataSpinner = true;
-        // this.renderTable = false;
-        // setTimeout(() => {
-        //     this.loadDataSpinner = false;
-        this.renderTable = true;
-        // }, 1000);
+        this._getSchedule();
+        this.loadDataSpinner = true;
+        this.renderTable = false;
+        this.renderVisits = false;
+        setTimeout(() => {
+            this.calculateVisits(this.searchForm.value.visitTime);
+            this.loadDataSpinner = false;
+            this.renderTable = true;
+            this.renderVisits = true;
+        }, 1000);
     }
 
     save(): void {

@@ -48,7 +48,7 @@ export interface ScheduleDataTermElement {
     reason: string;
     login: string;
     visit_hour: string;
-    visit_time: string;
+    visit_time: number;
 }
 
 export interface TermListElement {

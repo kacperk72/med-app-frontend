@@ -4,14 +4,19 @@
         <form [formGroup]="searchForm" (ngSubmit)="save()" *ngIf="isVisibleForm" id="form">
             <div id="speccity">
                 <mat-form-field>
-                    <mat-select placeholder="specjalizacja lekarza" formControlName="role">
-                        <mat-option *ngFor="let spec of uniqueSpecArray" value="{{ spec }}">{{ spec }}</mat-option>
+                    <mat-select placeholder="Długość wizyty" formControlName="visitTime">
+                        <mat-option *ngFor="let o of options" [value]="o.value">{{ o.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select placeholder="specjalizacja lekarza" [(value)]="speciality" formControlName="role">
+                        <mat-option *ngFor="let spec of uniqueSpecArray" [value]="spec">{{ spec }}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-select placeholder="miasto" multiple id="multiSelectCity" formControlName="city">
-                        <mat-option *ngFor="let city of citiesArray" value="{{ city }}">{{ city }}</mat-option>
+                        <mat-option *ngFor="let city of citiesArray" [value]="city">{{ city }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -48,6 +53,7 @@
             [search]="search"
             (paginator)="loadMoreData($event)"
             (calculate)="calculateVisits($event)"
+            [visitTime]="visitTime"
         ></app-term-list>
     </div>
 </div>

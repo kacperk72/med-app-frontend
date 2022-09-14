@@ -3,22 +3,20 @@
     <div *ngIf="renderTable" id="container" class="mat-elevation-z8">
         <div *ngIf="loadDataSpinner2" class="spinner"><mat-spinner></mat-spinner></div>
 
-        <div class="selectVisitTime">
-            <p>Długość wizyty</p>
-            <select [(ngModel)]="selectedTime" (change)="calculateVisits($event)">
-                <option *ngFor="let o of options" [value]="o.value">{{ o.name }}</option>
-            </select>
-        </div>
         <div *ngIf="renderVisits">
             <div class="doctorTermDiv" *ngFor="let doctor of scheduleDataArray">
+                <div class="photoDiv">
+                    <img src="../../assets/img/doctor.jpg" class="photo" />
+                </div>
                 <div class="termData">
                     <h2>{{ doctor.name }} {{ doctor.surname }} - {{ doctor.speciality }} - {{ doctor.city }}</h2>
                     {{ doctor.shortData }}
                     <!-- {{ doctor.od_godziny }} - {{ doctor.do_godziny }} -->
                 </div>
                 <div class="hourList">
-                    <input *ngFor="let visit of doctor.visits" type="button" value="{{ visit }}" (click)="confirmTerm(doctor, visit, selectedTime)" />
+                    <input *ngFor="let visit of doctor.visits" type="button" value="{{ visit }}" (click)="confirmTerm(doctor, visit, visitTime)" />
                 </div>
+                <div class="break"><hr /></div>
             </div>
             <div class="dataFooter">
                 <input type="button" value="Załaduj więcej" (click)="loadMore()" />
