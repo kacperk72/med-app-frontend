@@ -2,25 +2,56 @@
     <div *ngIf="loadDataSpinner"><mat-spinner></mat-spinner></div>
     <div *ngIf="renderTable" id="container" class="mat-elevation-z8">
         <div *ngIf="loadDataSpinner2" class="spinner"><mat-spinner></mat-spinner></div>
-
-        <div *ngIf="renderVisits">
-            <div class="doctorTermDiv" *ngFor="let doctor of scheduleDataArray">
-                <div class="photoDiv">
+        <table mat-table [dataSource]="termDataArray">
+            <ng-container matColumnDef="photo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                <td mat-cell *matCellDef="let element">
                     <img src="../../assets/img/doctor.jpg" class="photo" />
-                </div>
-                <div class="termData">
-                    <h2>{{ doctor.name }} {{ doctor.surname }} - {{ doctor.speciality }} - {{ doctor.city }}</h2>
-                    {{ doctor.shortData }}
-                    <!-- {{ doctor.od_godziny }} - {{ doctor.do_godziny }} -->
-                </div>
-                <div class="hourList">
-                    <input *ngFor="let visit of doctor.visits" type="button" value="{{ visit }}" (click)="confirmTerm(doctor, visit, visitTime)" />
-                </div>
-                <div class="break"><hr /></div>
-            </div>
-            <div class="dataFooter">
-                <input type="button" value="Załaduj więcej" (click)="loadMore()" />
-            </div>
+                </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="imie">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Imie</th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <!-- Surname Column -->
+            <ng-container matColumnDef="nazwisko">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwisko</th>
+                <td mat-cell *matCellDef="let element">{{ element.surname }}</td>
+            </ng-container>
+
+            <!-- specialization -->
+            <ng-container matColumnDef="specjalnosc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Specjalność</th>
+                <td mat-cell *matCellDef="let element">{{ element.speciality }}</td>
+            </ng-container>
+
+            <!-- City Column -->
+            <ng-container matColumnDef="miasto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Miasto</th>
+                <td mat-cell *matCellDef="let element">{{ element.city }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="termin">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Termin</th>
+                <td mat-cell *matCellDef="let element">{{ element.data.split('T')[0] }} godz.{{ element.godzina }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="icons">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                <td mat-cell *matCellDef="let element">
+                    <a *ngIf="element.isVisitFree">Wybierz</a>
+                    <input type="button" value="Wybierz" (click)="confirmTerm(element)" />
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedData"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedData"></tr>
+        </table>
+        <div class="dataFooter">
+            <input type="button" value="Załaduj więcej" (click)="loadMore()" />
         </div>
     </div>
 

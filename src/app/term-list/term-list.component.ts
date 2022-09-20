@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ScheduleDataElement, ScheduleDataTermElement, SearchForm } from '../models/doctor-types';
+import { SearchForm } from '../models/doctor-types';
 import { AuthService } from '../service/auth.service';
 import { TermListService } from '../service/term-list.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
-import { map } from 'rxjs';
+import { DoctorTERM } from '../patient/patient.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
     selector: 'app-term-list',
@@ -13,68 +14,45 @@ import { map } from 'rxjs';
 export class TermListComponent implements OnInit {
     // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-    @Input() scheduleDataArray!: ScheduleDataElement[];
     @Input() renderTable!: boolean;
     @Input() renderVisits!: boolean;
     @Input() loadDataSpinner!: boolean;
     @Input() loadDataSpinner2!: boolean;
     @Input() search!: SearchForm;
     @Input() visitTime!: number;
+    @Input() termsArray!: DoctorTERM[];
+    @Input() termDataArray!: MatTableDataSource<DoctorTERM>;
 
+    @Output() newItemEvent = new EventEmitter<number>();
     // @Output() onChange:
 
-    @Output() paginator: EventEmitter<number> = new EventEmitter();
-    @Output() calculate: EventEmitter<void> = new EventEmitter();
-
     //kolumny w tabeli terminów
-    displayedData: string[] = ['imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
+    displayedData: string[] = ['photo', 'imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
     dataSource: any;
-
-    termDataBooking!: ScheduleDataTermElement;
 
     // zmienne do załadowania danych do komponentów
     isVisible = true;
 
-    paginatorCount = 2;
+    termDataBooking: any = {};
+
+    value = 1;
 
     constructor(private termListService: TermListService, private authService: AuthService, private editDoctorService: EditDoctorService) {}
 
-    ngOnInit(): void {
-        // this.dataSource = new MatTableDataSource(this.termListArray);
-        // this.dataSource.paginator = this.paginator;
-    }
-
-    calculateVisits(event: any): void {
-        this.calculate.emit(event.target.value);
-    }
+    ngOnInit(): void {}
 
     loadMore() {
-        this.paginatorCount += 1;
-        this.paginator.emit(this.paginatorCount);
+        this.value++;
+        this.newItemEvent.emit(this.value);
     }
 
-    confirmTerm(element: ScheduleDataElement, godzinaWizyty: string, czasTrwaniaW: number): void {
+    confirmTerm(element: DoctorTERM): void {
         if (this.isVisible === true) {
             this.isVisible = false;
         } else {
             this.isVisible = true;
         }
-
-        const visit: ScheduleDataTermElement = {
-            name: element.name,
-            surname: element.surname,
-            speciality: element.speciality,
-            id_lekarza: element.id_lekarza,
-            id_terminu: element.id_terminu,
-            city: element.city,
-            data: element.data,
-            visit_hour: godzinaWizyty,
-            reason: '',
-            login: '',
-            visit_time: czasTrwaniaW,
-        };
-
-        this.termDataBooking = visit;
+        this.termDataBooking = element;
     }
 
     closeBooking(): void {
@@ -86,13 +64,14 @@ export class TermListComponent implements OnInit {
         const token = this.authService.GetToken();
         const tokenJson = this.authService.GetRolebyToken(token);
         const login = tokenJson.login;
-
         if (document.querySelector('#textArea')) {
             textAreaValue = document.querySelector<HTMLInputElement>('#textArea')?.value;
         }
-
         this.termDataBooking.reason = textAreaValue || '';
         this.termDataBooking.login = login;
+        console.log(this.termDataBooking);
+
+        //na sztywno ustawione na backendzie długosc 15 min
         this.termListService.bookTerm(this.termDataBooking).subscribe(() => {
             console.log('dodano wizyte');
         });

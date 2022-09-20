@@ -26,34 +26,29 @@
                     <input matInput type="date" name="dateFrom" formControlName="dateFrom" />
                 </mat-form-field>
 
-                <mat-form-field>
+                <!-- <mat-form-field>
                     <mat-label for="dateTo">do</mat-label>
                     <input matInput type="date" name="dateTo" formControlName="dateTo" />
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <mat-form-field>
                     <mat-label for="timeFrom">od godziny</mat-label>
                     <input matInput type="time" name="timeFrom" formControlName="timeFrom" />
                 </mat-form-field>
             </div>
-            <!-- <mat-form-field>
-                <mat-label for="timeTo">do godziny</mat-label>
-                <input matInput type="time" name="timeTo" formControlName="timeTo" required>
-            </mat-form-field> -->
 
             <input type="submit" value="Szukaj" id="searchInput" (click)="showList()" />
         </form>
 
         <app-term-list
-            [scheduleDataArray]="scheduleDataArray"
+            [termsArray]="termsArray"
             [renderTable]="renderTable"
             [renderVisits]="renderVisits"
             [loadDataSpinner]="loadDataSpinner"
             [loadDataSpinner2]="loadDataSpinner2"
             [search]="search"
-            (paginator)="loadMoreData($event)"
-            (calculate)="calculateVisits($event)"
-            [visitTime]="visitTime"
+            [termDataArray]="termDataArray"
+            (newItemEvent)="loadMore($event)"
         ></app-term-list>
     </div>
 </div>

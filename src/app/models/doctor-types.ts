@@ -40,15 +40,12 @@ export interface ScheduleDataElement {
 export interface ScheduleDataTermElement {
     name: string;
     surname: string;
-    speciality: string[];
-    id_lekarza: string;
+    speciality: string;
     id_terminu: string;
     city: string;
     data: string;
     reason: string;
-    login: string;
-    visit_hour: string;
-    visit_time: number;
+    godzina: string;
 }
 
 export interface TermListElement {
@@ -78,6 +75,6 @@ export interface SearchForm {
     role: string;
     city: string;
     dateFrom: string;
-    dateTo: string;
+    // dateTo: string;
     timeFrom: string;
 }

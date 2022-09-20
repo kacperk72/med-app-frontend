@@ -13,7 +13,19 @@
 }
 
 #container {
-    min-width: 85vw;
+    /* min-width: 85vw; */
+}
+table {
+    min-width: 90%;
+}
+
+table th {
+    text-align: center;
+}
+
+table td {
+    text-align: center;
+    padding: 15px;
 }
 
 .photo {
@@ -40,14 +52,8 @@
 }
 
 .termData {
-    width: 25vw;
+    width: 75vw;
     float: left;
-}
-
-.hourList {
-    float: left;
-    width: 50vw;
-    text-align: left;
 }
 
 .break {

@@ -8,7 +8,7 @@ export interface BookedTermElement {
     id_terminu: string;
 }
 
-export interface BookedTermElementFull extends BookedTermElement{
+export interface BookedTermElementFull extends BookedTermElement {
     id_lekarza: string;
     id_wizyty: string;
     reason_of_visit: string;
@@ -22,20 +22,7 @@ export interface TermDataElement {
     hour: string;
 }
 
-export interface TermElement {
-    city: string;
-    date: string;
-    godzina_wizyty: string;
-    id: string;
-    login: string;
-    name: string;
-    surname: string;
-    reason: string;
-    speciality: string;
-    term_id: number;
-}
-
-export interface TermListVisitElement{
+export interface TermListVisitElement {
     speciality: string;
     city: string;
     id: string;
@@ -54,5 +41,3 @@ export interface VisitFromDB {
     term_id: number;
     reason_of_visit: string;
 }
-
-

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Doctor, ScheduleDataElement } from '../models/doctor-types';
+import { Doctor } from '../models/doctor-types';
 import { VisitFromDB } from '../models/term-types';
+import { DoctorSCH } from '../patient/patient.component';
 
 @Injectable({
     providedIn: 'root',
@@ -32,26 +33,10 @@ export class EditDoctorService {
         return this.httpClient.get<Doctor>(`${this._host}/doctor/getSchedule/${doctorLogin}`);
     }
 
-    getFormSchedule(doctorLogin: string, value?: any): Observable<Doctor> {
-        return this.httpClient.get<Doctor>(`${this._host}/doctor/getFormSchedule/${doctorLogin}`, { params: value });
-    }
     // jednen REST zwracający przefiltrowane terminy z wizytami do zarezerwowania bez tych juz zajetych
-    getDoctorsSchedule(value?: any): Observable<Doctor> {
-        return this.httpClient.get<Doctor>(`${this._host}/doctor/getDoctorsSchedule`, { params: value });
+    getDoctorsSchedule(value?: any, paginator?: number): Observable<DoctorSCH[]> {
+        return this.httpClient.get<DoctorSCH[]>(`${this._host}/doctor/getDoctorsSchedule/${paginator}`, { params: value });
     }
-
-    getHourSchedule(id_terminu: string, id_lekarza: string, visitTime: number): Observable<ScheduleDataElement[]> {
-        return this.httpClient.get<ScheduleDataElement[]>(`${this._host}/doctor/getHourSchedule/${id_terminu}/${id_lekarza}/${visitTime}`);
-    }
-
-    // getHourList(id: string, element: ScheduleDataElement): Observable<VisitElement[]> {
-    //     const fromHour = element.od_godziny;
-    //     const toHour = element.do_godziny;
-    //     const id_terminu = element.id_terminu;
-    //     const data = element.data.split('T')[0];
-
-    //     return this.httpClient.get<VisitElement[]>(`${this._host}/doctor/getHourList/${fromHour}/${toHour}/${data}/${id}/${id_terminu}`);
-    // }
 
     addTerm(id: string, date: string, timeFrom: string, timeTo: string): Observable<void> {
         return this.httpClient.post<void>(`${this._host}/doctor/addTerm`, {
