@@ -1,89 +1,85 @@
 <ng-container *ngIf="elementData$ | async as elementData">
-<div id="content">
-  <div id="container" *ngIf="isLoaded">
-    <table mat-table [dataSource]="elementData" class="mat-elevation-z8">
+    <div class="content">
+        <div class="container" *ngIf="isLoaded">
+            <table mat-table [dataSource]="elementData" class="mat-elevation-z8">
+                <!-- ID Column -->
+                <ng-container matColumnDef="id_lekarza">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let element">{{ element.id_lekarza }}</td>
+                </ng-container>
 
-      <!-- ID Column -->
-      <ng-container matColumnDef="id_lekarza">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.id_lekarza}} </td>
-      </ng-container>
-    
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Imie </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-    
-      <!-- Surname Column -->
-      <ng-container matColumnDef="surname">
-        <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
-        <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
-      </ng-container>
-    
-      <!-- specialization -->
-      <ng-container matColumnDef="speciality">
-        <th mat-header-cell *matHeaderCellDef> Specjalność </th>
-        <td mat-cell *matCellDef="let element"> {{element.speciality}} </td>
-      </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Imie</th>
+                    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+                </ng-container>
 
-      <!-- City Column -->
-      <ng-container matColumnDef="city">
-        <th mat-header-cell *matHeaderCellDef> Miasto </th>
-        <td mat-cell *matCellDef="let element"> {{element.city}} </td>
-      </ng-container>
+                <!-- Surname Column -->
+                <ng-container matColumnDef="surname">
+                    <th mat-header-cell *matHeaderCellDef>Nazwisko</th>
+                    <td mat-cell *matCellDef="let element">{{ element.surname }}</td>
+                </ng-container>
 
-      <!-- icons Column -->
-      <ng-container matColumnDef="icons">
-        <th mat-header-cell *matHeaderCellDef>  </th>
-        <td mat-cell *matCellDef="let element"> 
-          <a (click)="openEditPanel(element)"><mat-icon>edit</mat-icon></a>
-          <a (click)="deleteDoctor(element)"><mat-icon>delete</mat-icon></a>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
-  <div id="addDoctor">
-    <input type="button" value="Dodaj lekarza" (click)="addDoctor()">
-  </div>
-  <div id="editDoctor" [hidden]="isVisibleAdd" >
-      <h2>Dodaj lekarza</h2>
-      <form [formGroup]="addDoctorForm" (ngSubmit)="addDoctorDB()">
-        <mat-form-field>
-            <input matInput type="text" id="name" placeholder="Imie" autocomplete="off" formControlName="name" required>
-        </mat-form-field>
+                <!-- specialization -->
+                <ng-container matColumnDef="speciality">
+                    <th mat-header-cell *matHeaderCellDef>Specjalność</th>
+                    <td mat-cell *matCellDef="let element">{{ element.speciality }}</td>
+                </ng-container>
 
-        <mat-form-field>
-            <input matInput type="text" id="surname" placeholder="Nazwisko" autocomplete="off" formControlName="surname" required>
-        </mat-form-field>
+                <!-- City Column -->
+                <ng-container matColumnDef="city">
+                    <th mat-header-cell *matHeaderCellDef>Miasto</th>
+                    <td mat-cell *matCellDef="let element">{{ element.city }}</td>
+                </ng-container>
 
-        <mat-form-field>
-          <input matInput type="text" id="login" placeholder="Login" autocomplete="off" formControlName="login" required>
-          <mat-error>Minimalna długość 3 znaki</mat-error>
-        </mat-form-field>
+                <!-- icons Column -->
+                <ng-container matColumnDef="icons">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <a (click)="openEditPanel(element)"><mat-icon>edit</mat-icon></a>
+                        <a (click)="deleteDoctor(element)"><mat-icon>delete</mat-icon></a>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+        </div>
+        <div class="addDoctor">
+            <input type="button" value="Dodaj lekarza" (click)="addDoctor()" />
+        </div>
+        <div class="editDoctor" [hidden]="isVisibleAdd">
+            <h2>Dodaj lekarza</h2>
+            <form [formGroup]="addDoctorForm" (ngSubmit)="addDoctorDB()">
+                <mat-form-field>
+                    <input matInput type="text" class="name" placeholder="Imie" autocomplete="off" formControlName="name" required />
+                </mat-form-field>
 
-        <mat-form-field>
-          <input matInput type="password" id="password" placeholder="Hasło" autocomplete="off" formControlName="password" required>
-          <mat-error>Minimalna długość 4 znaki</mat-error>
-        </mat-form-field>
-          
-        <mat-form-field>
-          <input matInput type="text" id="city" placeholder="Miasto" autocomplete="off" formControlName="city" required>
-        </mat-form-field>        
+                <mat-form-field>
+                    <input matInput type="text" class="surname" placeholder="Nazwisko" autocomplete="off" formControlName="surname" required />
+                </mat-form-field>
 
-        <mat-form-field>
-          <input matInput type="text" id="speciality" placeholder="Specjalność" autocomplete="off" formControlName="speciality" required>
-        </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" class="login" placeholder="Login" autocomplete="off" formControlName="login" required />
+                    <mat-error>Minimalna długość 3 znaki</mat-error>
+                </mat-form-field>
 
-        <input type="button" value="Wróć" id="goBack" (click)="addDoctor()">
+                <mat-form-field>
+                    <input matInput type="password" class="password" placeholder="Hasło" autocomplete="off" formControlName="password" required />
+                    <mat-error>Minimalna długość 4 znaki</mat-error>
+                </mat-form-field>
 
-        <input type="submit" value="Dodaj doktora" id="registerInput" [disabled]="!addDoctorForm.valid">
-      </form>
-  </div>
-  
-</div>
+                <mat-form-field>
+                    <input matInput type="text" class="city" placeholder="Miasto" autocomplete="off" formControlName="city" required />
+                </mat-form-field>
 
+                <mat-form-field>
+                    <input matInput type="text" class="speciality" placeholder="Specjalność" autocomplete="off" formControlName="speciality" required />
+                </mat-form-field>
+
+                <input type="button" value="Wróć" class="goBack" (click)="addDoctor()" />
+
+                <input type="submit" value="Dodaj doktora" class="registerInput" [disabled]="!addDoctorForm.valid" />
+            </form>
+        </div>
+    </div>
 </ng-container>
-

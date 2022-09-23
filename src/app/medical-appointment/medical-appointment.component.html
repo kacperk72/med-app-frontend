@@ -1,28 +1,29 @@
-<div id="content">
-    <div id="container">
-        <div id="photo">
-            <img src="/assets/img/hassbu.png">
+<div class="content">
+    <div class="container">
+        <div class="photo">
+            <img src="/assets/img/hassbu.png" />
         </div>
         <div class="term">
             <h2>Poprzednie wizyty</h2>
             <ul>
                 <li *ngFor="let term of termDataArrayBefore">
-                   <p>{{term.data}} {{term.godzina_wizyty}} {{term.name}} {{term.surname}} {{term.speciality}}</p>
+                    <p>{{ term.data }} {{ term.godzina_wizyty }} {{ term.name }} {{ term.surname }} {{ term.speciality }}</p>
                 </li>
-            </ul>   
+            </ul>
         </div>
         <div class="term">
             <h2>Zaplanowane wizyty</h2>
             <ul>
                 <li *ngFor="let term of termDataArrayAfter">
-                    {{term.data}} {{term.godzina_wizyty}} {{term.name}} {{term.surname}} {{term.speciality}} <input type="button" value="Odwołaj" (click)="cancelVisit(term)">
+                    {{ term.data }} {{ term.godzina_wizyty }} {{ term.name }} {{ term.surname }} {{ term.speciality }}
+                    <input type="button" value="Odwołaj" (click)="cancelVisit(term)" />
                 </li>
-            </ul>   
+            </ul>
         </div>
 
-        <div id="dane">
-            <p>{{this.name}}</p>
-            <p>{{this.surname}}</p>
+        <div class="dane">
+            <p>{{ this.name }}</p>
+            <p>{{ this.surname }}</p>
         </div>
     </div>
 </div>

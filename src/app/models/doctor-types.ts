@@ -40,12 +40,12 @@ export interface ScheduleDataElement {
 export interface ScheduleDataTermElement {
     name: string;
     surname: string;
-    speciality: string;
     id_terminu: string;
     city: string;
     data: string;
     reason: string;
     godzina: string;
+    speciality: string;
 }
 
 export interface TermListElement {

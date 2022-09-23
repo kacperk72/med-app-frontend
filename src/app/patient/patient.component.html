@@ -1,8 +1,8 @@
-<div id="content">
-    <div id="searching-container">
+<div class="content">
+    <div class="searching-container">
         <h2>Wyszukaj termin</h2>
-        <form [formGroup]="searchForm" (ngSubmit)="save()" *ngIf="isVisibleForm" id="form">
-            <div id="speccity">
+        <form [formGroup]="searchForm" (ngSubmit)="save()" *ngIf="isVisibleForm" class="form">
+            <div class="speccity">
                 <mat-form-field>
                     <mat-select placeholder="Długość wizyty" formControlName="visitTime">
                         <mat-option *ngFor="let o of options" [value]="o.value">{{ o.name }}</mat-option>
@@ -15,12 +15,15 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-select placeholder="miasto" multiple id="multiSelectCity" formControlName="city">
+                    <!-- <mat-select placeholder="miasto" multiple class="multiSelectCity" formControlName="city">
+                        <mat-option *ngFor="let city of citiesArray" [value]="city">{{ city }}</mat-option>
+                    </mat-select> -->
+                    <mat-select placeholder="miasto" formControlName="city">
                         <mat-option *ngFor="let city of citiesArray" [value]="city">{{ city }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div id="datetime">
+            <div class="datetime">
                 <mat-form-field>
                     <mat-label for="dateFrom">od</mat-label>
                     <input matInput type="date" name="dateFrom" formControlName="dateFrom" />
@@ -37,18 +40,13 @@
                 </mat-form-field>
             </div>
 
-            <input type="submit" value="Szukaj" id="searchInput" (click)="showList()" />
+            <input type="submit" value="Szukaj" class="searchInput" (click)="showList()" />
         </form>
-
-        <app-term-list
-            [termsArray]="termsArray"
-            [renderTable]="renderTable"
-            [renderVisits]="renderVisits"
-            [loadDataSpinner]="loadDataSpinner"
-            [loadDataSpinner2]="loadDataSpinner2"
-            [search]="search"
-            [termDataArray]="termDataArray"
-            (newItemEvent)="loadMore($event)"
-        ></app-term-list>
+        <div *ngIf="this.searching" class="noResults">
+            <ng-container *ngIf="!!termsArray.length; else noItemTmpl">
+                <app-term-list [termsArray]="termsArray" [loadDataSpinner]="loadDataSpinner" (newItemEvent)="loadMore($event)"></app-term-list>
+            </ng-container>
+            <ng-template #noItemTmpl>Brak wyników</ng-template>
+        </div>
     </div>
 </div>

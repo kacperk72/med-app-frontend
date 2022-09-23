@@ -4,7 +4,7 @@
     padding: 0;
 }
 
-#content {
+.content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,9 +12,6 @@
     font-family: 'Nunito', sans-serif;
 }
 
-#container {
-    /* min-width: 85vw; */
-}
 table {
     min-width: 90%;
 }
@@ -72,6 +69,9 @@ table td {
 }
 .spinner {
     text-align: center;
+    position: fixed;
+    top: 60%;
+    z-index: 2;
 }
 
 input[type='button'],
@@ -114,19 +114,20 @@ input[type='reset']:active {
     transform: scale(0.95);
 }
 
-#confirmWindow {
-    width: 40vw;
-    height: 35vh;
+.confirmWindow {
+    min-width: 30vw;
+    min-height: 30vh;
     top: 30%;
-    position: absolute;
+    padding-top: 20px;
+    position: fixed;
     justify-content: center;
     align-items: center;
     background: white;
-    /* border: 1px solid black; */
+    border: 1px solid black;
     text-align: center;
 }
-
-textarea {
-    width: 30vw;
-    height: 20vh;
+.confirmWindow button {
+    background-color: #39ace7;
+    padding: 0px 10px;
+    margin: 0px 10px;
 }

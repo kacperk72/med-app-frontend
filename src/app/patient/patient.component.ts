@@ -16,9 +16,9 @@ export interface DoctorSCH {
 }
 
 export interface DoctorTERM {
-    id_terminu: string;
     name: string;
     surname: string;
+    id_terminu: string;
     data: string;
     godzina: string;
     speciality: string;
@@ -46,9 +46,7 @@ export class PatientComponent implements OnInit {
     renderTable = false;
     // zmienne do załadowania danych do komponentów
     loadDataSpinner = false;
-    isLoaded = true;
-    loadDataSpinner2 = false;
-    renderVisits = false;
+    // isLoaded = true;
 
     //dane pobierane z bazy
     cities: any; //subscribe
@@ -67,10 +65,10 @@ export class PatientComponent implements OnInit {
     speciality = 'specjalizacja';
     city = 'miasto';
 
-    doctorsScheduleWithVisits: DoctorSCH[] = [];
-    termsArray: any = [];
-    termDataArray!: MatTableDataSource<DoctorTERM>;
+    // doctorsScheduleWithVisits: DoctorSCH[] = [];
+    termsArray: DoctorTERM[] = [];
 
+    searching = false;
     paginator = 1;
 
     constructor(private fb: FormBuilder, private patientService: PatientService, private editDoctorService: EditDoctorService) {}
@@ -116,54 +114,47 @@ export class PatientComponent implements OnInit {
     }
 
     private _getDoctorsSchedule(): void {
-        this.termsArray = [];
+        this.loadDataSpinner = true;
+        // this.termsArray = [];
         this.editDoctorService.getDoctorsSchedule(this.searchForm.value, this.paginator).subscribe((resp) => {
-            this.doctorsScheduleWithVisits = resp;
+            // this.doctorsScheduleWithVisits = resp;
             // console.log(this.doctorsScheduleWithVisits);
-            this.doctorsScheduleWithVisits.forEach((doctor) => {
-                doctor.grafik.forEach((termin: any) => {
-                    doctor.visits.forEach((visit) => {
-                        if (termin.id_terminu === visit.id_terminu) {
-                            const id_terminu = termin.id_terminu;
-                            const data = termin.data;
-                            const godzina = visit.godzina;
-                            const name = doctor.name;
-                            const surname = doctor.surname;
-                            const speciality = doctor.speciality;
-                            const city = doctor.city;
-                            this.termsArray.push({
-                                id_terminu,
-                                name,
-                                surname,
-                                data,
-                                godzina,
-                                speciality,
-                                city,
-                            });
-                        }
-                    });
-                });
-            });
-            this.termsArray.sort((a: DoctorTERM, b: DoctorTERM) => {
+            this.termsArray = this._mapper(resp).sort((a, b) => {
                 return Number(new Date(a.data)) - Number(new Date(b.data));
             });
-            console.log(this.termsArray);
-
-            this.termDataArray = new MatTableDataSource(this.termsArray);
         });
+
+        setTimeout(() => {
+            this.loadDataSpinner = false;
+        }, 1000);
+    }
+
+    private _mapper(data: DoctorSCH[]): DoctorTERM[] {
+        const tmp: DoctorTERM[] = [];
+        data.forEach((doctor) => {
+            doctor.grafik.forEach((termin: any) => {
+                doctor.visits.forEach((visit) => {
+                    if (termin.id_terminu === visit.id_terminu) {
+                        tmp.push({
+                            id_terminu: termin.id_terminu,
+                            data: termin.data,
+                            godzina: visit.godzina,
+                            name: doctor.name,
+                            surname: doctor.surname,
+                            speciality: doctor.speciality,
+                            city: doctor.city,
+                        });
+                    }
+                });
+            });
+        });
+
+        return tmp;
     }
 
     showList(): void {
+        this.searching = true;
         this._getDoctorsSchedule();
-
-        this.loadDataSpinner = true;
-        this.renderTable = false;
-        this.renderVisits = false;
-        setTimeout(() => {
-            this.loadDataSpinner = false;
-            this.renderTable = true;
-            this.renderVisits = true;
-        }, 1000);
     }
 
     save(): void {

@@ -1,29 +1,29 @@
-<div id="content">
-    <div id="container">
-        <div id="photo">
-            <img src="/assets/img/doctor.jpg">
+<div class="content">
+    <div class="container">
+        <div class="photo">
+            <img src="/assets/img/doctor.jpg" />
         </div>
-        <div id="editForm" *ngIf="isLoaded">
+        <div class="editForm" *ngIf="isLoaded">
             <h2>Edytuj dane</h2>
-            <input type="text" placeholder="Imie" name="imie" #name [value]="nameInputValue">
-            <input type="text" placeholder="Nazwisko" name="surname" #surname [value]="surnameInputValue">
-            <input type="text" placeholder="Specjalizacja" name="speciality" #speciality [value]="specialityInputValue">
-            <input type="text" placeholder="Miasto" name="city" #city [value]="cityInputValue">
-            <input type="button" value="Zapisz" (click)="updateDoctor(name.value, surname.value, speciality.value, city.value)">
+            <input type="text" placeholder="Imie" name="imie" #name [value]="nameInputValue" />
+            <input type="text" placeholder="Nazwisko" name="surname" #surname [value]="surnameInputValue" />
+            <input type="text" placeholder="Specjalizacja" name="speciality" #speciality [value]="specialityInputValue" />
+            <input type="text" placeholder="Miasto" name="city" #city [value]="cityInputValue" />
+            <input type="button" value="Zapisz" (click)="updateDoctor(name.value, surname.value, speciality.value, city.value)" />
         </div>
-        <div id="grafik">
+        <div class="grafik">
             <h2>Zarządzaj grafikiem</h2>
             <ul>
                 <li *ngFor="let term of scheduleDataArray">
-                    {{term.data.split('T')[0]}} od {{term.od_godziny}} do {{term.do_godziny}}
+                    {{ term.data.split('T')[0] }} od {{ term.od_godziny }} do {{ term.do_godziny }}
                     <mat-icon (click)="editTerm(term)">edit</mat-icon>
                     <mat-icon (click)="deleteTerm(term)">delete</mat-icon>
-                </li>               
-            </ul>   
-            <input type="button" value="Dodaj dzień w grafiku" (click)="showTermAdd()">
+                </li>
+            </ul>
+            <input type="button" value="Dodaj dzień w grafiku" (click)="showTermAdd()" />
         </div>
         <app-booked-terms [idLek]="doctorID"></app-booked-terms>
-        <!-- <div id="term">
+        <!-- <div class="term">
             <h2>Zarządzaj terminami</h2>
             <ul>
                 <li *ngFor="let term of termDataArray">
@@ -34,47 +34,46 @@
             </ul>   
             <input type="button" value="Dodaj termin">
         </div> -->
-        <div id="editDoctor" *ngIf="isVisibleEdit">
+        <div class="editDoctor" *ngIf="isVisibleEdit">
             <h2>Edytuj termin</h2>
             <form [formGroup]="editTermForm" (ngSubmit)="saveEditTerm()">
                 <mat-form-field>
                     <mat-label for="timeFrom">od godziny</mat-label>
-                    <input matInput type="number" name="timeFrom" formControlName="timeFrom" step="1" min="7" max="21" required>
+                    <input matInput type="number" name="timeFrom" formControlName="timeFrom" step="1" min="7" max="21" required />
                 </mat-form-field>
-                <hr>
+                <hr />
                 <mat-form-field>
                     <mat-label for="timeTo">do godziny</mat-label>
-                    <input matInput type="number" name="timeTo" formControlName="timeTo" step="1" min="7" max="22" required>
+                    <input matInput type="number" name="timeTo" formControlName="timeTo" step="1" min="7" max="22" required />
                 </mat-form-field>
-                <hr>
-    
-                <input type="button" value="Wróć" (click)="closeEdit()">
-                <input type="submit" value="Zatwierdź">
+                <hr />
+
+                <input type="button" value="Wróć" (click)="closeEdit()" />
+                <input type="submit" value="Zatwierdź" />
             </form>
         </div>
-        <div id="addTerm" *ngIf="isVisibleAdd" >
+        <div class="addTerm" *ngIf="isVisibleAdd">
             <h2>Dodaj termin</h2>
             <form [formGroup]="addTermForm" (ngSubmit)="addTerm()">
                 <mat-form-field>
                     <mat-label for="date">data</mat-label>
-                    <input matInput type="date" name="date" formControlName="date" required>
+                    <input matInput type="date" name="date" formControlName="date" required />
                 </mat-form-field>
-                <hr>
+                <hr />
                 <mat-form-field>
                     <mat-label for="timeFrom">od godziny</mat-label>
-                    <input matInput type="number" name="timeFrom" formControlName="timeFrom" step="1" min="7" max="21" required>
+                    <input matInput type="number" name="timeFrom" formControlName="timeFrom" step="1" min="7" max="21" required />
                 </mat-form-field>
-                <hr>
+                <hr />
                 <mat-form-field>
                     <mat-label for="timeTo">do godziny</mat-label>
-                    <input matInput type="number" name="timeTo" formControlName="timeTo" step="1" min="7" max="22" required>
+                    <input matInput type="number" name="timeTo" formControlName="timeTo" step="1" min="7" max="22" required />
                 </mat-form-field>
-                <hr>
-    
-                <input type="button" value="Wróć" (click)="showTermAdd()">
-                <input type="submit" value="Zatwierdź">
+                <hr />
+
+                <input type="button" value="Wróć" (click)="showTermAdd()" />
+                <input type="submit" value="Zatwierdź" />
             </form>
-            
         </div>
     </div>
 </div>

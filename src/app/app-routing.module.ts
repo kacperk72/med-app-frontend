@@ -13,18 +13,18 @@ import { DoctorRoleGuard } from './shared/doctor-role.guard';
 import { AdminEditDoctorComponent } from './admin-edit-doctor/admin-edit-doctor.component';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/pacjent', pathMatch: 'full'},
-    { path: 'zaloguj', component:  LoginComponent},
-    { path: 'zarejestruj', component:  RegisterComponent},
-    { path: 'admin', component:  AdminComponent, canActivate:[AdminRoleGuard]},
-    { path: 'pacjent', component:  PatientComponent, canActivate:[AuthGuard]},
-    { path: 'edytujDoktora', component:  EditDoctorComponent, canActivate:[DoctorRoleGuard]},
-    { path: 'mojeWizyty', component: MedicalAppointmentComponent, canActivate:[PacientRoleGuard]},
-    { path: 'adminEditDoctor/:id_lek/:spec/:city/:login/:name/:surname', component: AdminEditDoctorComponent, canActivate:[AdminRoleGuard]}
+    { path: '', redirectTo: '/pacjent', pathMatch: 'full' },
+    { path: 'zaloguj', component: LoginComponent },
+    { path: 'zarejestruj', component: RegisterComponent },
+    { path: 'admin', component: AdminComponent, canActivate: [AdminRoleGuard] },
+    { path: 'pacjent', component: PatientComponent, canActivate: [AuthGuard] },
+    { path: 'edytujDoktora', component: EditDoctorComponent, canActivate: [DoctorRoleGuard] },
+    { path: 'mojeWizyty', component: MedicalAppointmentComponent, canActivate: [PacientRoleGuard] },
+    { path: 'adminEditDoctor/:id_lek/:spec/:city/:login/:name/:surname', component: AdminEditDoctorComponent, canActivate: [AdminRoleGuard] },
 ];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

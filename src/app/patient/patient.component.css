@@ -4,7 +4,7 @@
     padding: 0;
 }
 
-#content {
+.content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +12,7 @@
     font-family: 'Nunito', sans-serif;
 }
 
-#searching-container {
+.searching-container {
     width: 90vw;
     min-height: 70vh;
     background-color: #fff;
@@ -24,7 +24,7 @@
 
 /* ////////////////////////////////// */
 
-#form {
+.form {
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -32,19 +32,19 @@
 }
 
 mat-select {
-    /* margin: 15px 0px 10px 10px; */
-    /* padding: 10px; */
-    /* width: 92%; */
+    background-color: #f3f2f2;
+    border-radius: 5px 5px 5px 5px;
+    height: 5vh;
+    text-align: center;
+    padding-top: 1vh;
+}
+
+.mat-select:focus {
     background-color: #f6f6f6;
-    border: 2px solid #f6f6f6;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -ms-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
-    -webkit-border-radius: 5px 5px 5px 5px;
+    border: 2px solid black;
     border-radius: 5px 5px 5px 5px;
 }
+
 mat-error {
     padding-left: 60%;
 }
@@ -55,10 +55,10 @@ mat-form-field {
     display: none;
 }
 
-#speccity {
+.speccity {
     float: left;
 }
-#datetime {
+.datetime {
     float: left;
 }
 
@@ -135,6 +135,15 @@ input[type='date'] {
     -moz-box-shadow: none;
 }
 
+input[type='date']:focus,
+input[type='date']:hover {
+    border: 1px solid black;
+}
+input[type='time']:focus,
+input[type='time']:hover {
+    border: 1px solid black;
+}
+
 input[type='time'] {
     background-color: #f6f6f6;
     border: none;
@@ -179,6 +188,7 @@ input[type='button']:hover,
 input[type='submit']:hover,
 input[type='reset']:hover {
     background-color: #39ace7;
+    border: 1px solid black;
 }
 
 input[type='button']:active,
@@ -197,7 +207,13 @@ input[type='submit']:disabled {
     opacity: 0.5;
 }
 
-#searchInput {
+.searchInput {
     margin: 0px 0 10px 0;
     width: 100%;
+}
+
+.noResults {
+    text-align: center;
+    margin-top: 10vh;
+    font-size: 20px;
 }

@@ -5,54 +5,59 @@ import { TermListService } from '../service/term-list.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
 import { DoctorTERM } from '../patient/patient.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+
+// interface DoctorTERMExtended extends DoctorTERM {
+//     reason?: string;
+//     login?: string;
+// }
 
 @Component({
     selector: 'app-term-list',
     templateUrl: './term-list.component.html',
     styleUrls: ['./term-list.component.css'],
 })
-export class TermListComponent implements OnInit {
+export class TermListComponent {
     // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-    @Input() renderTable!: boolean;
-    @Input() renderVisits!: boolean;
     @Input() loadDataSpinner!: boolean;
-    @Input() loadDataSpinner2!: boolean;
-    @Input() search!: SearchForm;
     @Input() visitTime!: number;
-    @Input() termsArray!: DoctorTERM[];
-    @Input() termDataArray!: MatTableDataSource<DoctorTERM>;
+    @Input() set termsArray(data: DoctorTERM[]) {
+        this.termDataArray = new MatTableDataSource(data);
+    }
 
     @Output() newItemEvent = new EventEmitter<number>();
+
+    termDataArray: MatTableDataSource<DoctorTERM> = new MatTableDataSource();
+
     // @Output() onChange:
 
     //kolumny w tabeli terminów
     displayedData: string[] = ['photo', 'imie', 'nazwisko', 'specjalnosc', 'miasto', 'termin', 'icons'];
-    dataSource: any;
+    // dataSource: any;
 
     // zmienne do załadowania danych do komponentów
     isVisible = true;
+    reason = '';
 
-    termDataBooking: any = {};
+    termDataBooking!: any;
+    data = '';
+    godzina = '';
 
-    value = 1;
+    private _value = 1;
 
-    constructor(private termListService: TermListService, private authService: AuthService, private editDoctorService: EditDoctorService) {}
+    constructor(private termListService: TermListService, private authService: AuthService, private route: Router) {}
 
-    ngOnInit(): void {}
-
-    loadMore() {
-        this.value++;
-        this.newItemEvent.emit(this.value);
+    loadMore(): void {
+        this._value++;
+        this.newItemEvent.emit(this._value);
     }
 
     confirmTerm(element: DoctorTERM): void {
-        if (this.isVisible === true) {
-            this.isVisible = false;
-        } else {
-            this.isVisible = true;
-        }
         this.termDataBooking = element;
+        this.data = element.data.split('T')[0];
+        this.godzina = element.godzina;
+        this.isVisible = !this.isVisible;
     }
 
     closeBooking(): void {
@@ -60,23 +65,26 @@ export class TermListComponent implements OnInit {
     }
 
     bookTerm(): void {
-        let textAreaValue;
         const token = this.authService.GetToken();
         const tokenJson = this.authService.GetRolebyToken(token);
         const login = tokenJson.login;
-        if (document.querySelector('#textArea')) {
-            textAreaValue = document.querySelector<HTMLInputElement>('#textArea')?.value;
-        }
-        this.termDataBooking.reason = textAreaValue || '';
+        this.termDataBooking.reason = this.reason;
         this.termDataBooking.login = login;
-        console.log(this.termDataBooking);
 
         //na sztywno ustawione na backendzie długosc 15 min
         this.termListService.bookTerm(this.termDataBooking).subscribe(() => {
             console.log('dodano wizyte');
         });
         this.closeBooking();
-        window.location.reload();
         window.alert('Rezerwacja zakończona sukcesem!');
+        this.route.navigate(['/mojeWizyty']);
+    }
+
+    getBackgroundColor() {
+        if (this.loadDataSpinner) {
+            return 0.3;
+        } else {
+            return 1;
+        }
     }
 }

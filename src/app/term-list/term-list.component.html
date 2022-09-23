@@ -1,7 +1,7 @@
-<div id="content">
-    <div *ngIf="loadDataSpinner"><mat-spinner></mat-spinner></div>
-    <div *ngIf="renderTable" id="container" class="mat-elevation-z8">
-        <div *ngIf="loadDataSpinner2" class="spinner"><mat-spinner></mat-spinner></div>
+<div class="content">
+    <div *ngIf="loadDataSpinner" class="spinner"><mat-spinner></mat-spinner><br />Ładowanie danych...</div>
+
+    <div class="container" class="mat-elevation-z8" [style.opacity]="getBackgroundColor()">
         <table mat-table [dataSource]="termDataArray">
             <ng-container matColumnDef="photo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
@@ -55,10 +55,18 @@
         </div>
     </div>
 
-    <div id="confirmWindow" [hidden]="isVisible">
-        <h2>Potwierdź wizytę!</h2>
-        <textarea placeholder="powód wizyty (opcjonalne)" id="textArea"></textarea>
-        <input type="button" value="wróć" style="margin: 10px" (click)="closeBooking()" />
-        <input type="button" value="potwierdź" style="margin: 10px" (click)="bookTerm()" />
+    <div class="confirmWindow" [style.display]="isVisible ? 'none' : 'initial'">
+        <h1 mat-dialog-title>Potwierdź wizytę!</h1>
+        <p>{{ this.data }} godz. {{ this.godzina }}</p>
+        <div mat-dialog-content>
+            <mat-form-field appearance="fill">
+                <mat-label>Powód wizyty (opcjonalne)</mat-label>
+                <input matInput [(ngModel)]="reason" />
+            </mat-form-field>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-button (click)="closeBooking()">Wróć</button>
+            <button mat-button cdkFocusInitial (click)="bookTerm()">Potwierdź</button>
+        </div>
     </div>
 </div>

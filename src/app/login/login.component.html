@@ -1,23 +1,21 @@
-<div id="content">
-    <div id="login-container">
+<div class="content">
+    <div class="login-container">
         <form [formGroup]="loginForm" (ngSubmit)="logging()">
-
             <h2>Zaloguj się na konto</h2>
-            <div id="input-box">
-              <mat-form-field>
-                <input matInput type="text" id="login" placeholder="Login" autocomplete="off" formControlName="login" required>
-            </mat-form-field>
-          
-            <mat-form-field>
-              <input matInput type="password" id="password" placeholder="Hasło" autocomplete="off" formControlName="password" required>
-            </mat-form-field>
-            </div>
-            <input type="submit" value="Zaloguj" id="loginButton" [disabled]="!loginForm.valid">
-            <div class="separator">
-              <span>Lub</span>
-            </div>
-            <a routerLink="/zarejestruj"><input type="reset" value="Zarejestruj" ></a> 
+            <div class="input-box">
+                <mat-form-field>
+                    <input matInput type="text" class="login" placeholder="Login" autocomplete="off" formControlName="login" required />
+                </mat-form-field>
 
-          </form>
+                <mat-form-field>
+                    <input matInput type="password" class="password" placeholder="Hasło" autocomplete="off" formControlName="password" required />
+                </mat-form-field>
+            </div>
+            <input type="submit" value="Zaloguj" class="loginButton" [disabled]="!loginForm.valid" />
+            <div class="separator">
+                <span>Lub</span>
+            </div>
+            <a routerLink="/zarejestruj"><input type="reset" value="Zarejestruj" /></a>
+        </form>
     </div>
 </div>
