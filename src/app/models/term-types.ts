@@ -14,14 +14,6 @@ export interface BookedTermElementFull extends BookedTermElement {
     reason_of_visit: string;
 }
 
-export interface TermDataElement {
-    name: string;
-    surname: string;
-    speciality: string;
-    data: string;
-    hour: string;
-}
-
 export interface TermListVisitElement {
     speciality: string;
     city: string;

@@ -26,6 +26,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { BookedTermsComponent } from './booked-terms/booked-terms.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TestDirectiveDirective } from './shared/test-directive.directive';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MedicalAppointmentComponent,
         AdminEditDoctorComponent,
         BookedTermsComponent,
+        TestDirectiveDirective,
     ],
     imports: [
         BrowserModule,

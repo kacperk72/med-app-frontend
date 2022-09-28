@@ -3,27 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { map } from 'rxjs';
 import { PatientService } from '../service/patient.service';
 import { EditDoctorService } from '../service/edit-doctor.service';
-import { MatTableDataSource } from '@angular/material/table';
-
-export interface DoctorSCH {
-    name: string;
-    surname: string;
-    user_id: string;
-    speciality: string;
-    city: string;
-    grafik: [];
-    visits: [{ data: string; godzina: string; id_terminu: string }];
-}
-
-export interface DoctorTERM {
-    name: string;
-    surname: string;
-    id_terminu: string;
-    data: string;
-    godzina: string;
-    speciality: string;
-    city: string;
-}
+import { DoctorSCH, DoctorTERM } from '../models/doctor-types';
 
 @Component({
     selector: 'app-patient',
@@ -37,7 +17,6 @@ export class PatientComponent implements OnInit {
         role: '',
         city: '',
         dateFrom: '',
-        // dateTo: '',
         timeFrom: '',
     };
 
@@ -46,12 +25,9 @@ export class PatientComponent implements OnInit {
     renderTable = false;
     // zmienne do załadowania danych do komponentów
     loadDataSpinner = false;
-    // isLoaded = true;
 
     //dane pobierane z bazy
-    cities: any; //subscribe
-    citiesArray: any[] = [];
-    specialities: any; //subscribe
+    citiesArray: string[] = [];
     specArray: string[] = [];
     uniqueSpecArray: string[] = [];
     spec = '';
@@ -65,7 +41,6 @@ export class PatientComponent implements OnInit {
     speciality = 'specjalizacja';
     city = 'miasto';
 
-    // doctorsScheduleWithVisits: DoctorSCH[] = [];
     termsArray: DoctorTERM[] = [];
 
     searching = false;
@@ -143,6 +118,8 @@ export class PatientComponent implements OnInit {
                             surname: doctor.surname,
                             speciality: doctor.speciality,
                             city: doctor.city,
+                            reason: '',
+                            login: '',
                         });
                     }
                 });
@@ -165,7 +142,7 @@ export class PatientComponent implements OnInit {
         this.search.timeFrom = this.searchForm.value.timeFrom;
     }
 
-    loadMore(event: any): void {
+    loadMore(event: number): void {
         this.paginator = event;
         this.showList();
     }

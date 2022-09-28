@@ -39,8 +39,9 @@
                     <input matInput type="time" name="timeFrom" formControlName="timeFrom" />
                 </mat-form-field>
             </div>
-
-            <input type="submit" value="Szukaj" class="searchInput" (click)="showList()" />
+            <div class="searchInput">
+                <input type="submit" value="Szukaj" (click)="showList()" />
+            </div>
         </form>
         <div *ngIf="this.searching" class="noResults">
             <ng-container *ngIf="!!termsArray.length; else noItemTmpl">

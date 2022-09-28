@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Doctor } from '../models/doctor-types';
+import { Doctor, DoctorSCH } from '../models/doctor-types';
 import { VisitFromDB } from '../models/term-types';
-import { DoctorSCH } from '../patient/patient.component';
 
 @Injectable({
     providedIn: 'root',

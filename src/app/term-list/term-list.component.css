@@ -1,133 +1,150 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 65vh;
-    font-family: 'Nunito', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Nunito", sans-serif;
 }
 
 table {
-    min-width: 90%;
+  min-width: 90%;
 }
 
 table th {
-    text-align: center;
+  text-align: center;
 }
 
 table td {
-    text-align: center;
-    padding: 15px;
+  text-align: center;
+  padding: 15px;
 }
 
 .photo {
-    width: 6vw;
-    height: 13vh;
+  width: 6vw;
+  height: 13vh;
 }
 
 .photoDiv {
-    width: 8vw;
-    float: left;
+  width: 8vw;
+  float: left;
 }
 
 .doctorTermDiv {
-    min-width: 90%;
-    text-align: left;
-    padding: 15px;
-    /* border: 1px solid black; */
-    display: block;
-    min-height: 20vh;
+  min-width: 90%;
+  text-align: left;
+  padding: 15px;
+  /* border: 1px solid black; */
+  display: block;
+  min-height: 20vh;
 }
 
-.doctorTermDiv input[type='button'] {
-    margin: 10px;
+.doctorTermDiv input[type=button] {
+  margin: 10px;
 }
 
 .termData {
-    width: 75vw;
-    float: left;
+  width: 75vw;
+  float: left;
 }
 
 .break {
-    padding-top: 10px;
-    clear: both;
+  padding-top: 10px;
+  clear: both;
 }
 
 .dataFooter {
-    text-align: center;
-    margin: 40px 0px 20px 0px;
+  text-align: center;
+  margin: 40px 0px 20px 0px;
 }
 
-.selectVisitTime {
-    text-align: center;
-    margin: 50px;
-}
 .spinner {
-    text-align: center;
-    position: fixed;
-    top: 60%;
-    z-index: 2;
+  text-align: center;
+  position: fixed;
+  top: 60%;
+  z-index: 2;
+  margin-left: 25%;
 }
 
-input[type='button'],
-input[type='submit'],
-input[type='reset'],
+input[type=button],
+input[type=submit],
+input[type=reset],
 select {
-    background-color: #56baed;
-    border: none;
-    color: white;
-    padding: 8px 50px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    text-transform: uppercase;
-    font-size: 13px;
-    -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-    box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
+  background-color: #56baed;
+  border: none;
+  color: white;
+  padding: 8px 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 13px;
+  box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
+  border-radius: 5px 5px 5px 5px;
+  transition: all 0.3s ease-in-out;
 }
 
-input[type='button']:hover,
-input[type='submit']:hover,
-input[type='reset']:hover {
-    background-color: #39ace7;
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=reset]:hover {
+  background-color: #39ace7;
 }
 
-input[type='button']:active,
-input[type='submit']:active,
-input[type='reset']:active {
-    -moz-transform: scale(0.95);
-    -webkit-transform: scale(0.95);
-    -o-transform: scale(0.95);
-    -ms-transform: scale(0.95);
-    transform: scale(0.95);
+input[type=button]:active,
+input[type=submit]:active,
+input[type=reset]:active {
+  transform: scale(0.95);
 }
 
 .confirmWindow {
-    min-width: 30vw;
-    min-height: 30vh;
-    top: 30%;
-    padding-top: 20px;
-    position: fixed;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    border: 1px solid black;
-    text-align: center;
+  min-width: 30vw;
+  min-height: 30vh;
+  top: 30%;
+  padding-top: 20px;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  border: 1px solid black;
+  text-align: center;
 }
+
 .confirmWindow button {
-    background-color: #39ace7;
-    padding: 0px 10px;
-    margin: 0px 10px;
+  background-color: #39ace7;
+  padding: 0px 10px;
+  margin: 0px 10px;
 }
+
+.loadMoreBtn {
+  margin-bottom: 30px;
+}
+
+.content {
+  display: block;
+  height: 400px;
+  overflow-y: auto;
+  width: 75%;
+  margin: 0 auto;
+}
+
+mat-table {
+  max-width: 100%;
+  display: table;
+  border-collapse: collapse;
+}
+
+mat-cell,
+mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  padding: 0px 5px;
+  line-break: unset;
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+}/*# sourceMappingURL=term-list.component.css.map */

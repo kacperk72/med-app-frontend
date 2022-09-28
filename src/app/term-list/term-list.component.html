@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" (scroll)="onScroll($event)" #scrollMe>
     <div *ngIf="loadDataSpinner" class="spinner"><mat-spinner></mat-spinner><br />Ładowanie danych...</div>
 
     <div class="container" class="mat-elevation-z8" [style.opacity]="getBackgroundColor()">
@@ -13,35 +13,35 @@
             <!-- Name Column -->
             <ng-container matColumnDef="imie">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Imie</th>
-                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+                <td appTestDirective mat-cell *matCellDef="let element">{{ element.name }}</td>
             </ng-container>
 
             <!-- Surname Column -->
             <ng-container matColumnDef="nazwisko">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwisko</th>
-                <td mat-cell *matCellDef="let element">{{ element.surname }}</td>
+                <td appTestDirective mat-cell *matCellDef="let element">{{ element.surname }}</td>
             </ng-container>
 
             <!-- specialization -->
             <ng-container matColumnDef="specjalnosc">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Specjalność</th>
-                <td mat-cell *matCellDef="let element">{{ element.speciality }}</td>
+                <td appTestDirective mat-cell *matCellDef="let element">{{ element.speciality }}</td>
             </ng-container>
 
             <!-- City Column -->
             <ng-container matColumnDef="miasto">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Miasto</th>
-                <td mat-cell *matCellDef="let element">{{ element.city }}</td>
+                <td appTestDirective mat-cell *matCellDef="let element">{{ element.city }}</td>
             </ng-container>
 
             <ng-container matColumnDef="termin">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Termin</th>
-                <td mat-cell *matCellDef="let element">{{ element.data.split('T')[0] }} godz.{{ element.godzina }}</td>
+                <td appTestDirective mat-cell *matCellDef="let element">{{ element.data.split('T')[0] }} godz.{{ element.godzina }}</td>
             </ng-container>
 
             <ng-container matColumnDef="icons">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                <td mat-cell *matCellDef="let element">
+                <td mat-cell *matCellDef="let element" appTestDirective>
                     <a *ngIf="element.isVisitFree">Wybierz</a>
                     <input type="button" value="Wybierz" (click)="confirmTerm(element)" />
                 </td>
@@ -50,9 +50,9 @@
             <tr mat-header-row *matHeaderRowDef="displayedData"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedData"></tr>
         </table>
-        <div class="dataFooter">
-            <input type="button" value="Załaduj więcej" (click)="loadMore()" />
-        </div>
+        <!-- <div class="dataFooter">
+            <input class="loadMoreBtn" type="button" value="Załaduj więcej" (click)="loadMore()" />
+        </div> -->
     </div>
 
     <div class="confirmWindow" [style.display]="isVisible ? 'none' : 'initial'">
